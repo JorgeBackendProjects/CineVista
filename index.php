@@ -40,7 +40,7 @@ function get_popular_movies() {
         
             //var_dump($casting_data[0]->cast);
 
-        // ACTORES
+        // ACTORES // REVISAR EL ARRAY CASTING_DATA Y ACTOR
             // Por cada actor del casting de la película guardo sus datos.
             $contador_actor = 0;
             foreach ($casting_data[0]->cast as $actor) {
