@@ -4,7 +4,7 @@ function get_popular_movies() {
     $movies_data = array();
     $actors_data = array();
 
-    for ($i = 1; $i <= 1; $i++) {
+    for ($i = 1; $i <= 5; $i++) {
         // Inicializa la sesión cURL para la solicitud.
         $get_popular_movies = curl_init();
         // Solicitud a la api para recoger los resultados de la página.
@@ -19,8 +19,6 @@ function get_popular_movies() {
         // Recorremos cada película de la página.
         foreach ($popular_movies as $pelicula) {
             $casting_data = array();
-            $id_actors = array();
-            $personajes = array();
 
         // PELICULA
             $get_one_movie = curl_init();
@@ -122,9 +120,10 @@ function get_popular_movies() {
     return array("movies" => $movies_data);
 }
 
+// Guardar las 100 primeras películas // Al abrir una película que se haga la petición de los actores a la API...
 $movies_data = get_popular_movies();
-//var_dump($movies_data);
-get_actors($movies_data);
+var_dump($movies_data);
+//get_actors($movies_data);
 
 function get_actors($movies_data) {
     $actores = array();
@@ -163,53 +162,6 @@ function get_actors($movies_data) {
 
     var_dump($actores);
 }
-
-/*function get_actors($movies_data) {
-    $actores = array();
-
-    // Dividir películas en lotes
-    $movie_batches = array_chunk($movies_data["movies"], 2);
-
-    foreach ($movie_batches as $batch) {
-        foreach ($batch as $movie) {
-            foreach ($movie["actors_info"] as $actor) {
-                $get_actor = curl_init();
-                curl_setopt($get_actor, CURLOPT_URL, "https://api.themoviedb.org/3/person/" . $actor["id"] . "?language=es-ES&api_key=107cc8a9703efd86f41232ea75b85039");
-                curl_setopt($get_actor, CURLOPT_RETURNTRANSFER, true); 
-                // Recojo el actor correspondiente al id con que se ha hecho la solicitud.
-                $actor_info = json_decode(curl_exec($get_actor));
-                // Cerrar sesión cURL.
-                curl_close($get_actor);
-
-                // Si se encuentra la persona y su papel es de actor. 
-                if (!isset($actor_info->success)) {
-                    if ($actor_info->known_for_department == "Acting") {
-                        $actor_data = array(
-                            "id" => $actor["id"],
-                            "nombre" => isset($actor_info->name) ? $actor_info->name : null,
-                            "personaje" => $actor["personaje"],
-                            "biografia" => isset($actor_info->biography) ? $actor_info->biography : null,
-                            "lugar_nacimiento" => isset($actor_info->place_of_birth) ? $actor_info->place_of_birth : null,
-                            "bithday" => isset($actor_info->birthday) ? $actor_info->birthday : null,
-                            "deathday" => isset($actor_info->deathday) ? $actor_info->deathday : null,
-                            "genero" => isset($actor_info->gender) ? ($actor_info->gender == 1 ? "Femenino" : ($actor_info->gender == 2 ? "Masculino" : "Otro")) : null,
-                            "popularidad" => isset($actor_info->popularity) ? $actor_info->popularity : null,
-                            "imagen" => isset($actor_info->profile_path) ? "https://image.tmdb.org/t/p/original/" . $actor_info->profile_path : null
-                        );
-
-                        array_push($actores, $actor_data);
-                    }
-                }
-            }
-        }
-    }
-
-    var_dump($actores);
-}*/
-
-
-
-
 
 
 /*
