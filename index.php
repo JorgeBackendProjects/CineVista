@@ -37,21 +37,16 @@ function get_popular_movies() {
             $casting = json_decode(curl_exec($get_cast_movie));
             array_push($casting_data, $casting);
             curl_close($get_cast_movie);
-        
-            //var_dump($casting_data[0]->cast);
 
         // ACTORES // REVISAR EL ARRAY CASTING_DATA Y ACTOR
             // Por cada actor del casting de la película guardo sus datos.
-            $contador_actor = 0;
             foreach ($casting_data[0]->cast as $actor) {
-                $id = isset($actor->id) ? $actor->id : null;
-                $lugar_nacimiento = isset($actor->place_of_birth) ? $actor->place_of_birth : null;
-                $nombre = isset($actor->name) ? $actor->name : null;
+                $personaje = isset($actor->character) ? $actor->character : null;
 
                 $get_actor = curl_init();
                 curl_setopt($get_actor, CURLOPT_URL, "https://api.themoviedb.org/3/person/" . $actor->id . "?language=es-ES&api_key=107cc8a9703efd86f41232ea75b85039");
                 curl_setopt($get_actor, CURLOPT_RETURNTRANSFER, true); 
-                // Recojo la película correspondiente al id con que se ha hecho la solicitud.
+                // Recojo el actor correspondiente al id con que se ha hecho la solicitud.
                 $actor_info = json_decode(curl_exec($get_actor));
                 // Cerrar sesión cURL.
                 curl_close($get_actor);
@@ -59,64 +54,55 @@ function get_popular_movies() {
                 if (!isset($actor_info->success)) {
                     if ($actor_info->known_for_department == "Acting") {
                         $actor_data = array(
-                            "id" => $id,
-                            "nombre" => $nombre,
-                            "personaje" => isset($actor_info->character) ? $actor_info->character : null,
+                            "id" => $actor->id,
+                            "nombre" => isset($actor_info->name) ? $actor_info->name : null,
+                            "personaje" => $personaje,
                             "biografia" => isset($actor_info->biography) ? $actor_info->biography : null,
-                            "lugar_nacimiento" => isset($lugar_nacimiento) ? $lugar_nacimiento : null,
-                            "bithday" => $lugar_nacimiento,
+                            "lugar_nacimiento" => isset($actor_info->place_of_birth) ? $actor_info->place_of_birth : null,
+                            "bithday" => isset($actor_info->birthday) ? $actor_info->birthday : null,
                             "deathday" => isset($actor_info->deathday) ? $actor_info->deathday : null,
                             "genero" => isset($actor_info->gender) ? ($actor_info->gender == 1 ? "Femenino" : ($actor_info->gender == 2 ? "Masculino" : "Otro")) : null,
-                            "departamento" => isset($actor_info->known_for_department) ? $actor_info->known_for_department : null,
                             "popularidad" => isset($actor_info->popularity) ? $actor_info->popularity : null,
-                            "imagen" => isset($actor_info->profile_path) ? $actor_info->profile_path : null,
-                            "peliculas" => isset($actor_info->also_known_as) ? $actor_info->also_known_as : null
+                            "imagen" => isset($actor_info->profile_path) ? "https://image.tmdb.org/t/p/original/" . $actor_info->profile_path : null
                         );
 
-                        var_dump($actor_data);
+                        array_push($actors_data, $actor_data);
+                        array_push($id_actors, $actor_info->id);
                     }
                 }
-
-                
-
-                
-
-                /*if (array_filter($actor_data, 'strlen')) {
-                    array_push($actors_data, $actor_data);
-                    array_push($id_actors, $actor_data["id"]);
-                }*/
             }
 
-            //var_dump($id_actors);
+            /*var_dump($actors_data);
+            var_dump($id_actors);*/
 
             // Guardamos la película en el array. // Añadir subarray con los id de los actores obtenidos en cada registro del array de reparto.
             $movie_data = array(
                 "id" => $movie->id, // Es el id por el que he buscado en la petición.
-                "adult" => $movie->adult, // Boolean, si es de adultos o no.
-                "backdrop_path" => $movie->backdrop_path, // Fondo de la película que seguramente no haga falta.
-                "belongs_to_collection" => $movie->belongs_to_collection, // Me devuelve 4 datos que seguramente no hagan falta.
-                "budget" => $movie->budget, // Me devuelve el presupuesto.
-                "genres" => $movie->genres, // Es un array que puede tener varios géneros. Recorrer y por cada uno obtener el género con la key ["name"].
+                "adulto" => $movie->adult, // Boolean, si es de adultos o no.
+                //"backdrop_path" => $movie->backdrop_path, // Fondo de la película que seguramente no haga falta.
+                //"belongs_to_collection" => $movie->belongs_to_collection, // Me devuelve 4 datos que seguramente no hagan falta.
+                "presupuesto" => $movie->budget, // Me devuelve el presupuesto.
+                "generos" => $movie->genres, // Es un array que puede tener varios géneros. Recorrer y por cada uno obtener el género con la key ["name"].
                 "homepage" => $movie->homepage, // Página donde ver la película.
-                "imdb_id" => $movie->imdb_id, // Id que seguramente no haga falta.
-                "origin_country" => $movie->origin_country, // Array (un solo valor?) con String.
-                "original_language" => $movie->original_language, // Valor en/es etc... Hacer función para modificarlo y guardarlo sin abreviatura.
-                "original_title" => $movie->original_title, // Me da el título en inglés.
-                "overview" => $movie->overview, // String con la sinopsis de la película.
+                //"imdb_id" => $movie->imdb_id, // Id que seguramente no haga falta.
+                "pais_original" => $movie->origin_country, // Array (un solo valor?) con String.
+                "lenguaje_original" => $movie->original_language, // Valor en/es etc... Hacer función para modificarlo y guardarlo sin abreviatura.
+                //"original_title" => $movie->original_title, // Me da el título en inglés.
+                "sinopsis" => $movie->overview, // String con la sinopsis de la película.
                 "popularity" => $movie->popularity, // Float con el valor de popularidad. Es útil ???
                 "poster_path" => "https://image.tmdb.org/t/p/original" . $movie->poster_path, // Ruta completa a la imágen de la película. // Hacer función js para convertir img a blob al recoger la url y mostrarla.
                 "production_companies" => $movie->production_companies, // Array con el nombre de la compañía en la clave ["name"]
                 "production_countries" => $movie->production_countries, // Array con el nombre del país en la clave ["name"]
-                "release_date" => $movie->release_date, // Date con la fecha de estreno
-                "revenue" => $movie->revenue, // Ganancias.
-                "runtime" => $movie->runtime, // Tiempo en minutos de duración.
-                "spoken_languages" => $movie->spoken_languages,
+                "fecha_estreno" => $movie->release_date, // Date con la fecha de estreno
+                "ganancias" => $movie->revenue, // Ganancias.
+                "duracion" => $movie->runtime, // Tiempo en minutos de duración.
+                "lenguajes_hablados" => $movie->spoken_languages,
                 "status" => $movie->status, // *En inglés* released (liberada/estrenada/disponible), u otros tipos.
-                "tagline" => $movie->tagline, // Lema de la película, la mayoría no tiene.
-                "title" => $movie->title, // Me da el título en español.
+                //"tagline" => $movie->tagline, // Lema de la película, la mayoría no tiene.
+                "titulo" => $movie->title, // Me da el título en español.
                 "video" => $movie->video, // Boolean, si hay o no vídeo.
-                "vote_average" => $movie->vote_average, // Float con puntuación. 
-                "vote_count" => $movie->vote_count, // Int con total de calificaciones obtenidos.
+                "puntuacion" => $movie->vote_average, // Float con puntuación. 
+                "total_votos" => $movie->vote_count, // Int con total de calificaciones obtenidos.
                 "id_actors" => $id_actors // ID de todos los actores del reparto.
             );
             
@@ -128,7 +114,7 @@ function get_popular_movies() {
 }
 
 $resultado = get_popular_movies();
-//var_dump($resultado);
+var_dump($resultado);
 
 
 
