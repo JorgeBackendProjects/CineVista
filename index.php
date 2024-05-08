@@ -122,7 +122,7 @@ function get_popular_movies() {
 }
 
 // Guardar las 100 primeras películas // Al abrir una película que se haga la petición de los actores a la API...
-$movies_data = get_popular_movies();
+//$movies_data = get_popular_movies();
 //var_dump($movies_data);
 
 function get_actors_by_movie($movie_data) {

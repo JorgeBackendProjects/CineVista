@@ -1,4 +1,5 @@
 <?php
+require_once ("Conexion.php");
 
 class Pelicula
 {
@@ -10,7 +11,6 @@ class Pelicula
     private float $ganancias;
     private string $fecha_estreno;
     private string $pais_origen;
-    private string $lenguaje_origen;
     private string $web;
     private float $popularidad;
     private float $valoracion;
@@ -20,7 +20,7 @@ class Pelicula
     private bool $adulto;
     private array $generos;
 
-    function __construct($id, $titulo, $sinopsis, $duracion, $presupuesto, $ganancias, $fecha_estreno, $pais_origen, $lenguaje_origen, $web, $popularidad, $valoracion, $total_votos, $fondo, $poster, $adulto, $generos)
+    function __construct($id, $titulo, $sinopsis, $duracion, $presupuesto, $ganancias, $fecha_estreno, $pais_origen, $web, $popularidad, $valoracion, $total_votos, $fondo, $poster, $adulto, $generos = null)
     {
         $this->id = $id;
         $this->titulo = $titulo;
@@ -30,7 +30,6 @@ class Pelicula
         $this->ganancias = $ganancias;
         $this->fecha_estreno = $fecha_estreno;
         $this->pais_origen = $pais_origen;
-        $this->lenguaje_origen = $lenguaje_origen;
         $this->web = $web;
         $this->popularidad = $popularidad;
         $this->valoracion = $valoracion;
@@ -77,7 +76,6 @@ class Pelicula
                 $ganancias = isset($movie->revenue) ? $movie->revenue : ""; // Ganancias.
                 $fecha_estreno = isset($movie->release_date) ? $movie->release_date : ""; // Date con la fecha de estreno
                 $pais_origen = isset($movie->origin_country) ? $movie->origin_country : ""; // Array (un solo valor?) con String.
-                $lenguaje_origen = isset($movie->original_language) ? $movie->original_language : ""; // Valor en/es etc... Hacer función para modificarlo y guardarlo sin abreviatura.
                 $web = isset($movie->homepage) ? $movie->homepage : ""; // Página donde ver la película.
                 $popularidad = isset($movie->popularity) ? $movie->popularity : ""; // Float con el valor de popularidad. Es útil ???
                 $valoracion = isset($movie->vote_average) ? $movie->vote_average : ""; // Float con puntuación. 
@@ -94,7 +92,7 @@ class Pelicula
                     );
                 }
 
-                $pelicula = new Pelicula($id, $titulo, $sinopsis, $duracion, $presupuesto, $ganancias, $fecha_estreno, $pais_origen[0], $lenguaje_origen, $web, $popularidad, $valoracion, $total_votos, $fondo, $poster, $adulto, $generos);
+                $pelicula = new Pelicula($id, $titulo, $sinopsis, $duracion, $presupuesto, $ganancias, $fecha_estreno, $pais_origen[0], $web, $popularidad, $valoracion, $total_votos, $fondo, $poster, $adulto, $generos);
 
                 array_push($array_peliculas, $pelicula);
             }
@@ -103,8 +101,59 @@ class Pelicula
         return $array_peliculas;
     }
 
-    function get_movie($id_movie) {
-        //Select a la DB, si el id está ahí, se muestra del select. Si la pelicula no está se busca en la api.
+    function buscar_peliculas() {
+
+    }
+
+    function get_movie($id_pelicula) {
+        $pdo = Conexion::connection_database();
+        
+        $resultado = "";
+
+        $stmt = $pdo->prepare("SELECT * FROM pelicula WHERE id = ?");
+        $stmt->execute([$id_pelicula]);
+        
+        // Si encuentra la película en la base de datos se almacena en un objeto y se buscan sus géneros.
+        if ($stmt->rowCount() > 0) {
+            $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $id = $datos['id'];
+            $titulo = $datos['titulo'];
+            $sinopsis = $datos['sinopsis'];
+            $duracion = $datos['duracion'];
+            $presupuesto = $datos['presupuesto'];
+            $ganancias = $datos['ganancias'];
+            $fecha_estreno = $datos['fecha_estreno'];
+            $pais_origen = $datos['pais_origen'];
+            $web = $datos['web'];
+            $popularidad = $datos['popularidad'];
+            $valoracion = $datos['valoracion'];
+            $total_votos = $datos['total_votos'];
+            $fondo = $datos['fondo'];
+            $poster = $datos['poster'];
+            $adulto = $datos['adulto']; 
+
+            $pelicula = new Pelicula($id, $titulo, $sinopsis, $duracion, $presupuesto, $ganancias, $fecha_estreno, $pais_origen[0], $web, $popularidad, $valoracion, $total_votos, $fondo, $poster, $adulto);
+            $generos = array();
+
+            // Obtenemos los nombres de los géneros con su 
+            $stmt = $pdo->prepare("SELECT g.nombre FROM pelicula_categoria pc JOIN genero g ON pc.id_genero = g.id_genero WHERE pc.id_pelicula = ?");
+            $stmt->execute([$id_pelicula]);
+
+            if ($stmt->rowCount() > 0) {
+                $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($datos as $row) {
+                    array_push($generos, $row["nombre"]);
+                }
+            }
+
+            
+
+        // Si la película no está en la base de datos se busca en la API.
+        } else {
+
+        }
+               
     }
 
     // Getters
@@ -146,11 +195,6 @@ class Pelicula
     public function get_pais_origen(): string
     {
         return $this->pais_origen;
-    }
-
-    public function get_lenguaje_origen(): string
-    {
-        return $this->lenguaje_origen;
     }
 
     public function get_web(): string
@@ -232,11 +276,6 @@ class Pelicula
     public function set_pais_origen(string $pais_origen): void
     {
         $this->pais_origen = $pais_origen;
-    }
-
-    public function set_lenguaje_origen(string $lenguaje_origen): void
-    {
-        $this->lenguaje_origen = $lenguaje_origen;
     }
 
     public function set_web(string $web): void
