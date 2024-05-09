@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+body {
+    font-family: "Inria Sans", sans-serif;
+    font-size: 1.1rem;
+    background-color: rgb(2, 16, 29, 93%);
+    color: white;
+}
+
+/*Cabecera*/
+header {
+    position: sticky;
+    width: 100%;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(2, 27, 48, 75%);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.header_left,
+.header_right {
+    display: flex;
+    align-items: center;
+}
+
+.header_left {
+    margin-left: 30px;
+}
+
+.header_right {
+    margin-right: 30px;
+}
+
+.header_left i {
+    font-size: 2.5em;
+    color: white;
+}
+
+.header_left .title {
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+    font-size: 1.9rem;
+    margin: 0 20px;
+}
+
+.header_right ul {
+    display: flex;
+    margin: 0;
+    list-style-type: none;
+}
+
+.header_right ul li {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.header_right ul p {
+    margin-right: 10px;
+}
+
+.header_right ul li a {
+    text-decoration: none;
+    color: white;
+}
+
+/*Contenido body*/
+.peliculas {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 90vw;
+    margin: 10rem auto 0 auto;
+}
+
+.pelicula {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    margin: 20px 5% 20px 5%;
+    cursor: pointer;
+}
+
+.poster {
+    width: 200px;
+    height: 300px;            
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+}
+
+.titulo {
+    text-align: center;
+}

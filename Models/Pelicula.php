@@ -20,7 +20,7 @@ class Pelicula
     private bool $adulto;
     private array $generos;
 
-    function __construct($id, $titulo, $sinopsis, $duracion, $presupuesto, $ganancias, $fecha_estreno, $pais_origen, $web, $popularidad, $valoracion, $total_votos, $fondo, $poster, $adulto, $generos = null)
+    function __construct($id = 0, $titulo = "", $sinopsis = "", $duracion = 0, $presupuesto = 0, $ganancias = 0, $fecha_estreno = "", $pais_origen = "", $web = "", $popularidad = 0, $valoracion = 0, $total_votos = 0, $fondo = "", $poster = "", $adulto = false, $generos = array())
     {
         $this->id = $id;
         $this->titulo = $titulo;
@@ -101,10 +101,36 @@ class Pelicula
         return $array_peliculas;
     }
 
-    function buscar_peliculas() {
+// Funciones CRUD
 
+    // Obtiene el id, titulo y póster de las películas para mostrarlas en el index.html
+    static function select_previews_all_movies() {
+        $pdo = Conexion::connection_database();
+
+        $peliculas = array();
+
+        $stmt = $pdo->prepare("SELECT id, titulo, poster FROM pelicula");
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($resultado as $pelicula) {
+                $pelicula_object = new Pelicula();
+                $pelicula_object->set_id($pelicula["id"]);
+                $pelicula_object->set_titulo($pelicula["titulo"]);
+                $pelicula_object->set_poster($pelicula["poster"]);
+                
+                array_push($peliculas, $pelicula_object);
+            }
+        }
+
+        $pdo = null;
+
+        return $peliculas;
     }
 
+    // Obtiene la información de una película
     function get_movie($id_pelicula) {
         $pdo = Conexion::connection_database();
         
@@ -136,7 +162,7 @@ class Pelicula
             $pelicula = new Pelicula($id, $titulo, $sinopsis, $duracion, $presupuesto, $ganancias, $fecha_estreno, $pais_origen[0], $web, $popularidad, $valoracion, $total_votos, $fondo, $poster, $adulto);
             $generos = array();
 
-            // Obtenemos los nombres de los géneros con su 
+            // Obtenemos los nombres de los géneros.
             $stmt = $pdo->prepare("SELECT g.nombre FROM pelicula_categoria pc JOIN genero g ON pc.id_genero = g.id_genero WHERE pc.id_pelicula = ?");
             $stmt->execute([$id_pelicula]);
 
@@ -146,7 +172,6 @@ class Pelicula
                     array_push($generos, $row["nombre"]);
                 }
             }
-
             
 
         // Si la película no está en la base de datos se busca en la API.
@@ -155,6 +180,13 @@ class Pelicula
         }
                
     }
+    
+
+    function buscar_peliculas() {
+
+    }
+
+    
 
     // Getters
     public function get_id(): int
