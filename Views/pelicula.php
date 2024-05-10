@@ -15,7 +15,6 @@ $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película"
 <body>
     <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
 
-
     <script>
         // Me traigo la info de la base de datos y busco los actores de la API
         let id_pelicula = jQuery("#id_pelicula").val();
@@ -28,9 +27,18 @@ $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película"
                 key: "get_movie"
             },
             success: function (data) {
-                console.log(data);
+
+                let pelicula = JSON.parse(data).pelicula;
+                let actores = JSON.parse(data).actores;
+
+                console.log(pelicula);
+                console.log(actores);
             }
         });
+
+        function create_DOM_pelicula() {
+
+        }
     </script>
 </body>
 </html>

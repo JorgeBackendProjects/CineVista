@@ -26,6 +26,7 @@ class Actor
         $this->imagen = $imagen;
     }
 
+    // Si el personaje es = "Construction Worker", "Dancer", etc... ¿QUÉ HAGO?
     static function get_actores_by_movie($id_pelicula)
     {
         $casting_data = array();
