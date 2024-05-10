@@ -1,3 +1,13 @@
+<?php
+    //session_start();
+    //$_SESSION["usuario"] = "ElPiezass";
+
+    //session_destroy();
+    //$_SESSION["usuario"] = null;
+
+    $sesion_iniciada = isset($_SESSION["usuario"]);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -19,16 +29,25 @@
                 <h1 class="title">CineVista</h1>
             </div>
             <div class="header_right">
-                <ul>
-                    <li><a href="">Iniciar sesión</a></li>
-                    <p>o</p>
-                    <li><a href="">Regístrate</a></li>
-                </ul>
+                <?php
+                    if ($sesion_iniciada) {
+                        include_once("Views/Assets/Templates/sesion_header.html");
+                    } else {
+                        include_once("Views/Assets/Templates/no_sesion_header.html");
+                    }
+                ?>
             </div>
         </nav>
     </header>
 
     <main>
+        <div id="container_buscador" class="container_buscador">
+            <input type="text" id="buscador" name="buscador" class="buscador" placeholder=" Buscar película" />
+            <select id="categorias" name="categorias" class="categorias">
+                <option value="">Categorías</option>
+            </select>
+        </div>
+
         <div id="peliculas" class="peliculas"></div>
     </main>
 

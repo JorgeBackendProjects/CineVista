@@ -2,6 +2,7 @@
 
 * {
     box-sizing: border-box;
+    margin: 0;
     padding: 0;
 }
 
@@ -17,15 +18,14 @@ header {
     position: sticky;
     width: 100%;
     top: 0;
-    margin: 0;
-    padding: 0;
-    background-color: rgb(2, 27, 48, 75%);
+    background-color: rgb(2, 27, 48);
 }
 
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 5rem;
     padding: 10px 20px;
 }
 
@@ -77,12 +77,44 @@ nav {
 }
 
 /*Contenido body*/
+
+/*Buscador y filtrado*/
+.container_buscador {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 5rem;
+}
+
+.buscador {
+    width: 15rem;
+    height: 2.5rem;
+    background-image: url(../Images/buscador_icon.svg);
+    background-size: 80% 85%;
+    background-position: -155% 60%;
+    background-repeat: no-repeat;
+    text-indent: 21%;
+    border: 2px solid black;
+    border-radius: 20px;
+}
+
+.buscador::placeholder {
+    text-indent: 20%;
+}
+
+.categorias {
+    width: 15rem;
+    height: 2.5rem;
+    border: 2px solid black;
+    border-radius: 20px;
+}
+
+/*Div principal de películas*/
 .peliculas {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     width: 90vw;
-    margin: 10rem auto 0 auto;
+    margin: 5rem auto 0 auto;
 }
 
 .pelicula {

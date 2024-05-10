@@ -1,6 +1,6 @@
 <?php
 $id_pelicula = isset($_GET["id"]) ? $_GET["id"] : null;    
-$titulo = isset($_GET["titulo"]) ? "Película: " .$_GET["titulo"] : "Película";
+$titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película";
 ?>
 
 <!DOCTYPE html>
@@ -20,17 +20,17 @@ $titulo = isset($_GET["titulo"]) ? "Película: " .$_GET["titulo"] : "Película";
         // Me traigo la info de la base de datos y busco los actores de la API
         let id_pelicula = jQuery("#id_pelicula").val();
         
-        /*jQuery.ajax({
-            url: 'Views/pelicula.php',
+        jQuery.ajax({
+            url: '../Controllers/pelicula_controller.php',
             method: 'POST',
             data: {
                 id_pelicula: id_pelicula,
-                titulo: titulo
+                key: "get_movie"
             },
             success: function (data) {
-                
+                console.log(data);
             }
-        });*/
+        });
     </script>
 </body>
 </html>
