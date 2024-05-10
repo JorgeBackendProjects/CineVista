@@ -41,7 +41,6 @@ class Pelicula
     }
 
     // Función que me permitió al principio obtener las 100 películas más populares para almacenarlas en la base de datos.
-    // Función que me permitió al principio obtener las 100 películas más populares para almacenarlas en la base de datos.
     static function insert_100_movies_database() {
         $pdo = Conexion::connection_database();
         $array_peliculas = array();
