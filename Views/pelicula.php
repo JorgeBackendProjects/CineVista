@@ -95,6 +95,27 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             color: white;
         }
 
+        /*Pantalla de carga*/
+        .pantalla_carga {
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .pantalla-carga img {
+            width: 100px;
+            height: 100px;
+        }
+        
+
+        /*Vista película*/
         .principal {
             display: flex;
             flex-direction: column;
@@ -103,8 +124,8 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         .fondo {
             position: absolute;
             width: 75%;
-            height: 40rem;
-            top: 8rem;
+            height: 45rem;
+            top: 10rem;
             left: 12.5%;
             opacity: 0.7;
             background-size: 100% 100%;
@@ -115,12 +136,13 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         .pelicula {
             position: relative;
             display: flex;
-            width: 70%;
-            top: 6rem;
-            left: 15%;
-            padding: 2rem;
-            background-color: rgba(0, 0, 0, 60%);
-            border-radius: 20px;
+            width: 75%;
+            height: 45rem;
+            padding: 5rem;
+            top: 5rem;
+            left: 12.5%;
+            background-color: rgba(0, 0, 0, 65%);
+            border-radius: 15px;
         }
 
         .poster {
@@ -140,13 +162,14 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             height: 3rem;
             top: 2%;
             border-radius: 50%;
-            background-color: lightgreen;
+            background-color: grey;
             left: 80%;
         }
 
         .valoracion {
             text-align: center;
             font-weight: bold;
+            font-size: 1.4rem;
         }
 
         .info_principal {
@@ -160,12 +183,12 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             margin-left: 2%;
             border-radius: 20px;
             padding: 0 2rem 0 1rem;   
-            
-            & span h3 {
-                padding: 0.5rem 2rem;
-                font-weight: 500;
-                font-size: 1.3rem;
-            }
+        }
+
+        .info_detallada span h3 {
+            padding: 0.5rem 2rem;
+            font-weight: 200;
+            font-size: 1.3rem;
         }
     
         .titulo {
@@ -175,16 +198,29 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         #sinopsis {
             text-align: justify;
-            padding: 1rem 2rem;
+            padding: 1rem 15rem 1rem 2rem;
         }
 
         #web a {
             color: orange;
         }
 
+        /*Actores*/
         .actores {
             display: flex;
-            margin-top: 30rem;
+            justify-content: space-evenly;
+            width: 70%;
+            margin: 10rem auto 10rem auto;
+            overflow-x: auto;
+        }
+
+        .actor {
+            width: 150px;
+            margin: 0 0.5rem 0 0.5rem;
+        }
+
+        .info_actor {
+            text-align: center;
         }
 
         .imagen_actor {
@@ -193,6 +229,10 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             background-size: 100% 100%;
             background-repeat: no-repeat;
             border-radius: 15px;
+        }
+
+        .personaje {
+            margin-top: 5%;
         }
     </style>
 </head>
@@ -217,6 +257,11 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
     </header>
 
     <main>
+        <div id="pantalla_carga" class="pantalla_carga">
+            <img src="Assets/Images/cargando.gif" alt="Cargando">
+            <h2>Cargando datos... por favor espere.</h2>
+        </div>
+
         <div class="principal">
             <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
 
@@ -241,6 +286,8 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
                         <h3 id="sinopsis" class="sinopsis"></h3>
                         
                         <h3 id="duracion" class="duracion"></h3>
+
+                        <h3 id="fecha" class="fecha"></h3>
                         
                         <h3 id="presupuesto" class="presupuesto"></h3>
                         
@@ -248,7 +295,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
                         
                         <h3 id="adulto" class="adulto"></h3>
 
-                        <h3 id="web" class="web"><a id="url_web" name="url_web"></a></h3>
+                        <h3 id="web" class="web"></h3>
                         
                         <h3 id="total_votos" class="total_votos"></h3>
                     </span>
@@ -264,62 +311,99 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
     <footer></footer>
 
     <script>
-        // Me traigo la info de la base de datos y busco sus actores
-        let id_pelicula = jQuery("#id_pelicula").val();
+        function create_DOM(){
+            // Me traigo la info de la base de datos y busco sus actores
+            let id_pelicula = jQuery("#id_pelicula").val();
 
-        jQuery.ajax({
-            url: '../Controllers/pelicula_controller.php',
-            method: 'POST',
-            data: {
-                id_pelicula: id_pelicula,
-                key: "get_movie"
-            },
-            success: function (data) {
-                // Obtengo el objeto película y el array de actores
-                let pelicula = JSON.parse(data).pelicula;
-                let actores = JSON.parse(data).actores;
+            jQuery.ajax({
+                url: '../Controllers/pelicula_controller.php',
+                method: 'POST',
+                data: {
+                    id_pelicula: id_pelicula,
+                    key: "get_movie"
+                },
+                success: function (data) {
+                    // Obtengo el objeto película y el array de actores
+                    let pelicula = JSON.parse(data).pelicula;
+                    let actores = JSON.parse(data).actores;
+                    
+                    // Se oculta la pantalla de carga.
+                    jQuery("#pantalla_carga").hide();
 
-                create_DOM_pelicula(pelicula);
-                create_DOM_actores(actores);
-            }
-        });
+                    // Se cargan los datos en el DOM.
+                    create_DOM_pelicula(pelicula);
+                    create_DOM_actores(actores);
+                }
+            });
+        }
 
         function create_DOM_pelicula(pelicula) {
+            // Obtenemos los nombres de los géneros en un string separado por ", ". 
             let generos = pelicula["generos"].map(genero => genero.nombre).join(", ");
+            // Obtenemos la duración en horas y minutos.
+            let duracion = pelicula["duracion"] > 0 ? Math.floor(pelicula["duracion"] / 60) + "h y " + pelicula["duracion"] % 60 + " minutos." : "no disponible"; 
+            // Obtenemos la fecha con el formato español.
+            let fecha = pelicula["fecha_estreno"] != "" ? pelicula["fecha_estreno"].split("-")[2] + "/" + pelicula["fecha_estreno"].split("-")[1] + "/" + pelicula["fecha_estreno"].split("-")[0] : "no disponible";
+            // Obtenemos el resto de los atributos si no están vacíos.
+            let sinopsis = pelicula["sinopsis"] != "" ? pelicula["sinopsis"] : "no disponible";
+            let presupuesto = pelicula["presupuesto"] > 0 ? pelicula["presupuesto"].toLocaleString() + " $" : "no disponible";
+            let ganancias = pelicula["ganancias"] > 0 ? pelicula["ganancias"].toLocaleString() + " $" : "no disponible";
+            let popularidad = pelicula["popularidad"] > 0 ? pelicula["popularidad"] : "no disponible";
             let para_adultos = pelicula["adulto"] == true ? "+18" : "Para todas las edades";
-            let web = pelicula["web"] != "" ? pelicula["web"] : "no disponible";
-             
+
+            if (pelicula["valoracion"] > 0 && pelicula["valoracion"] <= 2.5) {
+                jQuery(".valoracion_container").css("background-color", "#E57373");
+            } else if (pelicula["valoracion"] > 2.5 && pelicula["valoracion"] <= 5) {
+                jQuery(".valoracion_container").css("background-color", "#FFB74D");
+            } else if (pelicula["valoracion"] > 5 && pelicula["valoracion"] <= 7.5) {
+                jQuery(".valoracion_container").css("background-color", "#FFF176");
+            } else if (pelicula["valoracion"] > 7.5 && pelicula["valoracion"] <= 10) {
+                jQuery(".valoracion_container").css("background-color", "#81C784");
+            }
+
             jQuery("#poster").css("background-image", `url(${pelicula["poster"]})`);
             jQuery("#fondo").css("background-image", `url(${pelicula["fondo"]})`);
+            // La función toFixed obtiene por parámetro el número de decimales que tendrá el float.
             jQuery("#valoracion").text(`${pelicula["valoracion"].toFixed(1)}`);
             jQuery("#titulo").text(`${pelicula["titulo"]}`);
             jQuery("#generos").text(`Géneros: ${generos}`);
-            jQuery("#sinopsis").text(`Sinopsis: ${pelicula["sinopsis"]}`);
-            jQuery("#duracion").text(`Duración: ${pelicula["duracion"]} minutos`);
-            jQuery("#presupuesto").text(`Presupuesto: ${pelicula["presupuesto"]} $`);
-            jQuery("#ganancias").text(`Ganancias: ${pelicula["ganancias"]} $`);
-            jQuery("#popularidad").text(`Popularidad: ${pelicula["popularidad"]}`);
+            jQuery("#sinopsis").text(`Sinopsis: ${sinopsis}`);
+            jQuery("#fecha").text(`Fecha: ${fecha}`);
+            jQuery("#duracion").text(`Duración: ${duracion}`);
+            jQuery("#presupuesto").text(`Presupuesto: ${presupuesto}`);
+            jQuery("#ganancias").text(`Ganancias: ${ganancias}`);
+            jQuery("#popularidad").text(`Popularidad: ${popularidad}`);
             jQuery("#adulto").text(`Categoría: ${para_adultos}`);
-            jQuery("#web").text(`Web: `);
-            jQuery("#web").append(`<a href = '${web}'>${web}</a>`);
+            // Si se obtiene la url de la web se añade, si no se escribe "no disponible".
+            pelicula["web"] != "" ? jQuery("#web").text(`Web: `).append(`<a href = '${pelicula["web"]}'>${pelicula["web"]}</a>`) : jQuery("#web").text("Web: no disponible");
             jQuery("#total_votos").text(`Total de votos: ${pelicula["total_votos"]}`);
         }
 
         function create_DOM_actores(actores) {
             actores.forEach(actor => {
                 // Se crea la estructura para el actor y se añade al contenedor de actores.
-                let actorDiv = jQuery("<div class='actor'><input type='hidden' name='id_actor' value='" + actor["id"] + "' /><div class='imagen_actor'></div><div class='info_actor'><p class='nombre'></p><p class='personaje'></p></div></div>");
+                let actorDiv = jQuery(`<div class='actor'>
+                                        <input type='hidden' name='id_actor' value='${actor["id"]}' />
+                                        <div class='imagen_actor'></div>
+                                        <div class='info_actor'>
+                                            <p class='nombre'></p>
+                                            <p class='personaje'></p>
+                                        </div>
+                                       </div>`);
+
                 jQuery("#actores").append(actorDiv);
 
                 // Se obtiene la imagen, si no hay se muestra una por defecto.
                 let imagen = actor["imagen"].length > 0 ? actor["imagen"] : "Assets/Images/estrella_cine.webp";
 
                 // Se buscan los campos de la estructura del actor que hemos creado y añadimos sus datos.
-                actorDiv.find(".imagen_actor").css("background-image", "url(" + imagen + ")");
+                actorDiv.find(".imagen_actor").css("background-image", `url('${imagen}')`);
                 actorDiv.find(".nombre").text(actor["nombre"]);
-                actorDiv.find(".personaje").text(actor["personaje"]);
+                actorDiv.find(".personaje").text(`Papel: ${actor["personaje"]}`);
             });
         }
+
+        create_DOM();
     </script>
 </body>
 

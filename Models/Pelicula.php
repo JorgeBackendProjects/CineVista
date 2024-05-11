@@ -216,7 +216,7 @@ class Pelicula
 
         $peliculas = array();
 
-        $stmt = $pdo->prepare("SELECT id, titulo, poster FROM pelicula");
+        $stmt = $pdo->prepare("SELECT id, titulo, poster, valoracion FROM pelicula");
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -227,6 +227,7 @@ class Pelicula
                 $pelicula_object->set_id($pelicula["id"]);
                 $pelicula_object->set_titulo($pelicula["titulo"]);
                 $pelicula_object->set_poster($pelicula["poster"]);
+                $pelicula_object->set_valoracion($pelicula["valoracion"]);
                 
                 array_push($peliculas, $pelicula_object);
             }

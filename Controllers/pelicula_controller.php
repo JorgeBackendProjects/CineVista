@@ -18,7 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["key"]) && $_POST["key"
         $peliculas_array[] = array(
             "id" => $pelicula->get_id(),
             "titulo" => $pelicula->get_titulo(),
-            "poster" => $pelicula->get_poster()
+            "poster" => $pelicula->get_poster(),
+            "valoracion" => $pelicula->get_valoracion()
         );
     }
 
@@ -72,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id_pelicula"]) && isse
 }
 
 
-
+// BORRAR TODAS LAS PELICULAS Y HACER CONDICION DE LA TABLA INTERMEDIA Y DE LA DE CATEGORIA PARA INSERTARLAS... SE REPITEN Y LAS SINOPSIS NO ESTÁN ENTERAS.
 /*function insert_100_movies_database() {
     $pdo = Conexion::connection_database();
 

@@ -18,6 +18,7 @@ header {
     position: sticky;
     width: 100%;
     top: 0;
+    z-index: 1;
     background-color: rgb(2, 27, 48);
 }
 
@@ -89,7 +90,7 @@ nav {
     width: 15rem;
     height: 2.5rem;
     background-image: url(../Images/buscador_icon.svg);
-    background-size: 80% 85%;
+    background-size: 80% 75%;
     background-position: -155% 60%;
     background-repeat: no-repeat;
     text-indent: 21%;
@@ -113,7 +114,7 @@ nav {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    width: 90vw;
+    width: 80vw;
     margin: 5rem auto 0 auto;
 }
 
@@ -121,7 +122,7 @@ nav {
     display: flex;
     flex-direction: column;
     width: 200px;
-    margin: 20px 5% 20px 5%;
+    margin: 5rem 5% 20px 5%;
     cursor: pointer;
 }
 
@@ -133,6 +134,26 @@ nav {
     border-radius: 15px;
 }
 
-.titulo {
+.valoracion_container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.8rem;
+    height: 2.7rem;
+    top: 2%;
+    border-radius: 50%;
+    background-color: grey;
+    left: 75%;
+}
+
+.valoracion {
     text-align: center;
+    font-weight: bold;
+}
+
+.titulo {
+    font-size: 1.2rem;
+    text-align: center;
+    padding-top: 5%;
 }

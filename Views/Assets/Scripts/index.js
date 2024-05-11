@@ -25,9 +25,25 @@ function get_peliculas() {
 function create_dinamic_DOM_index(pelicula) {
     jQuery("#peliculas").append(`<div class="pelicula">
                                     <input type="hidden" name="id_pelicula" value="${pelicula.id}"/>
-                                    <div class="poster"></div>
+                                    <div class="poster">
+                                        <div class="valoracion_container">
+                                            <p class="valoracion">${(pelicula.valoracion).toFixed(1)}</p>
+                                        </div>
+                                    </div>
                                     <p class="titulo">${pelicula.titulo}</p>
                                 </div>`);
+
+    // Obtenemos el div con clase "valoracion_container" de la película actual y agregamos el color de fondo según su puntuación
+    let valoracionContainer = jQuery(".pelicula:last").find(".valoracion_container");
+    if (pelicula.valoracion > 0 && pelicula.valoracion <= 2.5) {
+        valoracionContainer.css("background-color", "#E57373");
+    } else if (pelicula.valoracion > 2.5 && pelicula.valoracion <= 5) {
+        valoracionContainer.css("background-color", "#FFB74D");
+    } else if (pelicula.valoracion > 5 && pelicula.valoracion <= 7.5) {
+        valoracionContainer.css("background-color", "#FFF176");
+    } else if (pelicula.valoracion > 7.5 && pelicula.valoracion <= 10) {
+        valoracionContainer.css("background-color", "#81C784");
+    }
 }
 
 // Por cada div con clase "poster" se asigna su poster correspondiente
