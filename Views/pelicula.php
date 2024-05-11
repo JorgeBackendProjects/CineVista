@@ -1,17 +1,18 @@
 <?php
-$id_pelicula = isset($_GET["id"]) ? $_GET["id"] : null;    
+$id_pelicula = isset($_GET["id"]) ? $_GET["id"] : null;
 $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película";
-
 $sesion_iniciada = isset($_SESSION["usuario"]);
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/001ac9542b.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <title><?php echo $titulo; ?></title>
 
     <style>
@@ -94,26 +95,35 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             color: white;
         }
 
+        .principal {
+            display: flex;
+            flex-direction: column;
+        }
+
         .fondo {
             position: absolute;
-            width: 90%;
-            height: 85%;
-            left: 5%;
-            top: 10rem;
+            width: 75%;
+            height: 40rem;
+            top: 8rem;
+            left: 12.5%;
+            opacity: 0.7;
             background-size: 100% 100%;
             background-repeat: no-repeat;
-            opacity: 0.5;
             border-radius: 15px;
         }
 
         .pelicula {
+            position: relative;
             display: flex;
-            width: 90rem;
-            margin: 8rem auto;
+            width: 70%;
+            top: 6rem;
+            left: 15%;
+            padding: 2rem;
+            background-color: rgba(0, 0, 0, 60%);
+            border-radius: 20px;
         }
 
         .poster {
-            position: relative;
             width: 300px;
             height: 400px;
             background-size: 100% 100%;
@@ -122,16 +132,16 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         }
 
         .valoracion_container {
-            position: absolute;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             width: 3.2rem;
             height: 3rem;
-            top: 5px;
-            right: 5px;
+            top: 2%;
             border-radius: 50%;
             background-color: lightgreen;
+            left: 80%;
         }
 
         .valoracion {
@@ -140,15 +150,27 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         }
 
         .info_principal {
-            position: relative;
             display: flex;
             flex-direction: column;
             width: 300px;
-            height: 29rem;
+            height: 30rem;
         }
 
+        .info_detallada {
+            margin-left: 2%;
+            border-radius: 20px;
+            padding: 0 2rem 0 1rem;   
+            
+            & span h3 {
+                padding: 0.5rem 2rem;
+                font-weight: 500;
+                font-size: 1.3rem;
+            }
+        }
+    
         .titulo {
             text-align: center;
+            padding-top: 5%;
         }
 
         #sinopsis {
@@ -156,20 +178,13 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             padding: 1rem 2rem;
         }
 
-        .info {
-            position: relative;
-        }
-
-        .info span p {
-            padding: 0.5rem 2rem;
+        #web a {
+            color: orange;
         }
 
         .actores {
             display: flex;
-        }
-
-        .actor {
-            margin-left: 2rem;
+            margin-top: 30rem;
         }
 
         .imagen_actor {
@@ -181,6 +196,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         }
     </style>
 </head>
+
 <body>
     <header>
         <nav>
@@ -190,57 +206,67 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             </div>
             <div class="header_right">
                 <?php
-                    if ($sesion_iniciada) {
-                        include_once("Assets/Templates/sesion_header.html");
-                    } else {
-                        include_once("Assets/Templates/no_sesion_header.html");
-                    }
+                if ($sesion_iniciada) {
+                    include_once ("Assets/Templates/sesion_header.html");
+                } else {
+                    include_once ("Assets/Templates/no_sesion_header.html");
+                }
                 ?>
             </div>
         </nav>
     </header>
 
     <main>
-        <div id="fondo" class="fondo"></div>
-
-        <div id="pelicula" class="pelicula">
+        <div class="principal">
             <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
 
-            <div class="info_principal">
-                <div id="poster" class="poster">
-                    <div id="valoracion_container" class="valoracion_container">
-                        <p id="valoracion" class="valoracion"></p>
+            <div id="fondo" class="fondo"></div>
+
+            <div id="pelicula" class="pelicula">
+
+                <div class="info_principal">
+                    <div id="poster" class="poster">
+                        <div id="valoracion_container" class="valoracion_container">
+                            <p id="valoracion" class="valoracion"></p>
+                        </div>
                     </div>
+
+                    <h1 id="titulo" class="titulo"></h1>
                 </div>
 
-                <h1 id="titulo" class="titulo"></h1>
+                <div id="info_detallada" class="info_detallada">
+                    <span>
+                        <h3 id="generos" class="generos"></h3>
+                        
+                        <h3 id="sinopsis" class="sinopsis"></h3>
+                        
+                        <h3 id="duracion" class="duracion"></h3>
+                        
+                        <h3 id="presupuesto" class="presupuesto"></h3>
+                        
+                        <h3 id="ganancias" class="ganancias"></h3>
+                        
+                        <h3 id="adulto" class="adulto"></h3>
+
+                        <h3 id="web" class="web"><a id="url_web" name="url_web"></a></h3>
+                        
+                        <h3 id="total_votos" class="total_votos"></h3>
+                    </span>
+                    </span>
+                </div>
             </div>
-                
-            <div id="info" class="info">
-                <span>
-                    <p id="sinopsis" class="sinopsis"></p>
-                    <p id="duracion" class="duracion"></p>
-                    <p id="presupuesto" class="presupuesto"></p>
-                    <p id="ganancias" class="ganancias"></p>
-                    <p id="popularidad" class="popularidad"></p>
-                    <p id="adulto" class="adulto"></p>
-                    <p id="web" class="web"></p>
-                    <p id="total_votos" class="total_votos"></p>
-                </span>
-            </span>
-
-            <div id="actores" class="actores"></div>
-
-            <div id="comentarios" class="comentarios"></div>
         </div>
+
+        <div id="actores" class="actores"></div>
+        <div id="comentarios" class="comentarios"></div>
     </main>
 
     <footer></footer>
-    
+
     <script>
         // Me traigo la info de la base de datos y busco sus actores
         let id_pelicula = jQuery("#id_pelicula").val();
-        
+
         jQuery.ajax({
             url: '../Controllers/pelicula_controller.php',
             method: 'POST',
@@ -253,28 +279,29 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
                 let pelicula = JSON.parse(data).pelicula;
                 let actores = JSON.parse(data).actores;
 
-                //console.log(pelicula);
-                //console.log(actores);
-
                 create_DOM_pelicula(pelicula);
                 create_DOM_actores(actores);
             }
         });
 
         function create_DOM_pelicula(pelicula) {
-            // Pelicula
+            let generos = pelicula["generos"].map(genero => genero.nombre).join(", ");
+            let para_adultos = pelicula["adulto"] == true ? "+18" : "Para todas las edades";
+            let web = pelicula["web"] != "" ? pelicula["web"] : "no disponible";
+             
             jQuery("#poster").css("background-image", `url(${pelicula["poster"]})`);
             jQuery("#fondo").css("background-image", `url(${pelicula["fondo"]})`);
-            jQuery("#valoracion").text(`${pelicula["valoracion"]}`);
+            jQuery("#valoracion").text(`${pelicula["valoracion"].toFixed(1)}`);
             jQuery("#titulo").text(`${pelicula["titulo"]}`);
-            jQuery("#sinopsis").text(`${pelicula["sinopsis"]}`);
-            jQuery("#duracion").text(`Duración: ${pelicula["duracion"]} min`);
-            jQuery("#presupuesto").text(`Presupuesto: ${pelicula["presupuesto"]}$`);
-            jQuery("#ganancias").text(`Ganancias: ${pelicula["ganancias"]}$`);
+            jQuery("#generos").text(`Géneros: ${generos}`);
+            jQuery("#sinopsis").text(`Sinopsis: ${pelicula["sinopsis"]}`);
+            jQuery("#duracion").text(`Duración: ${pelicula["duracion"]} minutos`);
+            jQuery("#presupuesto").text(`Presupuesto: ${pelicula["presupuesto"]} $`);
+            jQuery("#ganancias").text(`Ganancias: ${pelicula["ganancias"]} $`);
             jQuery("#popularidad").text(`Popularidad: ${pelicula["popularidad"]}`);
-            let para_adultos = pelicula["adulto"] == true ? "+18" : "Para todas las edades";
-            jQuery("#adulto").text(`${para_adultos}`);
-            jQuery("#web").text(`Web: ${pelicula["web"]}`);
+            jQuery("#adulto").text(`Categoría: ${para_adultos}`);
+            jQuery("#web").text(`Web: `);
+            jQuery("#web").append(`<a href = '${web}'>${web}</a>`);
             jQuery("#total_votos").text(`Total de votos: ${pelicula["total_votos"]}`);
         }
 
@@ -285,8 +312,8 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
                 jQuery("#actores").append(actorDiv);
 
                 // Se obtiene la imagen, si no hay se muestra una por defecto.
-                let imagen = actor["imagen"].length > 0 ? actor["imagen"] : "Assets/Images/estrella_cine.webp"; 
-                
+                let imagen = actor["imagen"].length > 0 ? actor["imagen"] : "Assets/Images/estrella_cine.webp";
+
                 // Se buscan los campos de la estructura del actor que hemos creado y añadimos sus datos.
                 actorDiv.find(".imagen_actor").css("background-image", "url(" + imagen + ")");
                 actorDiv.find(".nombre").text(actor["nombre"]);
@@ -295,4 +322,5 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         }
     </script>
 </body>
+
 </html>

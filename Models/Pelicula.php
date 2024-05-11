@@ -270,7 +270,7 @@ class Pelicula
             $generos = array();
             //echo $pelicula->toString();
 
-            // Obtenemos los nombres de los géneros.
+            // Obtenemos los géneros.
             $stmt = $pdo->prepare("SELECT c.id, c.nombre FROM pelicula_categoria pc JOIN categoria c ON pc.id_genero = c.id WHERE pc.id_pelicula = ?");
             $stmt->execute([$id_pelicula]);
 

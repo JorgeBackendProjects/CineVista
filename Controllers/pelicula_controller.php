@@ -46,7 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id_pelicula"]) && isse
         "total_votos" => $pelicula->get_total_votos(),
         "fondo" => $pelicula->get_fondo(),
         "poster" => $pelicula->get_poster(),
-        "adulto" => $pelicula->get_adulto()
+        "adulto" => $pelicula->get_adulto(),
+        "generos" => $pelicula->get_generos()
     );
 
     // Obtenemos los actores de la película y recorremos el array guardando cada registro en otro array.
