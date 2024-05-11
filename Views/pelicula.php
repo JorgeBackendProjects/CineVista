@@ -1,10 +1,12 @@
 <?php
 $id_pelicula = isset($_GET["id"]) ? $_GET["id"] : null;    
 $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película";
+
+$sesion_iniciada = isset($_SESSION["usuario"]);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,16 +15,101 @@ $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película"
     <title><?php echo $titulo; ?></title>
 
     <style>
-        .pelicula {
-            display: flex;
-            flex-direction: column;
-            width: 65rem;
-            margin: 0 auto;
+        @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        .imagenes {
+        body {
+            font-family: "Inria Sans", sans-serif;
+            font-size: 1.1rem;
+            background-color: rgb(2, 16, 29, 93%);
+            color: white;
+        }
+
+        /*Cabecera*/
+        header {
+            position: sticky;
+            width: 100%;
+            top: 0;
+            z-index: 1;
+            background-color: rgb(2, 27, 48);
+        }
+
+        nav {
             display: flex;
-            justify-content: space-evenly;
+            justify-content: space-between;
+            align-items: center;
+            height: 5rem;
+            padding: 10px 20px;
+        }
+
+        .header_left,
+        .header_right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header_left {
+            margin-left: 30px;
+        }
+
+        .header_right {
+            margin-right: 30px;
+        }
+
+        .header_left i {
+            font-size: 2.5em;
+            color: white;
+        }
+
+        .header_left .title {
+            font-family: "Montserrat", sans-serif;
+            font-weight: normal;
+            font-size: 1.9rem;
+            margin: 0 20px;
+        }
+
+        .header_right ul {
+            display: flex;
+            margin: 0;
+            list-style-type: none;
+        }
+
+        .header_right ul li {
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header_right ul p {
+            margin-right: 10px;
+        }
+
+        .header_right ul li a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .fondo {
+            position: absolute;
+            width: 90%;
+            height: 85%;
+            left: 5%;
+            top: 10rem;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            opacity: 0.5;
+            border-radius: 15px;
+        }
+
+        .pelicula {
+            display: flex;
+            width: 90rem;
+            margin: 8rem auto;
         }
 
         .poster {
@@ -32,12 +119,15 @@ $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película"
             background-size: 100% 100%;
             background-repeat: no-repeat;
             border-radius: 15px;
-            margin-right: 5rem;
         }
 
         .valoracion_container {
             position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 3.2rem;
+            height: 3rem;
             top: 5px;
             right: 5px;
             border-radius: 50%;
@@ -46,18 +136,40 @@ $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película"
 
         .valoracion {
             text-align: center;
-            padding-right: 2px;
+            font-weight: bold;
         }
 
-        .fondo {
-            width: 650px;
-            height: 400px;
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
+        .info_principal {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            height: 29rem;
         }
 
         .titulo {
             text-align: center;
+        }
+
+        #sinopsis {
+            text-align: justify;
+            padding: 1rem 2rem;
+        }
+
+        .info {
+            position: relative;
+        }
+
+        .info span p {
+            padding: 0.5rem 2rem;
+        }
+
+        .actores {
+            display: flex;
+        }
+
+        .actor {
+            margin-left: 2rem;
         }
 
         .imagen_actor {
@@ -70,38 +182,61 @@ $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película"
     </style>
 </head>
 <body>
-    <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
-
-    <div id="pelicula" class="pelicula">
-        <div id="imagenes" class="imagenes">
-            <div id="poster" class="poster">
-                <div id="valoracion_container" class="valoracion_container">
-                    <p id="valoracion" class="valoracion"></p>
-                </div>
+    <header>
+        <nav>
+            <div class="header_left">
+                <i class="fa-solid fa-clapperboard"></i>
+                <h1 class="title">CineVista</h1>
             </div>
-            <div id="fondo" class="fondo"></div>
-        </div>
+            <div class="header_right">
+                <?php
+                    if ($sesion_iniciada) {
+                        include_once("Assets/Templates/sesion_header.html");
+                    } else {
+                        include_once("Assets/Templates/no_sesion_header.html");
+                    }
+                ?>
+            </div>
+        </nav>
+    </header>
 
-        <h1 id="titulo" class="titulo"></h1>
+    <main>
+        <div id="fondo" class="fondo"></div>
 
-        <div id="info" class="info">
-            <span>
-                <p id="sinopsis" class="sinopsis"></p>
-                <p id="duracion" class="duracion"></p>
-                <p id="presupuesto" class="presupuesto"></p>
-                <p id="ganancias" class="ganancias"></p>
-                <p id="popularidad" class="popularidad"></p>
-                <p id="adulto" class="adulto"></p>
-                <p id="web" class="web"></p>
-                <p id="total_votos" class="total_votos"></p>
+        <div id="pelicula" class="pelicula">
+            <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
+
+            <div class="info_principal">
+                <div id="poster" class="poster">
+                    <div id="valoracion_container" class="valoracion_container">
+                        <p id="valoracion" class="valoracion"></p>
+                    </div>
+                </div>
+
+                <h1 id="titulo" class="titulo"></h1>
+            </div>
+                
+            <div id="info" class="info">
+                <span>
+                    <p id="sinopsis" class="sinopsis"></p>
+                    <p id="duracion" class="duracion"></p>
+                    <p id="presupuesto" class="presupuesto"></p>
+                    <p id="ganancias" class="ganancias"></p>
+                    <p id="popularidad" class="popularidad"></p>
+                    <p id="adulto" class="adulto"></p>
+                    <p id="web" class="web"></p>
+                    <p id="total_votos" class="total_votos"></p>
+                </span>
             </span>
-        </span>
 
-        <div id="actores" class="actores"></div>
+            <div id="actores" class="actores"></div>
 
-        <div id="comentarios" class="comentarios"></div>
-    </div>
+            <div id="comentarios" class="comentarios"></div>
+        </div>
+    </main>
 
+    <footer></footer>
+    
     <script>
         // Me traigo la info de la base de datos y busco sus actores
         let id_pelicula = jQuery("#id_pelicula").val();
@@ -130,9 +265,9 @@ $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película"
             // Pelicula
             jQuery("#poster").css("background-image", `url(${pelicula["poster"]})`);
             jQuery("#fondo").css("background-image", `url(${pelicula["fondo"]})`);
-            jQuery("#valoracion").text(`${pelicula["valoracion"]}`)
+            jQuery("#valoracion").text(`${pelicula["valoracion"]}`);
             jQuery("#titulo").text(`${pelicula["titulo"]}`);
-            jQuery("#sinopsis").text(`Sinopsis: ${pelicula["sinopsis"]}`);
+            jQuery("#sinopsis").text(`${pelicula["sinopsis"]}`);
             jQuery("#duracion").text(`Duración: ${pelicula["duracion"]} min`);
             jQuery("#presupuesto").text(`Presupuesto: ${pelicula["presupuesto"]}$`);
             jQuery("#ganancias").text(`Ganancias: ${pelicula["ganancias"]}$`);
