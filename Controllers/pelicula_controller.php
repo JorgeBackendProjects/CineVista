@@ -54,15 +54,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id_pelicula"]) && isse
     $array_actores = array();
     foreach ($actores as $actor) {
         $array_actores[] = array (
+            "id" => $actor->get_id(),
             "nombre" => $actor->get_nombre(),
             "personaje" => $actor->get_personaje(),
-            "biografia" => $actor->get_biografia(),
+            "imagen" => $actor->get_imagen()
+            /*"biografia" => $actor->get_biografia(),
             "lugar_nacimiento" => $actor->get_lugar_nacimiento(),
             "birthday" => $actor->get_birthday(),
             "deathday" => $actor->get_deathday(),
             "genero" => $actor->get_genero(),
-            "popularidad" => $actor->get_popularidad(),
-            "imagen" => $actor->get_imagen()
+            "popularidad" => $actor->get_popularidad()*/
         );
     }
     
