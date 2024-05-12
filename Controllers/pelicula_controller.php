@@ -3,7 +3,7 @@ require_once("../Models/Conexion.php");
 require_once("../Models/Pelicula.php");
 require_once("../Models/Actor.php");
 
-//Petición que recoge las primeras 100 películas populares de la API y las inserta en la base de datos.
+//Petición que recoge las películas más populares de 5 páginas de la API y las inserta en la base de datos.
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["key"]) && $_POST["key"] == "insert_most_popular_movies") {
     Pelicula::insert_100_movies_database();
     header("Location: ../index.html");
@@ -51,25 +51,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id_pelicula"]) && isse
         "generos" => $pelicula->get_generos()
     );
 
+    echo json_encode(array("pelicula" => $array_pelicula));
+
     // Obtenemos los actores de la película y recorremos el array guardando cada registro en otro array.
-    $actores = Actor::get_actores_by_movie($id_pelicula);
+    /*$actores = Actor::get_actores_by_movie($id_pelicula);
     $array_actores = array();
     foreach ($actores as $actor) {
         $array_actores[] = array (
             "id" => $actor->get_id(),
             "nombre" => $actor->get_nombre(),
             "personaje" => $actor->get_personaje(),
-            "imagen" => $actor->get_imagen()
-            /*"biografia" => $actor->get_biografia(),
+            "imagen" => $actor->get_imagen(),
+            "biografia" => $actor->get_biografia(),
             "lugar_nacimiento" => $actor->get_lugar_nacimiento(),
             "birthday" => $actor->get_birthday(),
             "deathday" => $actor->get_deathday(),
             "genero" => $actor->get_genero(),
-            "popularidad" => $actor->get_popularidad()*/
+            "popularidad" => $actor->get_popularidad()
         );
     }
     
-    echo json_encode(array("pelicula" => $array_pelicula, "actores" => $array_actores));
+    echo json_encode(array("pelicula" => $array_pelicula, "actores" => $array_actores));*/
 }
 
 

@@ -1,6 +1,13 @@
 <?php
 $id_pelicula = isset($_GET["id"]) ? $_GET["id"] : null;
 $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película";
+
+//session_start();
+//$_SESSION["usuario"] = "ElPiezass";
+
+//session_destroy();
+//$_SESSION["usuario"] = null;
+
 $sesion_iniciada = isset($_SESSION["usuario"]);
 ?>
 
@@ -80,40 +87,50 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             list-style-type: none;
         }
 
+        .header_right ul p {
+            margin: 0.5rem 10px 0 0;
+        }
+
         .header_right ul li {
             margin-right: 10px;
             display: flex;
             align-items: center;
         }
 
-        .header_right ul p {
-            margin-right: 10px;
-        }
-
         .header_right ul li a {
             text-decoration: none;
             color: white;
+            border: 1px solid;
+            border-radius: 10px;
+            padding: 0.4rem;
+        }
+
+        .header_right ul li a i {
+            margin-right: 0.3rem;
         }
 
         /*Pantalla de carga*/
         .pantalla_carga {
-            position: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
+            width: 70%;
+            height: 200px;
+            margin: 10rem auto 10rem auto;
+            overflow-x: auto;
             z-index: 10;
-            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
-        .pantalla-carga img {
-            width: 100px;
-            height: 100px;
+        .pantalla_carga img {
+            width: 50px;
+            height: 50px;
         }
-        
+
+        .pantalla_carga h2 {
+            margin-left: 1rem;
+        }
 
         /*Vista película*/
         .principal {
@@ -124,7 +141,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         .fondo {
             position: absolute;
             width: 75%;
-            height: 45rem;
+            height: 75.5vh;
             top: 10rem;
             left: 12.5%;
             opacity: 0.7;
@@ -137,17 +154,17 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             position: relative;
             display: flex;
             width: 75%;
-            height: 45rem;
+            height: 75.5vh;
             padding: 5rem;
+            margin: 0 auto;
             top: 5rem;
-            left: 12.5%;
             background-color: rgba(0, 0, 0, 65%);
             border-radius: 15px;
         }
 
         .poster {
             width: 300px;
-            height: 400px;
+            height: 100%;
             background-size: 100% 100%;
             background-repeat: no-repeat;
             border-radius: 15px;
@@ -176,7 +193,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             display: flex;
             flex-direction: column;
             width: 300px;
-            height: 30rem;
+            height: 34rem;
         }
 
         .info_detallada {
@@ -187,10 +204,13 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         .info_detallada span h3 {
             padding: 0.5rem 2rem;
-            font-weight: 200;
             font-size: 1.3rem;
         }
-    
+
+        .info_detallada span h3 span {
+            font-weight: 200;    
+        }
+        
         .titulo {
             text-align: center;
             padding-top: 5%;
@@ -205,12 +225,24 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             color: orange;
         }
 
+        .secundario {
+            display: flex;
+            flex-direction: column;
+            margin: 8rem auto;
+            width: 70%;
+        }
+
+        .secundario h1 {
+            display: none;
+            margin-left: 0.5rem;
+        }
+
         /*Actores*/
         .actores {
             display: flex;
             justify-content: space-evenly;
-            width: 70%;
-            margin: 10rem auto 10rem auto;
+            width: 100%;
+            margin: 2rem auto 10rem auto;
             overflow-x: auto;
         }
 
@@ -225,14 +257,14 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         .imagen_actor {
             width: 150px;
-            height: 200px;
+            height: 220px;
             background-size: 100% 100%;
             background-repeat: no-repeat;
             border-radius: 15px;
         }
 
         .personaje {
-            margin-top: 5%;
+            margin: 5% auto 10% auto;
         }
     </style>
 </head>
@@ -247,9 +279,9 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             <div class="header_right">
                 <?php
                 if ($sesion_iniciada) {
-                    include_once ("Assets/Templates/sesion_header.html");
+                    include_once ("Assets/Templates/view_sesion_header.html");
                 } else {
-                    include_once ("Assets/Templates/no_sesion_header.html");
+                    include_once ("Assets/Templates/view_no_sesion_header.html");
                 }
                 ?>
             </div>
@@ -257,11 +289,6 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
     </header>
 
     <main>
-        <div id="pantalla_carga" class="pantalla_carga">
-            <img src="Assets/Images/cargando.gif" alt="Cargando">
-            <h2>Cargando datos... por favor espere.</h2>
-        </div>
-
         <div class="principal">
             <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
 
@@ -282,39 +309,51 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
                 <div id="info_detallada" class="info_detallada">
                     <span>
                         <h3 id="generos" class="generos"></h3>
-                        
-                        <h3 id="sinopsis" class="sinopsis"></h3>
-                        
+                        <h3 id="sinopsis" class="sinopsis"></h3>      
                         <h3 id="duracion" class="duracion"></h3>
-
-                        <h3 id="fecha" class="fecha"></h3>
-                        
-                        <h3 id="presupuesto" class="presupuesto"></h3>
-                        
-                        <h3 id="ganancias" class="ganancias"></h3>
-                        
+                        <h3 id="fecha" class="fecha"></h3>                        
+                        <h3 id="presupuesto" class="presupuesto"></h3>                        
+                        <h3 id="ganancias" class="ganancias"></h3>                       
                         <h3 id="adulto" class="adulto"></h3>
-
-                        <h3 id="web" class="web"></h3>
-                        
+                        <h3 id="web" class="web"></h3>                       
                         <h3 id="total_votos" class="total_votos"></h3>
-                    </span>
                     </span>
                 </div>
             </div>
         </div>
 
-        <div id="actores" class="actores"></div>
-        <div id="comentarios" class="comentarios"></div>
+        <div id="pantalla_carga" class="pantalla_carga">
+            <img src="Assets/Images/cargando.gif" alt="Cargando">
+            <h2>Estamos cargando los actores... por favor espere.</h2>
+        </div>
+
+        <div class="secundario">
+            <h1>Reparto</h1>
+            <div id="actores" class="actores"></div>
+            <div id="comentarios" class="comentarios"></div>
+        </div>
     </main>
 
     <footer></footer>
 
     <script>
+        // Cambiar .pelicula e .info_principal tamaños a relativos...
+        //Hacer breakpoint en max-width = 1410px (tablet)
+
         function create_DOM(){
-            // Me traigo la info de la base de datos y busco sus actores
+            // Obtengo el id del input hidden.
             let id_pelicula = jQuery("#id_pelicula").val();
 
+            // Se carga la película en el DOM.
+            cargar_pelicula(id_pelicula);
+
+            // Una vez se cargue la película y el documento esté listo se obtienen y cargan los actores.
+            jQuery(document).ready(function(){
+                cargar_actores(id_pelicula);
+            });
+        }
+
+        function cargar_pelicula(id_pelicula) {
             jQuery.ajax({
                 url: '../Controllers/pelicula_controller.php',
                 method: 'POST',
@@ -323,15 +362,32 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
                     key: "get_movie"
                 },
                 success: function (data) {
-                    // Obtengo el objeto película y el array de actores
+                    // Obtengo el objeto película
                     let pelicula = JSON.parse(data).pelicula;
+
+                    // Se carga la película en el DOM.
+                    create_DOM_pelicula(pelicula);
+                }
+            });
+        }
+
+        function cargar_actores(id_pelicula) {
+            jQuery.ajax({
+                url: '../Controllers/actor_controller.php',
+                method: 'POST',
+                data: {
+                    id_pelicula: id_pelicula,
+                    key: "get_actores"
+                },
+                success: function (data) {
+                    // Obtengo el array de actores.
                     let actores = JSON.parse(data).actores;
                     
-                    // Se oculta la pantalla de carga.
+                    // Se muestra el h1 y se oculta la pantalla de carga.
+                    jQuery(".secundario h1").show();
                     jQuery("#pantalla_carga").hide();
 
                     // Se cargan los datos en el DOM.
-                    create_DOM_pelicula(pelicula);
                     create_DOM_actores(actores);
                 }
             });
@@ -341,14 +397,14 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             // Obtenemos los nombres de los géneros en un string separado por ", ". 
             let generos = pelicula["generos"].map(genero => genero.nombre).join(", ");
             // Obtenemos la duración en horas y minutos.
-            let duracion = pelicula["duracion"] > 0 ? Math.floor(pelicula["duracion"] / 60) + "h y " + pelicula["duracion"] % 60 + " minutos." : "no disponible"; 
+            let duracion = pelicula["duracion"] > 0 ? Math.floor(pelicula["duracion"] / 60) + "h y " + pelicula["duracion"] % 60 + " minutos." : "No disponible"; 
             // Obtenemos la fecha con el formato español.
-            let fecha = pelicula["fecha_estreno"] != "" ? pelicula["fecha_estreno"].split("-")[2] + "/" + pelicula["fecha_estreno"].split("-")[1] + "/" + pelicula["fecha_estreno"].split("-")[0] : "no disponible";
+            let fecha = pelicula["fecha_estreno"] != "" ? pelicula["fecha_estreno"].split("-")[2] + "/" + pelicula["fecha_estreno"].split("-")[1] + "/" + pelicula["fecha_estreno"].split("-")[0] : "No disponible";
             // Obtenemos el resto de los atributos si no están vacíos.
-            let sinopsis = pelicula["sinopsis"] != "" ? pelicula["sinopsis"] : "no disponible";
-            let presupuesto = pelicula["presupuesto"] > 0 ? pelicula["presupuesto"].toLocaleString() + " $" : "no disponible";
-            let ganancias = pelicula["ganancias"] > 0 ? pelicula["ganancias"].toLocaleString() + " $" : "no disponible";
-            let popularidad = pelicula["popularidad"] > 0 ? pelicula["popularidad"] : "no disponible";
+            let sinopsis = pelicula["sinopsis"] != "" ? pelicula["sinopsis"] : "No disponible";
+            let presupuesto = pelicula["presupuesto"] > 0 ? pelicula["presupuesto"].toLocaleString() + " $" : "No disponible";
+            let ganancias = pelicula["ganancias"] > 0 ? pelicula["ganancias"].toLocaleString() + " $" : "No disponible";
+            let popularidad = pelicula["popularidad"] > 0 ? pelicula["popularidad"] : "No disponible";
             let para_adultos = pelicula["adulto"] == true ? "+18" : "Para todas las edades";
 
             if (pelicula["valoracion"] > 0 && pelicula["valoracion"] <= 2.5) {
@@ -361,22 +417,23 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
                 jQuery(".valoracion_container").css("background-color", "#81C784");
             }
 
+            // Se añaden las imágenes a los div y los textos a los h3.
             jQuery("#poster").css("background-image", `url(${pelicula["poster"]})`);
             jQuery("#fondo").css("background-image", `url(${pelicula["fondo"]})`);
             // La función toFixed obtiene por parámetro el número de decimales que tendrá el float.
             jQuery("#valoracion").text(`${pelicula["valoracion"].toFixed(1)}`);
             jQuery("#titulo").text(`${pelicula["titulo"]}`);
-            jQuery("#generos").text(`Géneros: ${generos}`);
-            jQuery("#sinopsis").text(`Sinopsis: ${sinopsis}`);
-            jQuery("#fecha").text(`Fecha: ${fecha}`);
-            jQuery("#duracion").text(`Duración: ${duracion}`);
-            jQuery("#presupuesto").text(`Presupuesto: ${presupuesto}`);
-            jQuery("#ganancias").text(`Ganancias: ${ganancias}`);
-            jQuery("#popularidad").text(`Popularidad: ${popularidad}`);
-            jQuery("#adulto").text(`Categoría: ${para_adultos}`);
-            // Si se obtiene la url de la web se añade, si no se escribe "no disponible".
-            pelicula["web"] != "" ? jQuery("#web").text(`Web: `).append(`<a href = '${pelicula["web"]}'>${pelicula["web"]}</a>`) : jQuery("#web").text("Web: no disponible");
-            jQuery("#total_votos").text(`Total de votos: ${pelicula["total_votos"]}`);
+            jQuery("#generos").text(`Géneros: `).append(`<span>${generos}</span>`);
+            jQuery("#sinopsis").text(`Sinopsis: `).append(`<span>${sinopsis}</span>`);
+            jQuery("#fecha").text(`Fecha: `).append(`<span>${fecha}</span>`);
+            jQuery("#duracion").text(`Duración: `).append(`<span>${duracion}</span>`);
+            jQuery("#presupuesto").text(`Presupuesto: `).append(`<span>${presupuesto}</span>`);
+            jQuery("#ganancias").text(`Ganancias: `).append(`<span>${ganancias}</span>`);
+            jQuery("#popularidad").text(`Popularidad: `).append(`<span>${popularidad}</span>`);
+            jQuery("#adulto").text(`Categoría: `).append(`<span>${para_adultos}</span>`);
+            // Si se obtiene la url de la web se añade, si no se escribe "No disponible".
+            pelicula["web"] != "" ? jQuery("#web").text(`Web: `).append(`<a href = '${pelicula["web"]}'>${pelicula["web"]}</a>`) : jQuery("#web").text("Web: ").append(`<span>No disponible</span>`);
+            jQuery("#total_votos").text(`Total de votos: `).append(`<span>${pelicula["total_votos"]}</span>`);
         }
 
         function create_DOM_actores(actores) {

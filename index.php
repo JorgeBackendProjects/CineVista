@@ -31,9 +31,9 @@
             <div class="header_right">
                 <?php
                     if ($sesion_iniciada) {
-                        include_once("Views/Assets/Templates/sesion_header.html");
+                        include_once("Views/Assets/Templates/index_sesion_header.html");
                     } else {
-                        include_once("Views/Assets/Templates/no_sesion_header.html");
+                        include_once("Views/Assets/Templates/index_no_sesion_header.html");
                     }
                 ?>
             </div>

@@ -24,7 +24,7 @@ function get_peliculas() {
 // Crea una estructura para cada película que se añade al div principal con id "peliculas"
 function create_dinamic_DOM_index(pelicula) {
     jQuery("#peliculas").append(`<div class="pelicula">
-                                    <input type="hidden" name="id_pelicula" value="${pelicula.id}"/>
+                                    <input type="hidden" name="id_pelicula" class="id_pelicula" value="${pelicula.id}"/>
                                     <div class="poster">
                                         <div class="valoracion_container">
                                             <p class="valoracion">${(pelicula.valoracion).toFixed(1)}</p>
@@ -55,11 +55,11 @@ function asignar_imagenes_peliculas(peliculas) {
 
 // Inicia los listeners para el index.html
 function inicia_listeners() {
-    // Listener que, cuando carga el documento se aplica a todos los div con clase "pelicula"
+    // Listener onclick que, cuando carga el documento se aplica a todos los div con clase "pelicula"
     jQuery(document).on("click", ".pelicula", function() {
         // Recoge el id del input hidden y el título.
-        let id_pelicula = jQuery(this).find("input").val();
-        let titulo = jQuery(this).find("p").text();
+        let id_pelicula = jQuery(this).find(".id_pelicula").val();
+        let titulo = jQuery(this).find(".titulo").text();
     
         // Redirige a la página de detalles de película con el id y título en la URL
         window.location = `Views/pelicula.php?id=${id_pelicula}&titulo=${titulo}`;
