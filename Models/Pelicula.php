@@ -45,7 +45,7 @@ class Pelicula
         $pdo = Conexion::connection_database();
         $array_peliculas = array();
 
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 17; $i <= 21; $i++) {
             // Inicializa la sesión cURL para la solicitud.
             $get_popular_movies = curl_init();
             // Solicitud a la api para recoger los resultados de la página.
@@ -128,16 +128,23 @@ class Pelicula
                     $id_genero = $genero["id"];
                     $nombre = $genero["nombre"];
     
+
                     $stmt = $pdo->prepare("INSERT IGNORE INTO categoria (id, nombre) VALUES (?, ?)");
                     // Si el género se ha insertado bien, guardamos en la tabla intermedia el id de la película y el id del género.
                     if($stmt->execute([$id_genero, $nombre])) {
-                        $stmt = $pdo->prepare("INSERT IGNORE INTO pelicula_categoria (id_pelicula, id_genero) VALUES (?, ?)");
-                        if($stmt->execute([$id_pelicula, $id_genero])) {
-                            $contador_inserciones_intermedias++;
+                        // Primero se comprueba que no exista la categoría asociada a la película, si ya existe no se inserta.
+                        $stmt = $pdo->prepare("SELECT * FROM pelicula_categoria WHERE id_genero = ? AND id_pelicula = ?");
+                        if($stmt->execute([$id_genero, $id_pelicula])) {
+                            if ($stmt->rowCount() == 0) {
+                                $stmt = $pdo->prepare("INSERT IGNORE INTO pelicula_categoria (id_pelicula, id_genero) VALUES (?, ?)");
+                                if($stmt->execute([$id_pelicula, $id_genero])) {
+                                    $contador_inserciones_intermedias++;
+                                }
+                            }
                         }
-    
-                        $contador_inserciones_generos++;
                     }
+
+                    $contador_inserciones_generos++;
                 }
     
                 $contador_inserciones_peliculas++;
@@ -148,70 +155,11 @@ class Pelicula
         echo "<h1>Se han insertado $contador_inserciones_peliculas películas, $contador_inserciones_generos géneros y $contador_inserciones_intermedias registros intermedios.</h1>";
     }
 
-    /*static function get_100_popular_movies_api()
-    {
-        $array_peliculas = array();
-
-        for ($i = 1; $i <= 5; $i++) {
-            // Inicializa la sesión cURL para la solicitud.
-            $get_popular_movies = curl_init();
-            // Solicitud a la api para recoger los resultados de la página.
-            curl_setopt($get_popular_movies, CURLOPT_URL, "https://api.themoviedb.org/3/discover/movie?page=" . $i . "&language=es-ES&sort_by=popularity.desc&api_key=107cc8a9703efd86f41232ea75b85039");
-            // Hacemos que la respuesta se guarde en una variable.
-            curl_setopt($get_popular_movies, CURLOPT_RETURNTRANSFER, true);
-            // Ejecutar la solicitud y guardar la respuesta
-            $popular_movies = json_decode(curl_exec($get_popular_movies))->results;
-            // Cerrar sesión cURL
-            curl_close($get_popular_movies);
-
-            // Recorremos cada película de la página.
-            foreach ($popular_movies as $pelicula) {
-                // PELICULA
-                $get_one_movie = curl_init();
-                curl_setopt($get_one_movie, CURLOPT_URL, "https://api.themoviedb.org/3/movie/" . $pelicula->id . "?language=es-ES&api_key=107cc8a9703efd86f41232ea75b85039");
-                curl_setopt($get_one_movie, CURLOPT_RETURNTRANSFER, true);
-                // Recojo la película correspondiente al id con que se ha hecho la solicitud.
-                $movie = json_decode(curl_exec($get_one_movie));
-                curl_close($get_one_movie);
-
-                // Obtenemos los datos de la película.
-                $id = isset($movie->id) ? $movie->id : ""; // Es el id por el que he buscado en la petición.
-                $titulo = isset($movie->title) ? $movie->title : ""; // Me da el título en español.
-                $sinopsis = isset($movie->overview) ? $movie->overview : ""; // String con la sinopsis de la película.
-                $duracion = isset($movie->runtime) ? $movie->runtime : ""; // Tiempo en minutos de duración.
-                $presupuesto = isset($movie->budget) ? $movie->budget : ""; // Me devuelve el presupuesto.
-                $ganancias = isset($movie->revenue) ? $movie->revenue : ""; // Ganancias.
-                $fecha_estreno = isset($movie->release_date) ? $movie->release_date : ""; // Date con la fecha de estreno
-                $pais_origen = isset($movie->origin_country) ? $movie->origin_country : ""; // Array (un solo valor?) con String.
-                $web = isset($movie->homepage) ? $movie->homepage : ""; // Página donde ver la película.
-                $popularidad = isset($movie->popularity) ? $movie->popularity : ""; // Float con el valor de popularidad. Es útil ???
-                $valoracion = isset($movie->vote_average) ? $movie->vote_average : ""; // Float con puntuación. 
-                $total_votos = isset($movie->vote_count) ? $movie->vote_count : ""; // Int con total de calificaciones obtenidos.
-                $fondo = isset($movie->backdrop_path) ? "https://image.tmdb.org/t/p/original" . $movie->backdrop_path : ""; // Fondo de la película que seguramente no haga falta.
-                $poster = isset($movie->poster_path) ? "https://image.tmdb.org/t/p/original" . $movie->poster_path : ""; // Ruta completa a la imágen de la película. // Hacer función js para convertir img a blob al recoger la url y mostrarla.
-                $adulto = isset($movie->adult) ? $movie->adult : ""; // Boolean, si es de adultos o no.
-                // Se obtienen los generos en un array.
-                $generos = array();
-                foreach ($movie->genres as $genero) {
-                    $generos[] = array(
-                        "id" => $genero->id,
-                        "nombre" => $genero->name
-                    );
-                }
-
-                $pelicula = new Pelicula($id, $titulo, $sinopsis, $duracion, $presupuesto, $ganancias, $fecha_estreno, $pais_origen[0], $web, $popularidad, $valoracion, $total_votos, $fondo, $poster, $adulto, $generos);
-
-                array_push($array_peliculas, $pelicula);
-            }
-        }
-
-        return $array_peliculas;
-    }*/
-
+    
 // Funciones CRUD
 
     // Obtiene el id, titulo y póster de las películas para mostrarlas en el index.php
-    static function select_previews_all_movies() {
+    /*static function select_previews_all_movies() {
         $pdo = Conexion::connection_database();
 
         $peliculas = array();
@@ -236,6 +184,52 @@ class Pelicula
         $pdo = null;
 
         return $peliculas;
+    }*/
+
+    // Obtiene el id, titulo y póster de las películas según la página para mostrarlas en el index.php
+    static function select_previews_all_movies($pagina, $limite) {
+        $pdo = Conexion::connection_database();
+
+        $peliculas = array();
+
+        // Solo obtiene 20 películas de la página actual del cliente.
+        $stmt = $pdo->prepare("SELECT id, titulo, poster, valoracion FROM pelicula LIMIT :pagina, :limite");
+        $stmt->bindParam(':pagina', $pagina, PDO::PARAM_INT);
+        $stmt->bindParam(':limite', $limite, PDO::PARAM_INT);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($resultado as $pelicula) {
+                $pelicula_object = new Pelicula();
+                $pelicula_object->set_id($pelicula["id"]);
+                $pelicula_object->set_titulo($pelicula["titulo"]);
+                $pelicula_object->set_poster($pelicula["poster"]);
+                $pelicula_object->set_valoracion($pelicula["valoracion"]);
+                
+                array_push($peliculas, $pelicula_object);
+            }
+        }
+
+        $pdo = null;
+
+        return $peliculas;
+    }
+
+    // Obtiene el número de registros de la tabla película.
+    static function get_num_peliculas() {
+        $pdo = Conexion::connection_database();
+
+        $stmt = $pdo->prepare("SELECT COUNT(*) as num_peliculas FROM pelicula");
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+         
+            $pdo = null;
+            return $resultado['num_peliculas'];
+        }
     }
 
     // Obtiene la información de una película. Si no la encuentra en la base de datos la obtiene de la API y la inserta.

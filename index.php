@@ -49,14 +49,17 @@
         </div>
 
         <div id="peliculas" class="peliculas"></div>
+
+        <div id="container_paginacion" class="container_paginacion">
+            <div id="paginacion" class="paginacion"></div>
+            <p id="numero_paginas" class="numero_paginas"></p>
+        </div>
     </main>
 
-    <footer>
-
-    </footer>
+    <?php include_once("Views/Assets/Templates/footer.html"); ?>
 
     <script>
-        get_peliculas();
+        //get_peliculas();
         inicia_listeners();
     </script>
 </body>

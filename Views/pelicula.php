@@ -266,6 +266,42 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         .personaje {
             margin: 5% auto 10% auto;
         }
+
+        /*Footer*/
+        .footer {
+            position: sticky;
+            width: 100%;
+            bottom: 0;
+            z-index: 1;
+            background-color: rgb(2, 27, 48);
+            display: flex;
+            justify-content: space-around;    
+            align-items: center;
+            height: 5rem;
+            padding: 10px 20px;
+        }
+
+        .privacidad {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .privacidad p {
+            margin-right: 2rem;
+            cursor: pointer;
+        }
+
+        .social_media a {
+            text-decoration: none;
+            color: white;
+            border-radius: 10px;
+            padding: 0.4rem;
+        }
+
+        .social_media a i {
+            margin-right: 0.3rem;
+            font-size: 2.5rem;
+        }
     </style>
 </head>
 
@@ -334,12 +370,9 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         </div>
     </main>
 
-    <footer></footer>
+    <?php include_once("Assets/Templates/footer.html"); ?>
 
     <script>
-        // Cambiar .pelicula e .info_principal tamaños a relativos...
-        //Hacer breakpoint en max-width = 1410px (tablet)
-
         function create_DOM(){
             // Obtengo el id del input hidden.
             let id_pelicula = jQuery("#id_pelicula").val();
@@ -395,7 +428,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         function create_DOM_pelicula(pelicula) {
             // Obtenemos los nombres de los géneros en un string separado por ", ". 
-            let generos = pelicula["generos"].map(genero => genero.nombre).join(", ");
+            let generos = pelicula["generos"].length > 0 ? pelicula["generos"].map(genero => genero.nombre).join(", ") : "No disponible";
             // Obtenemos la duración en horas y minutos.
             let duracion = pelicula["duracion"] > 0 ? Math.floor(pelicula["duracion"] / 60) + "h y " + pelicula["duracion"] % 60 + " minutos." : "No disponible"; 
             // Obtenemos la fecha con el formato español.

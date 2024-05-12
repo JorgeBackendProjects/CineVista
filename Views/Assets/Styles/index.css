@@ -164,3 +164,63 @@ nav {
     text-align: center;
     padding-top: 5%;
 }
+
+/*Paginación*/
+.container_paginacion {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem auto;
+}
+
+.container_paginacion .paginacion .pagina {
+    width: 45px;
+    height: 45px;
+    margin-right: 0.4rem;
+    font-size: 1.1rem;
+}
+
+.container_paginacion .paginacion .pagina_actual {
+    color: orange;
+}
+
+.container_paginacion .numero_paginas {
+    margin-top: 1rem;
+}
+
+/*Footer*/
+.footer {
+    position: sticky;
+    width: 100%;
+    bottom: 0;
+    z-index: 1;
+    background-color: rgb(2, 27, 48);
+    display: flex;
+    justify-content: space-around;    
+    align-items: center;
+    height: 5rem;
+    padding: 10px 20px;
+}
+
+.privacidad {
+    display: flex;
+    justify-content: space-between;
+}
+
+.privacidad p {
+    margin-right: 2rem;
+    cursor: pointer;
+}
+
+.social_media a {
+    text-decoration: none;
+    color: white;
+    border-radius: 10px;
+    padding: 0.4rem;
+}
+
+.social_media a i {
+    margin-right: 0.3rem;
+    font-size: 2.5rem;
+}

@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["key"]) && $_POST["key"
 }
 
 // Petición para cargar las películas de la base de datos en el index.html
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["key"]) && $_POST["key"] == "get_movies_preview") {
+/*if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["key"]) && $_POST["key"] == "get_movies_preview") {
     $peliculas_array = array();
     $peliculas = Pelicula::select_previews_all_movies();
 
@@ -24,7 +24,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["key"]) && $_POST["key"
     }
 
     echo json_encode($peliculas_array);
+}*/
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["key"]) && $_POST["key"] == "get_movies_preview") {
+    // Variables para la paginación
+    $pagina_actual = isset($_POST['pagina']) ? $_POST['pagina'] : 1;    
+    $limite = 20;
+
+    // Obtenemos el número total de películas
+    $total_peliculas = Pelicula::get_num_peliculas();
+
+    // Calcular el número total de páginas redondeando el float hacia arriba
+    $total_paginas = ceil($total_peliculas / $limite);
+
+    // Se obtiene la página a mostrar
+    $pagina = ($pagina_actual - 1) * $limite;
+
+    // Se obtienen las 20 películas de la página seleccionada 
+    $peliculas = Pelicula::select_previews_all_movies($pagina, $limite);
+
+    $peliculas_array = array();
+    foreach($peliculas as $pelicula) {
+        $peliculas_array[] = array(
+            "id" => $pelicula->get_id(),
+            "titulo" => $pelicula->get_titulo(),
+            "poster" => $pelicula->get_poster(),
+            "valoracion" => $pelicula->get_valoracion()
+        );
+    }
+
+    $resultado = array(
+        "peliculas" => $peliculas_array,
+        "total_paginas" => $total_paginas
+    );
+
+    echo json_encode($resultado);
 }
+
 
 // Petición para cargar la información de una película con categorías y sus actores. Al obtener los datos se almacenan en la base de datos, por si han sido obtenidos de la API. 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id_pelicula"]) && isset($_POST["key"]) && $_POST["key"] == "get_movie") {
