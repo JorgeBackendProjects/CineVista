@@ -3,6 +3,7 @@ require_once("../Models/Conexion.php");
 require_once("../Models/Pelicula.php");
 require_once("../Models/Actor.php");
 
+//Pelicula::insert_100_movies_database();
 //Petición que recoge las películas más populares de 5 páginas de la API y las inserta en la base de datos.
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["key"]) && $_POST["key"] == "insert_most_popular_movies") {
     Pelicula::insert_100_movies_database();

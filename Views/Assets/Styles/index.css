@@ -94,14 +94,14 @@ nav {
 }
 
 .buscador {
-    width: 15rem;
-    height: 2.5rem;
+    width: 17rem;
+    height: 3rem;
     background-image: url(../Images/buscador_icon.svg);
     background-size: 80% 75%;
     background-position: -155% 60%;
     background-repeat: no-repeat;
     text-indent: 21%;
-    border: 2px solid black;
+    border: 1px solid black;
     border-radius: 20px;
 }
 
@@ -110,10 +110,17 @@ nav {
 }
 
 .categorias {
-    width: 15rem;
-    height: 2.5rem;
-    border: 2px solid black;
+    width: 17rem;
+    height: 3rem;
+    text-indent: 39%;
+    border: 1px solid black;
     border-radius: 20px;
+}
+
+/*Texto principal*/
+.titulo_main {
+    width: 80vw;
+    margin: 4rem auto 0 20rem;
 }
 
 /*Div principal de películas*/
@@ -122,7 +129,7 @@ nav {
     justify-content: center;
     flex-wrap: wrap;
     width: 80vw;
-    margin: 5rem auto 0 auto;
+    margin: 0 auto 0 auto;
 }
 
 .pelicula {
@@ -179,6 +186,16 @@ nav {
     height: 45px;
     margin-right: 0.4rem;
     font-size: 1.1rem;
+    font-weight: bold;
+    background-color: rgb(2, 27, 48);
+    color: white;
+    border: 1px solid white;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+#anterior, #siguiente {
+    width: 6rem;
 }
 
 .container_paginacion .paginacion .pagina_actual {

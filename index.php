@@ -48,6 +48,8 @@
             </select>
         </div>
 
+        <h2 id="titulo_main" class="titulo_main">Películas más populares</h2>
+
         <div id="peliculas" class="peliculas"></div>
 
         <div id="container_paginacion" class="container_paginacion">
@@ -59,7 +61,6 @@
     <?php include_once("Views/Assets/Templates/footer.html"); ?>
 
     <script>
-        //get_peliculas();
         inicia_listeners();
     </script>
 </body>

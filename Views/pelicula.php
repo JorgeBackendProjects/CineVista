@@ -109,6 +109,21 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             margin-right: 0.3rem;
         }
 
+        /*Botón Volver*/
+        .atras {
+            width: 8rem;
+            height: 3rem;
+            position: absolute;
+            top: 10rem;
+            left: 3rem;
+            background-color: orange;
+            color: white;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border: 1px solid;
+        }
+        
         /*Pantalla de carga*/
         .pantalla_carga {
             display: flex;
@@ -164,7 +179,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         .poster {
             width: 300px;
-            height: 100%;
+            height: 80%;
             background-size: 100% 100%;
             background-repeat: no-repeat;
             border-radius: 15px;
@@ -193,13 +208,12 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             display: flex;
             flex-direction: column;
             width: 300px;
-            height: 34rem;
+            height: 100%;
         }
 
         .info_detallada {
-            margin-left: 2%;
-            border-radius: 20px;
             padding: 0 2rem 0 1rem;   
+            border-radius: 20px;
         }
 
         .info_detallada span h3 {
@@ -212,13 +226,14 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         }
         
         .titulo {
+            font-size: 1.9rem;
             text-align: center;
             padding-top: 5%;
         }
 
         #sinopsis {
             text-align: justify;
-            padding: 1rem 15rem 1rem 2rem;
+            padding: 1rem 3rem 1rem 2rem;
         }
 
         #web a {
@@ -234,7 +249,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         .secundario h1 {
             display: none;
-            margin-left: 0.5rem;
+            margin-left: 1rem;
         }
 
         /*Actores*/
@@ -248,7 +263,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         .actor {
             width: 150px;
-            margin: 0 0.5rem 0 0.5rem;
+            margin: 0 1.25rem 0 1.25rem;
         }
 
         .info_actor {
@@ -328,6 +343,8 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         <div class="principal">
             <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
 
+            <input type="button" id="atras" class="atras" value="Volver" />
+
             <div id="fondo" class="fondo"></div>
 
             <div id="pelicula" class="pelicula">
@@ -365,7 +382,11 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         <div class="secundario">
             <h1>Reparto</h1>
-            <div id="actores" class="actores"></div>
+
+            <div class="container_actores">
+                <div id="actores" class="actores"></div>
+            </div>
+
             <div id="comentarios" class="comentarios"></div>
         </div>
     </main>
@@ -373,6 +394,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
     <?php include_once("Assets/Templates/footer.html"); ?>
 
     <script>
+        // Esta función es la que usa todas las demás, tanto para crear el DOM como para inicializar los listener cuando el documento esté cargado y listo.
         function create_DOM(){
             // Obtengo el id del input hidden.
             let id_pelicula = jQuery("#id_pelicula").val();
@@ -383,9 +405,15 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             // Una vez se cargue la película y el documento esté listo se obtienen y cargan los actores.
             jQuery(document).ready(function(){
                 cargar_actores(id_pelicula);
+
+                // Listener para que, al pulsar el botón vuelve atrás hasta la última coordenada clickada en el index. 
+                jQuery("#atras").on("click", function() {
+                    history.back();
+                });
             });
         }
 
+        // Función que hace una llamada a pelicula_controller.php para obtener la información de la película. Se envía la key para saber la acción y el id_pelicula.
         function cargar_pelicula(id_pelicula) {
             jQuery.ajax({
                 url: '../Controllers/pelicula_controller.php',
@@ -404,28 +432,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             });
         }
 
-        function cargar_actores(id_pelicula) {
-            jQuery.ajax({
-                url: '../Controllers/actor_controller.php',
-                method: 'POST',
-                data: {
-                    id_pelicula: id_pelicula,
-                    key: "get_actores"
-                },
-                success: function (data) {
-                    // Obtengo el array de actores.
-                    let actores = JSON.parse(data).actores;
-                    
-                    // Se muestra el h1 y se oculta la pantalla de carga.
-                    jQuery(".secundario h1").show();
-                    jQuery("#pantalla_carga").hide();
-
-                    // Se cargan los datos en el DOM.
-                    create_DOM_actores(actores);
-                }
-            });
-        }
-
+        // Función que obtiene todos los datos de la película y los setea correctamente para añadirlos al DOM.
         function create_DOM_pelicula(pelicula) {
             // Obtenemos los nombres de los géneros en un string separado por ", ". 
             let generos = pelicula["generos"].length > 0 ? pelicula["generos"].map(genero => genero.nombre).join(", ") : "No disponible";
@@ -469,6 +476,30 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             jQuery("#total_votos").text(`Total de votos: `).append(`<span>${pelicula["total_votos"]}</span>`);
         }
 
+        // Función que hace una llamada a actor_controller.php para obtener un array con los actores de la película. Se envía la key para saber la acción y el id_pelicula.
+        function cargar_actores(id_pelicula) {
+            jQuery.ajax({
+                url: '../Controllers/actor_controller.php',
+                method: 'POST',
+                data: {
+                    id_pelicula: id_pelicula,
+                    key: "get_actores"
+                },
+                success: function (data) {
+                    // Obtengo el array de actores.
+                    let actores = JSON.parse(data).actores;
+                    
+                    // Se muestra el h1 y se oculta la pantalla de carga.
+                    jQuery(".secundario h1").show();
+                    jQuery("#pantalla_carga").hide();
+
+                    // Se cargan los datos en el DOM.
+                    create_DOM_actores(actores);
+                }
+            });
+        }
+
+        // Función que obtiene todos los actores en un array y los recorre, generando una estructura para cada uno y añadiendo sus correspondientes datos.
         function create_DOM_actores(actores) {
             actores.forEach(actor => {
                 // Se crea la estructura para el actor y se añade al contenedor de actores.
@@ -489,10 +520,10 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
                 // Se buscan los campos de la estructura del actor que hemos creado y añadimos sus datos.
                 actorDiv.find(".imagen_actor").css("background-image", `url('${imagen}')`);
                 actorDiv.find(".nombre").text(actor["nombre"]);
-                actorDiv.find(".personaje").text(`Papel: ${actor["personaje"]}`);
+                actorDiv.find(".personaje").text(`Papel: ${actor["personaje"] != "" ? actor["personaje"] : "No disponible"}`);
             });
         }
-
+        
         create_DOM();
     </script>
 </body>

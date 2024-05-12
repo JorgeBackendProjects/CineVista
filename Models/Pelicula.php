@@ -45,7 +45,7 @@ class Pelicula
         $pdo = Conexion::connection_database();
         $array_peliculas = array();
 
-        for ($i = 17; $i <= 21; $i++) {
+        for ($i = 22; $i <= 26; $i++) {
             // Inicializa la sesión cURL para la solicitud.
             $get_popular_movies = curl_init();
             // Solicitud a la api para recoger los resultados de la página.
@@ -192,7 +192,7 @@ class Pelicula
 
         $peliculas = array();
 
-        // Solo obtiene 20 películas de la página actual del cliente.
+        // Solo obtiene 20 películas, de 20 en 20 según el número de la página actual del cliente que se usa como iterador.
         $stmt = $pdo->prepare("SELECT id, titulo, poster, valoracion FROM pelicula LIMIT :pagina, :limite");
         $stmt->bindParam(':pagina', $pagina, PDO::PARAM_INT);
         $stmt->bindParam(':limite', $limite, PDO::PARAM_INT);

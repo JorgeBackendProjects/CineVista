@@ -69,8 +69,17 @@ function set_paginacion(total_paginas, pagina_actual) {
     // Vacía el contenedor de paginación.
     jQuery("#paginacion").empty();
 
-    // Se crean los botones de paginación para cada página
-    for (let i = 1; i <= total_paginas; i++) {
+    // Calcula el rango de botones a mostrar.
+    let inicio = Math.max(1, Math.min(pagina_actual - 4, total_paginas - 9));
+    let fin = Math.min(total_paginas, inicio + 9);
+
+    // Agregamos el botón con clase "anterior" cuando no estamos en la primera página.
+    if (pagina_actual > 1) {
+        jQuery("#paginacion").append(`<button id="anterior" class="pagina anterior">Anterior</button>`);
+    }
+
+    // Se crean los botones de paginación para cada página dentro del rango.
+    for (let i = inicio; i <= fin; i++) {
         let boton = jQuery(`<button class="pagina">${i}</button>`);
         
         // Al botón de la página que se está visualizando se le añade la clase "pagina_actual."
@@ -80,6 +89,11 @@ function set_paginacion(total_paginas, pagina_actual) {
 
         // Se añade cada botón al div de paginación.
         jQuery("#paginacion").append(boton);
+    }
+
+    // Agrega el botón con clase "siguiente" cuando no estamos en la última página.
+    if (pagina_actual < total_paginas) {
+        jQuery("#paginacion").append(`<button id="siguiente" class="pagina siguiente">Siguiente</button>`);
     }
 
     // Se añade el número total de páginas al div de paginación.
@@ -103,12 +117,25 @@ function inicia_listeners() {
         window.location = `Views/pelicula.php?id=${id_pelicula}&titulo=${titulo}`;
     });
 
-    // Listener onclick que, al pulsar un botón de paginación obtiene la página del texto del botón y vuelve a solicitar al servidor las películas de la página actual. 
+    // Listener onclick que, al pulsar un botón de paginación obtiene el número de la página del texto del botón y vuelve a solicitar al servidor las películas de la página actual. 
     jQuery(document).on("click", ".pagina", function() {
         // Obtiene el número de página del botón
         let pagina = parseInt(jQuery(this).text());
     
-        // Cambia a la página correspondiente
-        get_peliculas(pagina);
+        // Si el botón que se ha pulsado tiene la clase "anterior", resta 1 a la página actual.
+        if (jQuery(this).hasClass("anterior")) {
+            pagina_actual--;
+
+        // Si el botón que se ha pulsado tiene la clase "siguiente", suma 1 a la página actual.
+        } else if (jQuery(this).hasClass("siguiente")) {
+            pagina_actual++;
+        
+        // Si no es "anterior" ni "siguiente", establece la página actual.
+        } else {
+            pagina_actual = pagina;
+        }
+
+        // Elimina todo el contenido del div y carga las películas de esta página.
+        get_peliculas(pagina_actual);
     });
 }
