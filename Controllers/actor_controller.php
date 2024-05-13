@@ -26,3 +26,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id_pelicula"]) && isse
     
     echo json_encode(array("actores" => $array_actores));
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id_actor"]) && isset($_POST["key"]) && $_POST["key"] == "get_actor") {
+    $id_actor = $_POST["id_actor"];
+    
+    // Obtenemos los datos del actor y los guardamos en el array.
+    $actor = Actor::get_actor($id_actor);
+    $array_actor = array (
+        "nombre" => $actor->get_nombre() != "" ? $actor->get_nombre() : "No disponible",
+        "imagen" => $actor->get_imagen() != "" ? $actor->get_imagen() : "Assets/Images/estrella_cine.webp",
+        "biografia" => $actor->get_biografia() != "" ? $actor->get_biografia() : "No disponible",
+        "lugar_nacimiento" => $actor->get_lugar_nacimiento() != "" ? $actor->get_lugar_nacimiento() : "No disponible",
+        "birthday" => $actor->get_birthday(),
+        "deathday" => $actor->get_deathday(),
+        "genero" => $actor->get_genero() != "" ? $actor->get_genero() : "No disponible",
+        "popularidad" => $actor->get_popularidad() != "" ? $actor->get_popularidad() : "No disponible"
+    );
+    
+    echo json_encode(array("actor" => $array_actor));
+}

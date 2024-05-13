@@ -93,28 +93,36 @@ nav {
     margin-top: 5rem;
 }
 
-.buscador {
-    width: 17rem;
+.buscador, .categorias {
+    width: 18rem;
     height: 3rem;
-    background-image: url(../Images/buscador_icon.svg);
-    background-size: 80% 75%;
-    background-position: -155% 60%;
-    background-repeat: no-repeat;
-    text-indent: 21%;
-    border: 1px solid black;
+    padding: 0 1rem;
+    background-color: #F5F5F5;
+    border: 2px solid #CCCCCC;
     border-radius: 20px;
+}
+
+.buscador {
+    padding-right: 3rem;
+    background-image: url("../Images/buscador_icon.svg");
+    background-size: 20px 20px;
+    background-position: 95% 50%;
+    background-repeat: no-repeat;
+    text-indent: 5%;
 }
 
 .buscador::placeholder {
-    text-indent: 20%;
+    color: black;
 }
 
 .categorias {
-    width: 17rem;
-    height: 3rem;
-    text-indent: 39%;
-    border: 1px solid black;
-    border-radius: 20px;
+    padding-right: 1.5rem;
+    text-indent: 15%;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23424242" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/><path fill="none" d="M0 0h24v24H0z"/></svg>');
+    background-size: 30px 35px;
+    background-position: calc(100% - 10px) 50%;
+    background-repeat: no-repeat;
 }
 
 /*Texto principal*/
@@ -199,7 +207,7 @@ nav {
 }
 
 .container_paginacion .paginacion .pagina_actual {
-    color: orange;
+    color: rgb(255, 188, 0);
 }
 
 .container_paginacion .numero_paginas {

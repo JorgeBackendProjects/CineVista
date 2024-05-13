@@ -12,7 +12,7 @@ class Actor
     private float $popularidad;
     private string $imagen;
 
-    function __construct($id, $nombre, $personaje, $biografia, $lugar_nacimiento, $birthday, $deathday, $genero, $popularidad, $imagen)
+    function __construct($id, $nombre, $biografia, $lugar_nacimiento, $birthday, $deathday, $genero, $popularidad, $imagen, $personaje="")
     {
         $this->id = $id;
         $this->nombre = $nombre;
@@ -26,7 +26,6 @@ class Actor
         $this->imagen = $imagen;
     }
 
-    // Si el personaje es = "Construction Worker", "Dancer", etc... ¿QUÉ HAGO?
     static function get_actores_by_movie($id_pelicula)
     {
         $casting_data = array();
@@ -65,7 +64,7 @@ class Actor
             if ($stmt->rowCount() > 0) {
                 // Se guarda la información del actor obtenida de la base de datos en el array .
                 $data = $stmt->fetchAll(PDO::FETCH_ASSOC)[0];
-                $actor_object = new Actor($actor["id"], $data["nombre"], $actor["personaje"], $data["biografia"], $data["lugar_nacimiento"], $data["birthday"], $data["deathday"], $data["genero"], $data["popularidad"], $data["imagen"]);
+                $actor_object = new Actor($actor["id"], $data["nombre"], $data["biografia"], $data["lugar_nacimiento"], $data["birthday"], $data["deathday"], $data["genero"], $data["popularidad"], $data["imagen"], $actor["personaje"]);
                 array_push($array_actores, $actor_object);
 
                 // Se busca su participación en la película.
@@ -96,12 +95,12 @@ class Actor
                     $biografia = isset($actor_info->biography) ? $actor_info->biography : "";
                     $lugar_nacimiento = isset($actor_info->place_of_birth) ? $actor_info->place_of_birth : "";
                     $birthday = isset($actor_info->birthday) ? $actor_info->birthday : "";
-                    $deathday = isset($actor_info->deathday) ? $actor_info->deathday : "actualidad";
+                    $deathday = isset($actor_info->deathday) ? $actor_info->deathday : "Actualidad";
                     $genero = isset($actor_info->gender) ? ($actor_info->gender == 1 ? "Femenino" : ($actor_info->gender == 2 ? "Masculino" : "Otro")) : "";
                     $popularidad = isset($actor_info->popularity) ? $actor_info->popularity : "";
                     $imagen = isset($actor_info->profile_path) ? "https://image.tmdb.org/t/p/original" . $actor_info->profile_path : "";
 
-                    $actor_object = new Actor($id, $nombre, $personaje, $biografia, $lugar_nacimiento, $birthday, $deathday, $genero, $popularidad, $imagen);
+                    $actor_object = new Actor($id, $nombre, $biografia, $lugar_nacimiento, $birthday, $deathday, $genero, $popularidad, $imagen, $personaje);
                     
                     // Se inserta el nuevo actor a la base de datos.
                     Actor::insert_actor($actor_object, $id_pelicula);
@@ -115,8 +114,25 @@ class Actor
         return $array_actores;
     }
 
+    // Se obtiene toda la información del actor de la base de datos.
+    static function get_actor($id_actor) 
+    {
+        // Se busca el actor en la base de datos.
+        $pdo = Conexion::connection_database();
+        $stmt = $pdo->prepare("SELECT * FROM actor WHERE id = ?");
+        $stmt->execute([$id_actor]);
+
+        // Si el actor se encuentra registrado en la base de datos no se busca en la API y se comprueba que exista un registro con el papel que interpreta en la película en la tabla intermedia.
+        if ($stmt->rowCount() > 0) {
+            // Se guarda la información del actor obtenida de la base de datos en el array .
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC)[0];
+            return new Actor($data["id"], $data["nombre"], $data["biografia"], $data["lugar_nacimiento"], $data["birthday"], $data["deathday"], $data["genero"], $data["popularidad"], $data["imagen"]);
+        }
+    }
+
     // Inserta el actor en la tabla y el personaje que interpreta en la película en la tabla intermedia con su id, personaje e id de película. 
-    static function insert_actor($actor, $id_pelicula) {
+    static function insert_actor($actor, $id_pelicula) 
+    {
         $pdo = Conexion::connection_database();
         $stmt = $pdo->prepare("SELECT * FROM actor WHERE id = ?");
         $id_actor = $actor->get_id();

@@ -42,7 +42,8 @@
 
     <main>
         <div id="container_buscador" class="container_buscador">
-            <input type="text" id="buscador" name="buscador" class="buscador" placeholder=" Buscar película" />
+            <input type="search" id="buscador" name="buscador" class="buscador" placeholder=" Buscar película" />
+            
             <select id="categorias" name="categorias" class="categorias">
                 <option value="">Categorías</option>
             </select>

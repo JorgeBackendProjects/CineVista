@@ -25,6 +25,8 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
+        /*A LOS 1130PX SE ROMPE EL TEXTO DEL CONTENEDOR*/
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -111,19 +113,19 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         /*Botón Volver*/
         .atras {
-            width: 8rem;
-            height: 3rem;
+            width: 7rem;
+            height: 2.5rem;
+            font-size: 1.25rem;
             position: absolute;
-            top: 10rem;
+            top: 6.8rem;
             left: 3rem;
-            background-color: orange;
+            background: linear-gradient(90deg, rgb(219, 206, 0) 0%, rgb(255, 188, 0) 100%);
             color: white;
             border-radius: 15px;
             cursor: pointer;
-            font-size: 1.5rem;
             border: 1px solid;
         }
-        
+
         /*Pantalla de carga*/
         .pantalla_carga {
             display: flex;
@@ -170,7 +172,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             display: flex;
             width: 75%;
             height: 75.5vh;
-            padding: 5rem;
+            padding: 4rem 3.5rem;
             margin: 0 auto;
             top: 5rem;
             background-color: rgba(0, 0, 0, 65%);
@@ -212,19 +214,19 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         }
 
         .info_detallada {
-            padding: 0 2rem 0 1rem;   
+            padding: 0 0 1rem 1rem;
             border-radius: 20px;
         }
 
         .info_detallada span h3 {
             padding: 0.5rem 2rem;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
         }
 
         .info_detallada span h3 span {
-            font-weight: 200;    
+            font-weight: 200;
         }
-        
+
         .titulo {
             font-size: 1.9rem;
             text-align: center;
@@ -233,7 +235,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         #sinopsis {
             text-align: justify;
-            padding: 1rem 3rem 1rem 2rem;
+            padding: 1rem 0 1rem 2rem;
         }
 
         #web a {
@@ -249,24 +251,26 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         .secundario h1 {
             display: none;
-            margin-left: 1rem;
+            margin: 0 0 1rem 1.25%;
         }
 
         /*Actores*/
         .actores {
             display: flex;
-            justify-content: space-evenly;
+            justify-content: flex-start;
             width: 100%;
-            margin: 2rem auto 10rem auto;
-            overflow-x: auto;
+            overflow-x: hidden;
         }
 
         .actor {
             width: 150px;
-            margin: 0 1.25rem 0 1.25rem;
+            height: 100%;
+            margin: 0 1.25rem;
+            cursor: pointer;
         }
 
         .info_actor {
+            margin-top: 0.5rem;
             text-align: center;
         }
 
@@ -282,6 +286,23 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             margin: 5% auto 10% auto;
         }
 
+        .botones_carousel {
+            display: none;
+            justify-content: center;
+        }
+
+        .boton_carousel {
+            width: 7rem;
+            height: 2.5rem;
+            font-size: 1.25rem;
+            margin: 0 3rem 0 3rem;
+            background: linear-gradient(90deg, rgb(219, 206, 0) 0%, rgb(255, 188, 0) 100%);
+            color: white;
+            border-radius: 15px;
+            cursor: pointer;
+            border: 1px solid;
+        }
+
         /*Footer*/
         .footer {
             position: sticky;
@@ -290,7 +311,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             z-index: 1;
             background-color: rgb(2, 27, 48);
             display: flex;
-            justify-content: space-around;    
+            justify-content: space-around;
             align-items: center;
             height: 5rem;
             padding: 10px 20px;
@@ -315,7 +336,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         .social_media a i {
             margin-right: 0.3rem;
-            font-size: 2.5rem;
+            font-size: 2rem;
         }
     </style>
 </head>
@@ -343,7 +364,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         <div class="principal">
             <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
 
-            <input type="button" id="atras" class="atras" value="Volver" />
+            <button id="atras" class="atras">Volver</button>
 
             <div id="fondo" class="fondo"></div>
 
@@ -362,13 +383,13 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
                 <div id="info_detallada" class="info_detallada">
                     <span>
                         <h3 id="generos" class="generos"></h3>
-                        <h3 id="sinopsis" class="sinopsis"></h3>      
+                        <h3 id="sinopsis" class="sinopsis"></h3>
                         <h3 id="duracion" class="duracion"></h3>
-                        <h3 id="fecha" class="fecha"></h3>                        
-                        <h3 id="presupuesto" class="presupuesto"></h3>                        
-                        <h3 id="ganancias" class="ganancias"></h3>                       
+                        <h3 id="fecha" class="fecha"></h3>
+                        <h3 id="presupuesto" class="presupuesto"></h3>
+                        <h3 id="ganancias" class="ganancias"></h3>
                         <h3 id="adulto" class="adulto"></h3>
-                        <h3 id="web" class="web"></h3>                       
+                        <h3 id="web" class="web"></h3>
                         <h3 id="total_votos" class="total_votos"></h3>
                     </span>
                 </div>
@@ -382,20 +403,23 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         <div class="secundario">
             <h1>Reparto</h1>
+           
+            <div id="actores" class="actores"></div>
 
-            <div class="container_actores">
-                <div id="actores" class="actores"></div>
+            <div class="botones_carousel">
+                <button id="btn_anterior" class="boton_carousel">Anterior</button>
+                <button id="brn_siguiente" class="boton_carousel">Siguiente</button>
             </div>
 
             <div id="comentarios" class="comentarios"></div>
         </div>
     </main>
 
-    <?php include_once("Assets/Templates/footer.html"); ?>
+    <?php include_once ("Assets/Templates/footer.html"); ?>
 
     <script>
         // Esta función es la que usa todas las demás, tanto para crear el DOM como para inicializar los listener cuando el documento esté cargado y listo.
-        function create_DOM(){
+        function create_DOM() {
             // Obtengo el id del input hidden.
             let id_pelicula = jQuery("#id_pelicula").val();
 
@@ -403,11 +427,14 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             cargar_pelicula(id_pelicula);
 
             // Una vez se cargue la película y el documento esté listo se obtienen y cargan los actores.
-            jQuery(document).ready(function(){
+            jQuery(document).ready(function () {
                 cargar_actores(id_pelicula);
 
+                // Inicializa los eventos click de los botones para el scroll de los botones
+                scroll_actores(190);
+
                 // Listener para que, al pulsar el botón vuelve atrás hasta la última coordenada clickada en el index. 
-                jQuery("#atras").on("click", function() {
+                jQuery("#atras").on("click", function () {
                     history.back();
                 });
             });
@@ -437,7 +464,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             // Obtenemos los nombres de los géneros en un string separado por ", ". 
             let generos = pelicula["generos"].length > 0 ? pelicula["generos"].map(genero => genero.nombre).join(", ") : "No disponible";
             // Obtenemos la duración en horas y minutos.
-            let duracion = pelicula["duracion"] > 0 ? Math.floor(pelicula["duracion"] / 60) + "h y " + pelicula["duracion"] % 60 + " minutos." : "No disponible"; 
+            let duracion = pelicula["duracion"] > 0 ? Math.floor(pelicula["duracion"] / 60) + "h y " + pelicula["duracion"] % 60 + " minutos." : "No disponible";
             // Obtenemos la fecha con el formato español.
             let fecha = pelicula["fecha_estreno"] != "" ? pelicula["fecha_estreno"].split("-")[2] + "/" + pelicula["fecha_estreno"].split("-")[1] + "/" + pelicula["fecha_estreno"].split("-")[0] : "No disponible";
             // Obtenemos el resto de los atributos si no están vacíos.
@@ -447,14 +474,12 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             let popularidad = pelicula["popularidad"] > 0 ? pelicula["popularidad"] : "No disponible";
             let para_adultos = pelicula["adulto"] == true ? "+18" : "Para todas las edades";
 
-            if (pelicula["valoracion"] > 0 && pelicula["valoracion"] <= 2.5) {
-                jQuery(".valoracion_container").css("background-color", "#E57373");
-            } else if (pelicula["valoracion"] > 2.5 && pelicula["valoracion"] <= 5) {
-                jQuery(".valoracion_container").css("background-color", "#FFB74D");
-            } else if (pelicula["valoracion"] > 5 && pelicula["valoracion"] <= 7.5) {
-                jQuery(".valoracion_container").css("background-color", "#FFF176");
-            } else if (pelicula["valoracion"] > 7.5 && pelicula["valoracion"] <= 10) {
-                jQuery(".valoracion_container").css("background-color", "#81C784");
+            if (pelicula["valoracion"] > 0 && pelicula["valoracion"] <= 4) {
+                jQuery(".valoracion_container").css("background", "linear-gradient(90deg, rgba(207, 37, 9, 1) 0%, rgba(230, 133, 50, 1) 100%)");
+            } else if (pelicula["valoracion"] > 4 && pelicula["valoracion"] <= 7) {
+                jQuery(".valoracion_container").css("background", "linear-gradient(90deg, rgba(219, 206, 0, 1) 0%, rgba(255, 188, 0, 1) 100%)");
+            } else if (pelicula["valoracion"] > 7 && pelicula["valoracion"] <= 10) {
+                jQuery(".valoracion_container").css("background", "linear-gradient(90deg, rgba(144, 219, 0, 1) 0%, rgba(0, 207, 107, 1) 100%)");
             }
 
             // Se añaden las imágenes a los div y los textos a los h3.
@@ -488,7 +513,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
                 success: function (data) {
                     // Obtengo el array de actores.
                     let actores = JSON.parse(data).actores;
-                    
+
                     // Se muestra el h1 y se oculta la pantalla de carga.
                     jQuery(".secundario h1").show();
                     jQuery("#pantalla_carga").hide();
@@ -499,12 +524,12 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             });
         }
 
-        // Función que obtiene todos los actores en un array y los recorre, generando una estructura para cada uno y añadiendo sus correspondientes datos.
+        // Función que obtiene todos los actores en un array y los recorre, generando una estructura para cada uno y añadiendo sus correspondientes datos y evento onclick.
         function create_DOM_actores(actores) {
             actores.forEach(actor => {
                 // Se crea la estructura para el actor y se añade al contenedor de actores.
                 let actorDiv = jQuery(`<div class='actor'>
-                                        <input type='hidden' name='id_actor' value='${actor["id"]}' />
+                                        <input type='hidden' name='id_actor' class='id_actor' value='${actor["id"]}' />
                                         <div class='imagen_actor'></div>
                                         <div class='info_actor'>
                                             <p class='nombre'></p>
@@ -522,8 +547,37 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
                 actorDiv.find(".nombre").text(actor["nombre"]);
                 actorDiv.find(".personaje").text(`Papel: ${actor["personaje"] != "" ? actor["personaje"] : "No disponible"}`);
             });
+
+            // Después de agregar los elementos le asignamos el evento click para ver su información detallada en actor.php.
+            jQuery(".actor").on("click", function() {
+                let id_actor = jQuery(this).find(".id_actor").val();
+                let nombre = jQuery(this).find(".nombre").text();
+                window.location = `actor.php?id=${id_actor}&nombre=${nombre}`;
+            });
+
+            // Se cambia el display del div de los botones para scrollear.
+            jQuery(".botones_carousel").css("display", "flex");
         }
-        
+
+        // Función para hacer scrollLeft y scrollRight con el contenido del contenedor de actores.
+        function scroll_actores(scroll) { 
+            var posicion_actual = 0;
+
+            jQuery('#btn_anterior').on("click", function() {
+                if (posicion_actual > 0) {
+                    posicion_actual -= scroll;
+                }
+                
+                jQuery('.actores').animate({ scrollLeft: posicion_actual }, "slow");
+            });
+
+            jQuery('#brn_siguiente').on("click", function() {
+                posicion_actual += scroll;
+                
+                jQuery('.actores').animate({ scrollLeft: posicion_actual }, "slow");
+            });
+        }
+
         create_DOM();
     </script>
 </body>

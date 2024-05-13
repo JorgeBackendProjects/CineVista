@@ -46,14 +46,12 @@ function create_dinamic_DOM_index(pelicula) {
 
     // Obtenemos el div con clase "valoracion_container" de la película actual y agregamos el color de fondo según su puntuación
     let valoracionContainer = jQuery(".pelicula:last").find(".valoracion_container");
-    if (pelicula.valoracion > 0 && pelicula.valoracion <= 2.5) {
-        valoracionContainer.css("background-color", "#E57373");
-    } else if (pelicula.valoracion > 2.5 && pelicula.valoracion <= 5) {
-        valoracionContainer.css("background-color", "#FFB74D");
-    } else if (pelicula.valoracion > 5 && pelicula.valoracion <= 7.5) {
-        valoracionContainer.css("background-color", "#FFF176");
-    } else if (pelicula.valoracion > 7.5 && pelicula.valoracion <= 10) {
-        valoracionContainer.css("background-color", "#81C784");
+    if (pelicula.valoracion > 0 && pelicula.valoracion <= 4) {
+        valoracionContainer.css("background", "linear-gradient(90deg, rgba(207, 37, 9, 1) 0%, rgba(230, 133, 50, 1) 100%)");
+    } else if (pelicula.valoracion > 4 && pelicula.valoracion <= 7) {
+        valoracionContainer.css("background", "linear-gradient(90deg, rgba(219, 206, 0, 1) 0%, rgba(255, 188, 0, 1) 100%)");
+    }  else if (pelicula.valoracion > 7 && pelicula.valoracion <= 10) {
+        valoracionContainer.css("background", "linear-gradient(90deg, rgba(144, 219, 0, 1) 0%, rgba(0, 207, 107, 1) 100%)");
     }
 }
 
@@ -69,7 +67,7 @@ function set_paginacion(total_paginas, pagina_actual) {
     // Vacía el contenedor de paginación.
     jQuery("#paginacion").empty();
 
-    // Calcula el rango de botones a mostrar.
+    // Calcula el rango de botones a mostrar, siempre debe haber mínimo 10 botones.
     let inicio = Math.max(1, Math.min(pagina_actual - 4, total_paginas - 9));
     let fin = Math.min(total_paginas, inicio + 9);
 
