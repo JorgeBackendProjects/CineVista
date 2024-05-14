@@ -3,6 +3,7 @@ require_once("../Models/Conexion.php");
 require_once("../Models/Pelicula.php");
 require_once("../Models/Actor.php");
 
+// Obtiene información previa de todos los actores de una película.
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id_pelicula"]) && isset($_POST["key"]) && $_POST["key"] == "get_actores") {
     $id_pelicula = $_POST["id_pelicula"];
     
@@ -27,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id_pelicula"]) && isse
     echo json_encode(array("actores" => $array_actores));
 }
 
+// Obtiene toda la información de un actor para mostrarlo en actor.php
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id_actor"]) && isset($_POST["key"]) && $_POST["key"] == "get_actor") {
     $id_actor = $_POST["id_actor"];
     

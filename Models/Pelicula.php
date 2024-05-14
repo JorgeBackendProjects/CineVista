@@ -40,12 +40,12 @@ class Pelicula
         $this->generos = $generos;
     }
 
-    // Función que me permitió al principio obtener las 100 películas más populares para almacenarlas en la base de datos.
-    static function insert_100_movies_database() {
+    // Función que permite obtener e insertar 200 películas de la lista populares. // Las siguientes por insertar están listas. Guardar en el SESSION del administrador la última página insertada.
+    public static function insert_100_movies_database() {
         $pdo = Conexion::connection_database();
         $array_peliculas = array();
 
-        for ($i = 22; $i <= 26; $i++) {
+        for ($i = 61; $i <= 70; $i++) {
             // Inicializa la sesión cURL para la solicitud.
             $get_popular_movies = curl_init();
             // Solicitud a la api para recoger los resultados de la página.
@@ -158,36 +158,8 @@ class Pelicula
     
 // Funciones CRUD
 
-    // Obtiene el id, titulo y póster de las películas para mostrarlas en el index.php
-    /*static function select_previews_all_movies() {
-        $pdo = Conexion::connection_database();
-
-        $peliculas = array();
-
-        $stmt = $pdo->prepare("SELECT id, titulo, poster, valoracion FROM pelicula");
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
-            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            foreach ($resultado as $pelicula) {
-                $pelicula_object = new Pelicula();
-                $pelicula_object->set_id($pelicula["id"]);
-                $pelicula_object->set_titulo($pelicula["titulo"]);
-                $pelicula_object->set_poster($pelicula["poster"]);
-                $pelicula_object->set_valoracion($pelicula["valoracion"]);
-                
-                array_push($peliculas, $pelicula_object);
-            }
-        }
-
-        $pdo = null;
-
-        return $peliculas;
-    }*/
-
     // Obtiene el id, titulo y póster de las películas según la página para mostrarlas en el index.php
-    static function select_previews_all_movies($pagina, $limite) {
+    public static function select_previews_all_movies($pagina, $limite) {
         $pdo = Conexion::connection_database();
 
         $peliculas = array();
@@ -217,8 +189,40 @@ class Pelicula
         return $peliculas;
     }
 
+    // Busca películas por título o fecha.
+    public static function search_movies($busqueda) {
+        $pdo = Conexion::connection_database();
+    
+        $peliculas = array();
+    
+        // Prepara la consulta SQL para buscar películas cuyo título y fecha_estreno contengan la cadena $busqueda.
+        $stmt = $pdo->prepare("SELECT id, titulo, poster, valoracion FROM pelicula WHERE titulo LIKE CONCAT('%', :busqueda, '%') OR fecha_estreno LIKE CONCAT('%', :busqueda, '%')");
+        $stmt->bindParam(':busqueda', $busqueda, PDO::PARAM_STR);
+
+        $stmt->execute();
+    
+        if ($stmt->rowCount() > 0) {
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            foreach ($resultado as $pelicula) {
+                $pelicula_object = new Pelicula();
+                $pelicula_object->set_id($pelicula["id"]);
+                $pelicula_object->set_titulo($pelicula["titulo"]);
+                $pelicula_object->set_poster($pelicula["poster"]);
+                $pelicula_object->set_valoracion($pelicula["valoracion"]);
+                
+                array_push($peliculas, $pelicula_object);
+            }
+        }
+    
+        $pdo = null;
+    
+        return $peliculas;
+    }
+    
+
     // Obtiene el número de registros de la tabla película.
-    static function get_num_peliculas() {
+    public static function get_num_peliculas() {
         $pdo = Conexion::connection_database();
 
         $stmt = $pdo->prepare("SELECT COUNT(*) as num_peliculas FROM pelicula");
@@ -232,8 +236,25 @@ class Pelicula
         }
     }
 
+    // Obtiene el número de registros de la tabla película que contengan algún caracter de la cadena proporcionada en la columna titulo y fecha_estreno.
+    public static function get_num_peliculas_by_search($busqueda) {
+        $pdo = Conexion::connection_database();
+    
+        // Obtiene el número de películas únicas que coinciden con el título o la fecha de estreno
+        $stmt = $pdo->prepare("SELECT COUNT(DISTINCT id) FROM pelicula WHERE titulo LIKE :busqueda OR fecha_estreno LIKE :busqueda");
+        $stmt->bindValue(":busqueda", "%$busqueda%", PDO::PARAM_STR);
+        $stmt->execute();
+    
+        $num_peliculas = $stmt->fetchColumn();
+    
+        $pdo = null;
+    
+        return $num_peliculas;
+    }
+    
+
     // Obtiene la información de una película. Si no la encuentra en la base de datos la obtiene de la API y la inserta.
-    static function get_movie($id_pelicula) {
+    public static function get_movie($id_pelicula) {
         $pdo = Conexion::connection_database();
         
         $resultado = "";
@@ -329,7 +350,8 @@ class Pelicula
         }
     }
                
-    static function insert_movie($pelicula) {
+    // Inserta una película en la base de datos.
+    public static function insert_movie($pelicula) {
         $pdo = Conexion::connection_database();
 
         $id_pelicula = $pelicula->get_id();
@@ -372,10 +394,7 @@ class Pelicula
         $pdo = null;
     }
     
-    static function buscar_peliculas() {
-        
-    }
-
+    // Función toString() que devuelve el estado actual del objeto.
     public function toString(): string {
         $properties = get_object_vars($this);
         $values = [];
@@ -389,7 +408,6 @@ class Pelicula
         
         return implode('_', $values);
     }
-    
 
     // Getters
     public function get_id(): int

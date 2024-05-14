@@ -42,15 +42,14 @@
 
     <main>
         <div id="container_buscador" class="container_buscador">
-            <input type="search" id="buscador" name="buscador" class="buscador" placeholder=" Buscar película" />
-            
-            <select id="categorias" name="categorias" class="categorias">
-                <option value="">Categorías</option>
-            </select>
+            <input type="search" id="buscador" class="buscador" placeholder="Busca películas por título o fecha" autocomplete="off">
         </div>
 
-        <h2 id="titulo_main" class="titulo_main">Películas más populares</h2>
-
+        <div id="texto_principal_container" class="texto_principal_container">
+            <h2 id="titulo_main" class="titulo_main">Películas más populares</h2>
+            <h2 id="numero_pagina_text" class="numero_pagina_text">Página 1</h2>
+        </div>
+        
         <div id="peliculas" class="peliculas"></div>
 
         <div id="container_paginacion" class="container_paginacion">
@@ -62,7 +61,7 @@
     <?php include_once("Views/Assets/Templates/footer.html"); ?>
 
     <script>
-        inicia_listeners();
+        inicializar_DOM();
     </script>
 </body>
 

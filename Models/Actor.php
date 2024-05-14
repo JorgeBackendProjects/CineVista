@@ -26,7 +26,8 @@ class Actor
         $this->imagen = $imagen;
     }
 
-    static function get_actores_by_movie($id_pelicula)
+    // Obtiene los datos necesarios para mostrar el actor con su participación en una película
+    public static function get_actores_by_movie($id_pelicula)
     {
         $casting_data = array();
         $datos_actor = array();
@@ -115,7 +116,7 @@ class Actor
     }
 
     // Se obtiene toda la información del actor de la base de datos.
-    static function get_actor($id_actor) 
+    public static function get_actor($id_actor) 
     {
         // Se busca el actor en la base de datos.
         $pdo = Conexion::connection_database();
@@ -131,7 +132,7 @@ class Actor
     }
 
     // Inserta el actor en la tabla y el personaje que interpreta en la película en la tabla intermedia con su id, personaje e id de película. 
-    static function insert_actor($actor, $id_pelicula) 
+    public static function insert_actor($actor, $id_pelicula) 
     {
         $pdo = Conexion::connection_database();
         $stmt = $pdo->prepare("SELECT * FROM actor WHERE id = ?");

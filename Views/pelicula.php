@@ -235,7 +235,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         #sinopsis {
             text-align: justify;
-            padding: 1rem 0 1rem 2rem;
+            padding: 1rem 3rem 1rem 2rem;
         }
 
         #web a {
@@ -455,6 +455,14 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
                     // Se carga la película en el DOM.
                     create_DOM_pelicula(pelicula);
+                },
+                error: function(xhr, status, error) {
+                    // En caso de error, se agrega un mensaje al contenedor principal y se oculta el resto de elementos.
+                    jQuery("#principal").append("<h2>No se han podido cargar las películas. Vuelve a intentarlo más tarde.</h2>");
+
+                    jQuery("#pelicula").hide();
+                    jQuery("#secundario").hide();
+                    jQuery("#pantalla_carga").hide();
                 }
             });
         }
@@ -520,6 +528,14 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
                     // Se cargan los datos en el DOM.
                     create_DOM_actores(actores);
+                },
+                error: function(xhr, status, error) {
+                    // En caso de error, se agrega un mensaje al contenedor principal y se oculta el resto de elementos.
+                    jQuery("#principal").append("<h2>No se han podido cargar las películas. Vuelve a intentarlo más tarde.</h2>");
+
+                    jQuery("#pelicula").hide();
+                    jQuery("#secundario").hide();
+                    jQuery("#pantalla_carga").hide();
                 }
             });
         }
@@ -527,25 +543,29 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         // Función que obtiene todos los actores en un array y los recorre, generando una estructura para cada uno y añadiendo sus correspondientes datos y evento onclick.
         function create_DOM_actores(actores) {
             actores.forEach(actor => {
-                // Se crea la estructura para el actor y se añade al contenedor de actores.
-                let actorDiv = jQuery(`<div class='actor'>
-                                        <input type='hidden' name='id_actor' class='id_actor' value='${actor["id"]}' />
-                                        <div class='imagen_actor'></div>
-                                        <div class='info_actor'>
-                                            <p class='nombre'></p>
-                                            <p class='personaje'></p>
-                                        </div>
-                                       </div>`);
+                // Creamos los elementos por separado para el actor.
+                let actor_container = jQuery("<div>").addClass("actor");
+                let input_hidden_id_actor = jQuery("<input>").attr({
+                    type: "hidden",
+                    name: "id_actor",
+                    class: "id_actor",
+                    value: actor["id"]
+                });
+                let imagen_actor_container = jQuery("<div>").addClass("imagen_actor");
+                let info_actor_container = jQuery("<div>").addClass("info_actor");
+                let nombre_p = jQuery("<p>").addClass("nombre").text(actor["nombre"]);
+                let personaje_p = jQuery("<p>").addClass("personaje").text(`Papel: ${actor["personaje"] != "" ? actor["personaje"] : "No disponible"}`);
 
-                jQuery("#actores").append(actorDiv);
-
-                // Se obtiene la imagen, si no hay se muestra una por defecto.
+                // Se agrega la imagen al div de imagen_actor. Si no la encuentra, muestra una por defecto.
                 let imagen = actor["imagen"].length > 0 ? actor["imagen"] : "Assets/Images/estrella_cine.webp";
+                imagen_actor_container.css("background-image", `url('${imagen}')`);
 
-                // Se buscan los campos de la estructura del actor que hemos creado y añadimos sus datos.
-                actorDiv.find(".imagen_actor").css("background-image", `url('${imagen}')`);
-                actorDiv.find(".nombre").text(actor["nombre"]);
-                actorDiv.find(".personaje").text(`Papel: ${actor["personaje"] != "" ? actor["personaje"] : "No disponible"}`);
+                // Agregamos los elementos al div del actor.
+                info_actor_container.append(nombre_p, personaje_p);
+                actor_container.append(input_hidden_id_actor, imagen_actor_container, info_actor_container);
+
+                // Se agrega el div del actor al contenedor de actores.
+                jQuery("#actores").append(actor_container);
             });
 
             // Después de agregar los elementos le asignamos el evento click para ver su información detallada en actor.php.

@@ -15,44 +15,100 @@ function get_peliculas(pagina) {
             let peliculas = resultado.peliculas;
             let total_paginas = resultado.total_paginas;
 
-            // Vacía el contenedor de películas para añadirlas según la paginación.
-            jQuery("#peliculas").empty();
-
             // Se recorre el array de películas y se añade una a una al DOM.
-            for (let i = 0; i < peliculas.length; i++) {
-                create_dinamic_DOM_index(peliculas[i]);
-            }
+            create_dinamic_DOM_index(peliculas);
 
             // Se añaden los pósters de cada película.
             asignar_imagenes_peliculas(peliculas);
 
             // Se inserta la paginación.
             set_paginacion(total_paginas, pagina);
+        },
+        error: function(xhr, status, error) {
+            // En caso de error, se agrega un mensaje al contenedor de películas.
+            jQuery("#peliculas").empty().append("<h2>No se han podido cargar las películas. Vuelve a intentarlo más tarde.</h2>");
+        }
+    });
+}
+
+// Hace una petición al controller de películas para obtener las películas que coincidan en título.
+function buscar_peliculas() {
+    let busqueda = jQuery("#buscador").val();
+
+    jQuery.ajax({
+        url: 'Controllers/pelicula_controller.php',
+        method: 'POST',
+        data: {
+            key: "buscar_peliculas",
+            busqueda: busqueda
+        },
+        success: function(data) {
+            // Una vez se obtienen los datos se parsean
+            let resultado = JSON.parse(data);
+            let peliculas = resultado.peliculas;
+
+            // Se recorre el array de películas y se añade una a una al DOM.
+            create_dinamic_DOM_index(peliculas);
+
+            // Se añaden los pósters de cada película.
+            asignar_imagenes_peliculas(peliculas);
+
+            // Ocultamos la paginación y los textos de la cabecera y el total de páginas.
+            jQuery("#paginacion").hide();
+            jQuery("#texto_principal_container").hide();
+            jQuery("#numero_paginas").hide();
+
+            // Eliminamos el texto de resultado de búsqueda existente, si lo hay.
+            jQuery("#resultado_busqueda_text").remove();
+
+            // Añadimos el texto que indica que nos encontramos ante una búsqueda.
+            let resultado_busqueda_text = jQuery("<h2>").attr("id", "resultado_busqueda_text").text("Resultados de la búsqueda");
+            jQuery("#container_buscador").after(resultado_busqueda_text);
+        },
+        error: function(xhr, status, error) {
+            // En caso de error, se agrega un mensaje al contenedor de películas.
+            jQuery("#peliculas").empty().append("<h2>No se han podido cargar las películas. Vuelve a intentarlo más tarde.</h2>");
         }
     });
 }
 
 // Crea una estructura para cada película que se añade al div principal con id "peliculas".
-function create_dinamic_DOM_index(pelicula) {
-    jQuery("#peliculas").append(`<div class="pelicula">
-                                    <input type="hidden" name="id_pelicula" class="id_pelicula" value="${pelicula.id}"/>
-                                    <div class="poster">
-                                        <div class="valoracion_container">
-                                            <p class="valoracion">${(pelicula.valoracion).toFixed(1)}</p>
-                                        </div>
-                                    </div>
-                                    <p class="titulo">${pelicula.titulo}</p>
-                                </div>`);
+function create_dinamic_DOM_index(peliculas) {
+    // Vacía el contenedor de películas para añadirlas según la paginación.
+    jQuery("#peliculas").empty();
 
-    // Obtenemos el div con clase "valoracion_container" de la película actual y agregamos el color de fondo según su puntuación
-    let valoracionContainer = jQuery(".pelicula:last").find(".valoracion_container");
-    if (pelicula.valoracion > 0 && pelicula.valoracion <= 4) {
-        valoracionContainer.css("background", "linear-gradient(90deg, rgba(207, 37, 9, 1) 0%, rgba(230, 133, 50, 1) 100%)");
-    } else if (pelicula.valoracion > 4 && pelicula.valoracion <= 7) {
-        valoracionContainer.css("background", "linear-gradient(90deg, rgba(219, 206, 0, 1) 0%, rgba(255, 188, 0, 1) 100%)");
-    }  else if (pelicula.valoracion > 7 && pelicula.valoracion <= 10) {
-        valoracionContainer.css("background", "linear-gradient(90deg, rgba(144, 219, 0, 1) 0%, rgba(0, 207, 107, 1) 100%)");
-    }
+    // Se recorre el array de películas y se añade una a una al DOM.
+    peliculas.forEach(pelicula => {
+        // Creamos los elementos de la película en variables.
+        let pelicula_container = jQuery("<div>").addClass("pelicula");
+        let input_hidden_id_pelicula = jQuery("<input>").attr({
+            type: "hidden",
+            name: "id_pelicula",
+            class: "id_pelicula",
+            value: pelicula.id
+        });
+        let poster_container = jQuery("<div>").addClass("poster");
+        let titulo_p = jQuery("<p>").addClass("titulo").text(pelicula.titulo);
+        let valoracion_container = jQuery("<div>").addClass("valoracion_container");
+        let valoracion_p = jQuery("<p>").addClass("valoracion").text((pelicula.valoracion).toFixed(1));
+        valoracion_container.append(valoracion_p);
+        poster_container.append(valoracion_container);
+
+        // Agregamos los elementos creados con sus datos al div de la película.
+        pelicula_container.append(input_hidden_id_pelicula, poster_container, titulo_p);
+
+        // Agregamos el div película al contenedor principal películas.
+        jQuery("#peliculas").append(pelicula_container);
+
+        // Agregamos el color de fondo según la valoración.
+        if (pelicula.valoracion > 0 && pelicula.valoracion <= 4) {
+            valoracion_container.css("background", "linear-gradient(90deg, rgba(207, 37, 9, 1) 0%, rgba(230, 133, 50, 1) 100%)");
+        } else if (pelicula.valoracion > 4 && pelicula.valoracion <= 7) {
+            valoracion_container.css("background", "linear-gradient(90deg, rgba(219, 206, 0, 1) 0%, rgba(255, 188, 0, 1) 100%)");
+        } else if (pelicula.valoracion > 7 && pelicula.valoracion <= 10) {
+            valoracion_container.css("background", "linear-gradient(90deg, rgba(144, 219, 0, 1) 0%, rgba(0, 207, 107, 1) 100%)");
+        }
+    });
 }
 
 // Por cada div con clase "poster" se asigna su poster correspondiente.
@@ -64,8 +120,14 @@ function asignar_imagenes_peliculas(peliculas) {
 
 // Actualiza el número dinámico de páginas y añade una clase al botón que corresponde a la página actual.
 function set_paginacion(total_paginas, pagina_actual) {
-    // Vacía el contenedor de paginación.
+    // Se oculta el texto que indica que nos encontramos ante una búsqueda.
+    jQuery("#resultado_busqueda_text").hide();
+    // Muestra el contenedor de paginación y lo vacía. 
+    jQuery("#paginacion").show();
     jQuery("#paginacion").empty();
+    // Se muestran los textos de la cabecera y número de páginas.
+    jQuery("#numero_paginas").show();
+    jQuery("#texto_principal_container").show();
 
     // Calcula el rango de botones a mostrar, siempre debe haber mínimo 10 botones.
     let inicio = Math.max(1, Math.min(pagina_actual - 4, total_paginas - 9));
@@ -96,13 +158,28 @@ function set_paginacion(total_paginas, pagina_actual) {
 
     // Se añade el número total de páginas al div de paginación.
     jQuery("#numero_paginas").text(`Total: ${total_paginas} páginas`);
+
+    jQuery("#numero_pagina_text").text(`Página ${pagina_actual}`);
 }
 
 // Inicia los listeners para el index.html
-function inicia_listeners() {
+function inicializar_DOM() {
     // Cuando el documento está listo, se hace una llamada para obtener las primeras 20 películas.
     jQuery(document).ready(function() {
         get_peliculas(1); 
+    });
+
+    jQuery(document).on("input", "#buscador", function(){
+        // Obtenemos el valor que hay en el input.
+        let busqueda = jQuery(this).val();
+
+        // Si el input de búsqueda está vacío carga todas las películas de nuevo. En caso contrario hace otra busqueda por título. 
+        if (busqueda.trim() == "") {
+            get_peliculas(pagina_actual);
+        } else {
+            // Hacer una llamada al servidor para obtener las películas que coincidan con el título o la fecha
+            buscar_peliculas();
+        }
     });
 
     // Listener onclick que, cuando carga el documento se aplica a todos los div con clase "pelicula"
@@ -135,5 +212,10 @@ function inicia_listeners() {
 
         // Elimina todo el contenido del div y carga las películas de esta página.
         get_peliculas(pagina_actual);
+        
+        // Desplaza la página hacia el principio en una animación que dura 1 segundo.
+        jQuery('html, body').animate({
+            scrollTop: 0
+        }, 1000);
     });
 }

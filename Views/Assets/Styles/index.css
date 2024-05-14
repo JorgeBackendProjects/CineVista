@@ -86,49 +86,47 @@ nav {
 
 /*Contenido body*/
 
-/*Buscador y filtrado*/
+/*Buscador*/
 .container_buscador {
     display: flex;
-    justify-content: space-evenly;
-    margin-top: 5rem;
-}
-
-.buscador, .categorias {
-    width: 18rem;
-    height: 3rem;
-    padding: 0 1rem;
-    background-color: #F5F5F5;
-    border: 2px solid #CCCCCC;
-    border-radius: 20px;
+    justify-content: center;
+    margin: 4rem 0 2rem 0;
 }
 
 .buscador {
-    padding-right: 3rem;
-    background-image: url("../Images/buscador_icon.svg");
-    background-size: 20px 20px;
-    background-position: 95% 50%;
-    background-repeat: no-repeat;
-    text-indent: 5%;
+    width: 17%;
+    height: 3rem;
+    padding-left: 2%;
+    background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
+    border: solid 1px #ccc;
+    border-radius: 10em;
+    transition: all .5s;
+    font-family: inherit;
+    font-size: 100%;
+    outline: none;
 }
 
-.buscador::placeholder {
-    color: black;
-}
-
-.categorias {
-    padding-right: 1.5rem;
-    text-indent: 15%;
-    appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="%23424242" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/><path fill="none" d="M0 0h24v24H0z"/></svg>');
-    background-size: 30px 35px;
-    background-position: calc(100% - 10px) 50%;
-    background-repeat: no-repeat;
+.buscador:focus {
+	width: 25rem;
+	background-color: #fff;
+	border-color: #66CC75;
+	box-shadow: 0 0 5px rgba(109, 207, 246, 0.5);
 }
 
 /*Texto principal*/
-.titulo_main {
+.texto_principal_container {
+    display: flex;
     width: 80vw;
-    margin: 4rem auto 0 20rem;
+    justify-content: center;
+    margin: 4rem auto 0 auto;
+}
+
+.titulo_main {
+    margin-right: 58%;
+}
+
+#resultado_busqueda_text {
+    margin-left: 16%;
 }
 
 /*Div principal de películas*/
