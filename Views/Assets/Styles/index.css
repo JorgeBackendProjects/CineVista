@@ -44,9 +44,11 @@ nav {
     margin-right: 30px;
 }
 
-.header_left i {
-    font-size: 2.5em;
-    color: white;
+.header_left .icon {
+    width: 5rem;
+    height: 5.5rem;
+    background-image: url(../Images/icon.png);
+    background-size: 100% 100%;
 }
 
 .header_left .title {
@@ -126,7 +128,7 @@ nav {
 }
 
 #resultado_busqueda_text {
-    margin-left: 16%;
+    margin-right: 55%;
 }
 
 /*Div principal de películas*/
@@ -136,6 +138,7 @@ nav {
     flex-wrap: wrap;
     width: 80vw;
     margin: 0 auto 0 auto;
+    min-height: 57.5vh;
 }
 
 .pelicula {

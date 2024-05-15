@@ -17,15 +17,14 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Views/Assets/Images/icon.ico" sizes="64x64" type="image/png">
     <script src="https://kit.fontawesome.com/001ac9542b.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
     <title><?php echo $titulo; ?></title>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
-        /*A LOS 1130PX SE ROMPE EL TEXTO DEL CONTENEDOR*/
 
         * {
             box-sizing: border-box;
@@ -71,9 +70,11 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             margin-right: 30px;
         }
 
-        .header_left i {
-            font-size: 2.5em;
-            color: white;
+        .header_left .icon {
+            width: 5rem;
+            height: 5.5rem;
+            background-image: url("Assets/Images/icon.png");
+            background-size: 100% 100%;
         }
 
         .header_left .title {
@@ -233,6 +234,18 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             padding-top: 5%;
         }
 
+        .aniadir_a_lista {
+            width: 85%;
+            height: 2.5rem;
+            margin: 2rem auto 0 auto;
+            font-size: 1.25rem;
+            background: linear-gradient(90deg, rgb(219, 206, 0) 0%, rgb(255, 188, 0) 100%);
+            color: white;
+            border-radius: 15px;
+            cursor: pointer;
+            border: 1px solid;
+        }
+
         #sinopsis {
             text-align: justify;
             padding: 1rem 3rem 1rem 2rem;
@@ -251,20 +264,17 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         .secundario h1 {
             display: none;
-            margin: 0 0 1rem 1.25%;
+            margin: 0 0 2rem 0;
         }
 
         /*Actores*/
         .actores {
             display: flex;
             justify-content: flex-start;
-            width: 100%;
             overflow-x: hidden;
         }
 
         .actor {
-            width: 150px;
-            height: 100%;
             margin: 0 1.25rem;
             cursor: pointer;
         }
@@ -292,10 +302,10 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         }
 
         .boton_carousel {
-            width: 7rem;
+            width: 8rem;
             height: 2.5rem;
             font-size: 1.25rem;
-            margin: 0 3rem 0 3rem;
+            margin: 1.5rem 3rem 0 3rem;
             background: linear-gradient(90deg, rgb(219, 206, 0) 0%, rgb(255, 188, 0) 100%);
             color: white;
             border-radius: 15px;
@@ -345,7 +355,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
     <header>
         <nav>
             <div class="header_left">
-                <i class="fa-solid fa-clapperboard"></i>
+                <div class="icon"></div>
                 <h1 class="title">CineVista</h1>
             </div>
             <div class="header_right">
@@ -378,6 +388,8 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
                     </div>
 
                     <h1 id="titulo" class="titulo"></h1>
+
+                    <button id="aniadir_a_lista" class="aniadir_a_lista">Añadir a lista</button>
                 </div>
 
                 <div id="info_detallada" class="info_detallada">
@@ -407,8 +419,8 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             <div id="actores" class="actores"></div>
 
             <div class="botones_carousel">
-                <button id="btn_anterior" class="boton_carousel">Anterior</button>
-                <button id="brn_siguiente" class="boton_carousel">Siguiente</button>
+                <button id="btn_anterior" class="boton_carousel">Retroceder</button>
+                <button id="btn_siguiente" class="boton_carousel">Avanzar</button>
             </div>
 
             <div id="comentarios" class="comentarios"></div>
@@ -431,7 +443,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
                 cargar_actores(id_pelicula);
 
                 // Inicializa los eventos click de los botones para el scroll de los botones
-                scroll_actores(190);
+                scroll_actores();
 
                 // Listener para que, al pulsar el botón vuelve atrás hasta la última coordenada clickada en el index. 
                 jQuery("#atras").on("click", function () {
@@ -580,21 +592,32 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         }
 
         // Función para hacer scrollLeft y scrollRight con el contenido del contenedor de actores.
-        function scroll_actores(scroll) { 
-            var posicion_actual = 0;
+        function scroll_actores() { 
+            let intervalo;
+            let velocidad = 3;
 
-            jQuery('#btn_anterior').on("click", function() {
-                if (posicion_actual > 0) {
-                    posicion_actual -= scroll;
-                }
-                
-                jQuery('.actores').animate({ scrollLeft: posicion_actual }, "slow");
+            // Al mantener presionado el puntero sobre el botón anterior se avanza mediante scrollLeft con un intervalo. Al soltarlo se detiene el intervalo.
+            jQuery('#btn_anterior').on("mousedown", function() {
+                intervalo = setInterval(function() {
+                    let posicion_actual = jQuery('.actores').scrollLeft();
+
+                    if (posicion_actual > 0) {
+                        jQuery('.actores').scrollLeft(posicion_actual - velocidad);
+                    }
+                }, 5);
+            }).on("mouseup mouseleave", function() {
+                clearInterval(intervalo);
             });
 
-            jQuery('#brn_siguiente').on("click", function() {
-                posicion_actual += scroll;
-                
-                jQuery('.actores').animate({ scrollLeft: posicion_actual }, "slow");
+            // Al mantener presionado el botón siguiente se avanza mediante scrollLeft con un intervalo. Al soltarlo se detiene el intervalo.
+            jQuery('#btn_siguiente').on("mousedown", function() {
+                intervalo = setInterval(function() {
+                    let posicion_actual = jQuery('.actores').scrollLeft();
+
+                    jQuery('.actores').scrollLeft(posicion_actual + velocidad);
+                }, 5);
+            }).on("mouseup mouseleave", function() {
+                clearInterval(intervalo);
             });
         }
 

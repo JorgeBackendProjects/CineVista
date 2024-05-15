@@ -14,6 +14,7 @@ function get_peliculas(pagina) {
             let resultado = JSON.parse(data);
             let peliculas = resultado.peliculas;
             let total_paginas = resultado.total_paginas;
+            let total_peliculas = resultado.total_peliculas;
 
             // Se recorre el array de películas y se añade una a una al DOM.
             create_dinamic_DOM_index(peliculas);
@@ -22,7 +23,7 @@ function get_peliculas(pagina) {
             asignar_imagenes_peliculas(peliculas);
 
             // Se inserta la paginación.
-            set_paginacion(total_paginas, pagina);
+            set_paginacion(total_paginas, pagina, total_peliculas);
         },
         error: function(xhr, status, error) {
             // En caso de error, se agrega un mensaje al contenedor de películas.
@@ -46,6 +47,7 @@ function buscar_peliculas() {
             // Una vez se obtienen los datos se parsean
             let resultado = JSON.parse(data);
             let peliculas = resultado.peliculas;
+            let total_peliculas = resultado.total_peliculas == 0 ? "Sin" : resultado.total_peliculas;
 
             // Se recorre el array de películas y se añade una a una al DOM.
             create_dinamic_DOM_index(peliculas);
@@ -55,15 +57,18 @@ function buscar_peliculas() {
 
             // Ocultamos la paginación y los textos de la cabecera y el total de páginas.
             jQuery("#paginacion").hide();
-            jQuery("#texto_principal_container").hide();
+            jQuery("#titulo_main").hide();
+            jQuery("#numero_pagina_text").hide();
             jQuery("#numero_paginas").hide();
 
             // Eliminamos el texto de resultado de búsqueda existente, si lo hay.
             jQuery("#resultado_busqueda_text").remove();
+            jQuery("#num_peliculas_busqueda_text").remove();
 
             // Añadimos el texto que indica que nos encontramos ante una búsqueda.
             let resultado_busqueda_text = jQuery("<h2>").attr("id", "resultado_busqueda_text").text("Resultados de la búsqueda");
-            jQuery("#container_buscador").after(resultado_busqueda_text);
+            let num_peliculas_busqueda_text = jQuery("<h2>").attr("id", "num_peliculas_busqueda_text").text(`${total_peliculas} resultados`);
+            jQuery("#texto_principal_container").append(resultado_busqueda_text, num_peliculas_busqueda_text);
         },
         error: function(xhr, status, error) {
             // En caso de error, se agrega un mensaje al contenedor de películas.
@@ -119,15 +124,17 @@ function asignar_imagenes_peliculas(peliculas) {
 }
 
 // Actualiza el número dinámico de páginas y añade una clase al botón que corresponde a la página actual.
-function set_paginacion(total_paginas, pagina_actual) {
+function set_paginacion(total_paginas, pagina_actual, total_peliculas) {
     // Se oculta el texto que indica que nos encontramos ante una búsqueda.
     jQuery("#resultado_busqueda_text").hide();
+    jQuery("#num_peliculas_busqueda_text").hide();
     // Muestra el contenedor de paginación y lo vacía. 
     jQuery("#paginacion").show();
     jQuery("#paginacion").empty();
     // Se muestran los textos de la cabecera y número de páginas.
+    jQuery("#titulo_main").show();
+    jQuery("#numero_pagina_text").show();
     jQuery("#numero_paginas").show();
-    jQuery("#texto_principal_container").show();
 
     // Calcula el rango de botones a mostrar, siempre debe haber mínimo 10 botones.
     let inicio = Math.max(1, Math.min(pagina_actual - 4, total_paginas - 9));
@@ -156,13 +163,14 @@ function set_paginacion(total_paginas, pagina_actual) {
         jQuery("#paginacion").append(`<button id="siguiente" class="pagina siguiente">Siguiente</button>`);
     }
 
-    // Se añade el número total de páginas al div de paginación.
-    jQuery("#numero_paginas").text(`Total: ${total_paginas} páginas`);
+    // Se añade el número total de películas y páginas al div de paginación.
+    jQuery("#numero_paginas").text(`Total: ${total_peliculas} películas en ${total_paginas} páginas`);
 
+    // Se añade la página actual al h2 de arriba.
     jQuery("#numero_pagina_text").text(`Página ${pagina_actual}`);
 }
 
-// Inicia los listeners para el index.html
+// Inicia los listeners para el index.php
 function inicializar_DOM() {
     // Cuando el documento está listo, se hace una llamada para obtener las primeras 20 películas.
     jQuery(document).ready(function() {

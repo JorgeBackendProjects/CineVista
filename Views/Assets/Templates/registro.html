@@ -1,7 +1,11 @@
-<h1>Registro</h1>
+<div id="registro_principal" class="principal">
+    <button id="atras" class="atras">Volver</button>
+    <h1>Registro</h1>
+    <p>Rellena los datos para crear tu cuenta de usuario</p>
 
-<form id="registro" action="../Controllers/usuario_controller.php" method="GET">
-    <input type="text" id="username" name="username" placeholder="Usuario o E-mail" />
-    <input type="password" id="password" name="password" placeholder="Contraseña" />
-    <input type="button" id="send" name="send" value="Regístrame" />
-</form>
+    <form id="registro" action="../Controllers/usuario_controller.php" method="POST">
+        <input type="text" id="username" name="username" placeholder="Usuario o E-mail" />
+        <input type="password" id="password" name="password" placeholder="Contraseña" />
+        <button id="boton_enviar" name="boton_enviar" class="boton_enviar">Regístrame</button>
+    </form>
+</div>

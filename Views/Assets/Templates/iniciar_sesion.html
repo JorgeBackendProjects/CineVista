@@ -1,7 +1,12 @@
-<h1>Iniciar sesión</h1>
+<div id="iniciar_principal" class="principal">
+    <button id="atras" class="atras">Volver</button>
+    
+    <h1>Iniciar sesión</h1>
+    <p>Introduce tus credenciales para iniciar sesión</p>
 
-<form id="iniciar_sesion" action="../Controllers/usuario_controller.php" method="GET">
-    <input type="text" id="username" name="username" placeholder="Usuario o E-mail" />
-    <input type="password" id="password" name="password" placeholder="Contraseña" />
-    <input type="button" id="send" name="send" value="Iniciar sesión" />
-</form>
+    <form id="iniciar_sesion" action="../Controllers/usuario_controller.php" method="POST">
+        <input type="text" id="username" name="username" class="username" placeholder="Usuario o E-mail" />
+        <input type="password" id="password" name="password" class="password" placeholder="Contraseña" />
+        <button id="boton_enviar" name="boton_enviar" class="boton_enviar">Iniciar sesión</button>
+    </form>
+</div>

@@ -43,7 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["key"]) && $_POST["key"
     // Se envía un array con las películas y el número de paginas.
     $resultado = array(
         "peliculas" => $peliculas_array,
-        "total_paginas" => $total_paginas
+        "total_paginas" => $total_paginas,
+        "total_peliculas" => $total_peliculas
     );
 
     echo json_encode($resultado);
@@ -56,6 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["busqueda"]) && isset($
     // Obtenemos las películas por título o fecha.
     $peliculas = Pelicula::search_movies($busqueda);
 
+    $total_peliculas = 0;
+
     // Obtenemos los datos de cada película y los añadimos al array
     $peliculas_array = array();
     foreach($peliculas as $pelicula) {
@@ -65,11 +68,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["busqueda"]) && isset($
             "poster" => $pelicula->get_poster(),
             "valoracion" => $pelicula->get_valoracion()
         );
+
+        $total_peliculas++;
     }
 
     // Añadimos al array las películas y el número de páginas para enviarlo.
     $resultado = array(
-        "peliculas" => $peliculas_array
+        "peliculas" => $peliculas_array,
+        "total_peliculas" => $total_peliculas
     );
 
     echo json_encode($resultado);

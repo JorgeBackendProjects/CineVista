@@ -17,6 +17,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Views/Assets/Images/icon.ico" sizes="64x64" type="image/png">
     <link rel="stylesheet" href="Assets/Styles/actor.css">
     <script src="https://kit.fontawesome.com/001ac9542b.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
@@ -28,7 +29,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
     <header>
         <nav>
             <div class="header_left">
-                <i class="fa-solid fa-clapperboard"></i>
+                <div class="icon"></div>
                 <h1 class="title">CineVista</h1>
             </div>
             <div class="header_right">
