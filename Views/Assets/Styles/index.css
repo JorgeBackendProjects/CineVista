@@ -45,9 +45,9 @@ nav {
 }
 
 .header_left .icon {
-    width: 5rem;
-    height: 5.5rem;
-    background-image: url(../Images/icon.png);
+    width: 4.5rem;
+    height: 5rem;
+    background-image: url("../Images/icon.png");
     background-size: 100% 100%;
 }
 
@@ -249,4 +249,29 @@ nav {
 .social_media a i {
     margin-right: 0.3rem;
     font-size: 2.5rem;
+}
+
+/*Responsive para pantallas más pequeñas*/
+@media only screen and (max-width: 1600px) { 
+    .buscador {
+        width: 16.5%;
+        padding-left: 2.5%;
+    }
+    
+    .titulo_main {
+        margin-right: 69%;
+    }
+
+    #resultado_busqueda_text {
+        margin-right: 60%;
+    }
+
+    .peliculas {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        width: 90vw;
+        margin: 0 auto 0 auto;
+        min-height: 57.5vh;
+    }
 }

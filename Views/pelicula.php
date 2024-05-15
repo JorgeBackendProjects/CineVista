@@ -71,8 +71,8 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         }
 
         .header_left .icon {
-            width: 5rem;
-            height: 5.5rem;
+            width: 4.5rem;
+            height: 5rem;
             background-image: url("Assets/Images/icon.png");
             background-size: 100% 100%;
         }
@@ -272,10 +272,12 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             display: flex;
             justify-content: flex-start;
             overflow-x: hidden;
+            overflow-y: hidden;
         }
 
         .actor {
-            margin: 0 1.25rem;
+            height: 100%;
+            margin: 0 3.1% 0 0;
             cursor: pointer;
         }
 
@@ -305,7 +307,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             width: 8rem;
             height: 2.5rem;
             font-size: 1.25rem;
-            margin: 1.5rem 3rem 0 3rem;
+            margin: -1rem 3rem 0 3rem;
             background: linear-gradient(90deg, rgb(219, 206, 0) 0%, rgb(255, 188, 0) 100%);
             color: white;
             border-radius: 15px;
@@ -347,6 +349,64 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         .social_media a i {
             margin-right: 0.3rem;
             font-size: 2rem;
+        }
+
+        /*Responsive para pantallas más pequeñas*/
+        @media only screen and (max-width: 1600px) {
+            /*Vista película*/
+            .principal {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .fondo {
+                position: absolute;
+                width: 80%;
+                height: 100%;
+                top: 11rem;
+                left: 10%;
+                opacity: 0.7;
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+                border-radius: 15px;
+            }
+
+            .pelicula {
+                position: relative;
+                display: flex;
+                width: 80%;
+                height: 100vh;
+                padding: 4rem 3.5rem;
+                margin: 1rem auto;
+                top: 5rem;
+                background-color: rgba(0, 0, 0, 65%);
+                border-radius: 15px;
+            }
+
+            .poster {
+                width: 17vw;
+                height: 55vh;
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+                border-radius: 15px;
+            }
+
+            .info_principal {
+                display: flex;
+                flex-direction: column;
+                width: 300px;
+                height: 100%;
+            }
+
+            .titulo {
+                font-size: 1.5rem;
+                text-align: center;
+                padding-top: 5%;
+            }
+
+            .boton_carousel {
+                margin: -2rem 3rem 0rem 3rem; 
+            }
         }
     </style>
 </head>

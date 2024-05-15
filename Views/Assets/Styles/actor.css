@@ -46,9 +46,9 @@ nav {
 }
 
 .header_left .icon {
-    width: 5rem;
-    height: 5.5rem;
-    background-image: url("Assets/Images/icon.png");
+    width: 4.5rem;
+    height: 5rem;
+    background-image: url("../Images/icon.png");
     background-size: 100% 100%;
 }
 
@@ -187,4 +187,52 @@ nav {
 .social_media a i {
     margin-right: 0.3rem;
     font-size: 2rem;
+}
+
+/*Responsive para pantallas más pequeñas*/
+@media only screen and (max-width: 1600px) {
+    .actor {
+        display: flex;
+        width: 80%;
+        height: 160vh;
+        margin: 6rem auto 10rem auto;
+        padding: 4rem 3.5rem;
+        background-color: rgba(0, 0, 0, 65%);
+        border-radius: 15px;
+    }
+    
+    .imagen {
+        width: 285px;
+        height: 80%;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        border-radius: 15px;
+    }
+    
+    .info_principal {
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        height: 33rem;
+    }
+    
+    .info_detallada {
+        padding: 0 1rem 0 0;
+        border-radius: 20px;
+    }
+    
+    .info_detallada span h3 {
+        padding: 0.5rem 2rem;
+        font-size: 1.2rem;
+    }
+    
+    .info_detallada span h3 span {
+        font-weight: 200;
+    }
+    
+    .nombre {
+        font-size: 1.9rem;
+        text-align: center;
+        padding-top: 5%;
+    }    
 }
