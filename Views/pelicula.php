@@ -35,7 +35,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         body {
             font-family: "Inria Sans", sans-serif;
             font-size: 1.1rem;
-            background-color: rgb(2, 16, 29, 93%);
+            background-color: #021B30;
             color: white;
         }
 
@@ -45,7 +45,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             width: 100%;
             top: 0;
             z-index: 1;
-            background-color: rgb(2, 27, 48);
+            background-color: #011727;
         }
 
         nav {
@@ -71,8 +71,8 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         }
 
         .header_left .icon {
-            width: 4.5rem;
-            height: 5rem;
+            width: 3.5rem;
+            height: 3rem;
             background-image: url("Assets/Images/icon.png");
             background-size: 100% 100%;
         }
@@ -114,15 +114,15 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         /*Botón Volver*/
         .atras {
-            width: 7rem;
-            height: 2.5rem;
+            width: 3.7rem;
+            height: 3.2rem;
             font-size: 1.25rem;
             position: absolute;
-            top: 6.8rem;
-            left: 3rem;
-            background: linear-gradient(90deg, rgb(219, 206, 0) 0%, rgb(255, 188, 0) 100%);
+            top: 7.4rem;
+            left: 12.5vw;
+            background-color: rgb(255, 188, 50);
             color: white;
-            border-radius: 15px;
+            border-radius: 50%;
             cursor: pointer;
             border: 1px solid;
         }
@@ -160,7 +160,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             position: absolute;
             width: 75%;
             height: 75.5vh;
-            top: 10rem;
+            top: 13rem;
             left: 12.5%;
             opacity: 0.7;
             background-size: 100% 100%;
@@ -175,14 +175,16 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             height: 75.5vh;
             padding: 4rem 3.5rem;
             margin: 0 auto;
-            top: 5rem;
+            top: 8rem;
             background-color: rgba(0, 0, 0, 65%);
             border-radius: 15px;
         }
 
         .poster {
-            width: 300px;
+            display: flex;
+            flex-direction: row-reverse;
             height: 80%;
+            margin-bottom: 5%;
             background-size: 100% 100%;
             background-repeat: no-repeat;
             border-radius: 15px;
@@ -196,9 +198,9 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             width: 3.2rem;
             height: 3rem;
             top: 2%;
+            right: 2%;
             border-radius: 50%;
             background-color: grey;
-            left: 80%;
         }
 
         .valoracion {
@@ -210,55 +212,70 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         .info_principal {
             display: flex;
             flex-direction: column;
-            width: 300px;
+            width: 25%;
             height: 100%;
         }
 
         .info_detallada {
-            padding: 0 0 1rem 1rem;
+            width: 75%;
+            padding: 0 0 1rem 1vw;
             border-radius: 20px;
         }
 
         .info_detallada span h3 {
-            padding: 0.5rem 2rem;
+            padding: 0.5rem 0 0.5rem 1.5vw;
             font-size: 1.2rem;
+            text-align: justify;
         }
 
         .info_detallada span h3 span {
             font-weight: 200;
         }
 
-        .titulo {
-            font-size: 1.9rem;
-            text-align: center;
-            padding-top: 5%;
+        #web a {
+            color: orange;
         }
 
-        .aniadir_a_lista {
-            width: 85%;
+        .titulo {
+            font-size: 1.7rem;
+            text-align: center;
+        }
+
+        .aniadir_pelicula {
+            display: flex;
+            justify-content: center;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .aniadir_pelicula .aniadir_a_lista {
+            width: 75%;
             height: 2.5rem;
             margin: 2rem auto 0 auto;
             font-size: 1.25rem;
-            background: linear-gradient(90deg, rgb(219, 206, 0) 0%, rgb(255, 188, 0) 100%);
+            background-color: rgb(255, 188, 50);
             color: white;
             border-radius: 15px;
             cursor: pointer;
             border: 1px solid;
         }
 
-        #sinopsis {
-            text-align: justify;
-            padding: 1rem 3rem 1rem 2rem;
-        }
-
-        #web a {
-            color: orange;
+        .aniadir_pelicula .aniadir_a_favoritos {
+            width: 20%;
+            height: 2.5rem;
+            margin: 2rem auto 0 auto;
+            font-size: 1.25rem;
+            background-color: rgb(255, 188, 50);
+            color: white;
+            border-radius: 15px;
+            cursor: pointer;
+            border: 1px solid;
         }
 
         .secundario {
             display: flex;
             flex-direction: column;
-            margin: 8rem auto;
+            margin: 10rem auto;
             width: 70%;
         }
 
@@ -304,13 +321,13 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         }
 
         .boton_carousel {
-            width: 8rem;
+            width: 7rem;
             height: 2.5rem;
             font-size: 1.25rem;
-            margin: -1rem 3rem 0 3rem;
-            background: linear-gradient(90deg, rgb(219, 206, 0) 0%, rgb(255, 188, 0) 100%);
+            margin: 1rem 3rem 0 3rem;
+            background-color: rgb(255, 188, 50);
             color: white;
-            border-radius: 15px;
+            border-radius: 30px;
             cursor: pointer;
             border: 1px solid;
         }
@@ -321,7 +338,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             width: 100%;
             bottom: 0;
             z-index: 1;
-            background-color: rgb(2, 27, 48);
+            background-color: #011727;
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -351,61 +368,27 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             font-size: 2rem;
         }
 
-        /*Responsive para pantallas más pequeñas*/
         @media only screen and (max-width: 1600px) {
-            /*Vista película*/
-            .principal {
-                display: flex;
-                flex-direction: column;
-            }
-
-            .fondo {
-                position: absolute;
-                width: 80%;
-                height: 100%;
-                top: 11rem;
-                left: 10%;
-                opacity: 0.7;
-                background-size: 100% 100%;
-                background-repeat: no-repeat;
-                border-radius: 15px;
-            }
-
-            .pelicula {
-                position: relative;
-                display: flex;
-                width: 80%;
-                height: 100vh;
-                padding: 4rem 3.5rem;
-                margin: 1rem auto;
-                top: 5rem;
-                background-color: rgba(0, 0, 0, 65%);
-                border-radius: 15px;
-            }
-
-            .poster {
-                width: 17vw;
-                height: 55vh;
-                background-size: 100% 100%;
-                background-repeat: no-repeat;
-                border-radius: 15px;
-            }
-
             .info_principal {
-                display: flex;
-                flex-direction: column;
-                width: 300px;
-                height: 100%;
+                width: 30%;
             }
 
-            .titulo {
-                font-size: 1.5rem;
-                text-align: center;
-                padding-top: 5%;
+            .info_detallada {
+                width: 70%;
+            }
+        }
+        
+        @media only screen and (max-width: 1450px) {
+            .info_principal {
+                width: 35%;
             }
 
-            .boton_carousel {
-                margin: -2rem 3rem 0rem 3rem; 
+            .info_detallada {
+                width: 65%;
+            }
+
+            .info_detallada span h3 {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -434,7 +417,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         <div class="principal">
             <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
 
-            <button id="atras" class="atras">Volver</button>
+            <button id="atras" class="atras"><i class="fa-solid fa-backward-step"></i></button>
 
             <div id="fondo" class="fondo"></div>
 
@@ -449,7 +432,10 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
                     <h1 id="titulo" class="titulo"></h1>
 
-                    <button id="aniadir_a_lista" class="aniadir_a_lista">Añadir a lista</button>
+                    <div class="aniadir_pelicula">
+                        <button id="aniadir_a_lista" class="aniadir_a_lista">Añadir a lista</button>
+                        <button id="aniadir_a_favoritos" class="aniadir_a_favoritos"><i class="fa-regular fa-heart"></i></button>
+                    </div>
                 </div>
 
                 <div id="info_detallada" class="info_detallada">
@@ -479,8 +465,8 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             <div id="actores" class="actores"></div>
 
             <div class="botones_carousel">
-                <button id="btn_anterior" class="boton_carousel">Retroceder</button>
-                <button id="btn_siguiente" class="boton_carousel">Avanzar</button>
+                <button id="btn_anterior" class="boton_carousel"><i class="fa-solid fa-backward"></i></button>
+                <button id="btn_siguiente" class="boton_carousel"><i class="fa-solid fa-forward"></i></button>
             </div>
 
             <div id="comentarios" class="comentarios"></div>

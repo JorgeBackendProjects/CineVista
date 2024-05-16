@@ -9,7 +9,7 @@
 body {
     font-family: "Inria Sans", sans-serif;
     font-size: 1.1rem;
-    background-color: rgb(2, 16, 29, 93%);
+    background-color: #021B30;
     color: white;
 }
 
@@ -19,7 +19,7 @@ header {
     width: 100%;
     top: 0;
     z-index: 1;
-    background-color: rgb(2, 27, 48);
+    background-color: #011727;
 }
 
 nav {
@@ -45,8 +45,8 @@ nav {
 }
 
 .header_left .icon {
-    width: 4.5rem;
-    height: 5rem;
+    width: 3.5rem;
+    height: 3rem;
     background-image: url("../Images/icon.png");
     background-size: 100% 100%;
 }
@@ -96,9 +96,9 @@ nav {
 }
 
 .buscador {
-    width: 17%;
+    width: 30vw;
     height: 3rem;
-    padding-left: 2%;
+    padding-left: 2vw;
     background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
     border: solid 1px #ccc;
     border-radius: 10em;
@@ -109,7 +109,7 @@ nav {
 }
 
 .buscador:focus {
-	width: 25rem;
+	width: 34vw;
 	background-color: #fff;
 	border-color: #66CC75;
 	box-shadow: 0 0 5px rgba(109, 207, 246, 0.5);
@@ -118,17 +118,9 @@ nav {
 /*Texto principal*/
 .texto_principal_container {
     display: flex;
-    width: 80vw;
-    justify-content: center;
+    width: 85vw;
+    justify-content: space-between;
     margin: 4rem auto 0 auto;
-}
-
-.titulo_main {
-    margin-right: 58%;
-}
-
-#resultado_busqueda_text {
-    margin-right: 55%;
 }
 
 /*Div principal de películas*/
@@ -136,7 +128,7 @@ nav {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    width: 80vw;
+    width: 95vw;
     margin: 0 auto 0 auto;
     min-height: 57.5vh;
 }
@@ -145,7 +137,7 @@ nav {
     display: flex;
     flex-direction: column;
     width: 200px;
-    margin: 5rem 5% 20px 5%;
+    margin: 5rem 3% 20px 3%;
     cursor: pointer;
 }
 
@@ -221,7 +213,7 @@ nav {
     width: 100%;
     bottom: 0;
     z-index: 1;
-    background-color: rgb(2, 27, 48);
+    background-color: #011727;
     display: flex;
     justify-content: space-around;    
     align-items: center;
@@ -248,30 +240,18 @@ nav {
 
 .social_media a i {
     margin-right: 0.3rem;
-    font-size: 2.5rem;
+    font-size: 2rem;
 }
 
 /*Responsive para pantallas más pequeñas*/
-@media only screen and (max-width: 1600px) { 
+@media only screen and (max-width: 1670px) { 
     .buscador {
-        width: 16.5%;
-        padding-left: 2.5%;
+        width: 32vw;
+        padding-left: 3vw;
     }
-    
-    .titulo_main {
-        margin-right: 69%;
-    }
+}
 
-    #resultado_busqueda_text {
-        margin-right: 60%;
-    }
+/*Responsive para MOBILE*/
+@media only screen and (max-width: 1050px) { 
 
-    .peliculas {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        width: 90vw;
-        margin: 0 auto 0 auto;
-        min-height: 57.5vh;
-    }
 }
