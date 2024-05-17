@@ -89,12 +89,12 @@ nav {
 
 /*Botón Volver*/
 .atras {
-    width: 7rem;
+    width: 8rem;
     height: 2.5rem;
     font-size: 1.25rem;
     position: absolute;
-    top: 6.8rem;
-    left: 3rem;
+    top: 7.4rem;
+    left: 10vw;
     background-color: rgb(255, 188, 50);
     color: white;
     border-radius: 15px;
@@ -148,6 +148,10 @@ nav {
 
 .info_detallada span h3 span {
     font-weight: 200;
+}
+
+.biografia {
+    line-height: 1.7rem;
 }
 
 .nombre {

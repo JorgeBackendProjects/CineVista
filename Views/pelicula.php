@@ -114,15 +114,15 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
         /*Botón Volver*/
         .atras {
-            width: 3.7rem;
-            height: 3.2rem;
+            width: 8rem;
+            height: 2.5rem;
             font-size: 1.25rem;
             position: absolute;
             top: 7.4rem;
             left: 12.5vw;
             background-color: rgb(255, 188, 50);
             color: white;
-            border-radius: 50%;
+            border-radius: 15px;
             cursor: pointer;
             border: 1px solid;
         }
@@ -239,6 +239,10 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         .titulo {
             font-size: 1.7rem;
             text-align: center;
+        }
+
+        .sinopsis {
+            line-height: 1.7rem;
         }
 
         .aniadir_pelicula {
@@ -417,7 +421,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
         <div class="principal">
             <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
 
-            <button id="atras" class="atras"><i class="fa-solid fa-backward-step"></i></button>
+            <button id="atras" class="atras">Volver</button>
 
             <div id="fondo" class="fondo"></div>
 
@@ -465,8 +469,8 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             <div id="actores" class="actores"></div>
 
             <div class="botones_carousel">
-                <button id="btn_anterior" class="boton_carousel"><i class="fa-solid fa-backward"></i></button>
-                <button id="btn_siguiente" class="boton_carousel"><i class="fa-solid fa-forward"></i></button>
+                <button id="btn_anterior" class="boton_carousel"><i class="fa-solid fa-angles-left"></i></button>
+                <button id="btn_siguiente" class="boton_carousel"><i class="fa-solid fa-angles-right"></i></button>
             </div>
 
             <div id="comentarios" class="comentarios"></div>
