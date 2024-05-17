@@ -41,7 +41,7 @@ class Usuario {
         $usuario_existente = false;
         $credenciales = false;
 
-        $stmt = $pdo->prepare("SELECT id, username, email, password FROM usuario");
+        $stmt = $pdo->prepare("SELECT id, username, email, rol, password FROM usuario");
         if ($stmt->execute()) {
             $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -51,7 +51,8 @@ class Usuario {
                     // Si el username o email coinciden se setea a true la variable de usuario existente.
                     if ($usuario["username"] == $username || $usuario["email"] == $username) {
                         // Si la contraseña también coincide se inicia la sesión con el id, username y email; y se setea la variable credenciales a true.
-                        if (password_verify($usuario["password"], PASSWORD_ARGON2I)  == $password) {
+                        //if (password_verify($usuario["password"], PASSWORD_ARGON2I)  == $password) {
+                        if ($usuario["password"] == $password) {
                             session_start();
                             $_SESSION = array(
                                 "id" => $usuario["id"],
@@ -70,13 +71,32 @@ class Usuario {
             }
 
             if ($usuario_existente && $credenciales) {
-                return true;
+                return "inicio_exitoso";
             } else if ($usuario_existente && $credenciales == false) {
-                return "La contraseña no coincide";
+                return "La contraseña no coincide.";
             } else if ($usuario_existente == false){
-                return "No se ha encontrado ningún usuario con ese nombre";
-            } 
+                return "No se ha encontrado ningún usuario con ese nombre.";
+            } else {
+                return "No se han podido comprobar las credenciales, inténtalo de nuevo más tarde.";
+            }
         }
+    }
+
+    public static function cerrar_sesion() {
+        session_start();
+        
+        $_SESSION = array();
+
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+
+        session_destroy();
+        session_abort();
     }
     
 

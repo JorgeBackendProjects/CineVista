@@ -1,4 +1,5 @@
 <?php
+require_once("../Models/Usuario.php");
 
 if (isset($_POST["key"]) && $_POST["key"] == "inicio" && isset($_POST["username"]) && isset($_POST["password"])) {
     $username = $_POST["username"];
@@ -6,15 +7,11 @@ if (isset($_POST["key"]) && $_POST["key"] == "inicio" && isset($_POST["username"
 
     $inicio = Usuario::iniciar_sesion($username, $password); 
 
-    if ($inicio) {
-        echo json_encode("true");
-    } else {
-        echo json_encode($inicio);
-    }
+    echo json_encode($inicio);
 }
 
 if (isset($_POST["key"]) && $_POST["key"] == "cerrar_sesion") {
-    
+    Usuario::cerrar_sesion();
 }
 
 if (isset($_POST["key"]) && $_POST["key"] == "registro") {

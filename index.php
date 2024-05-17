@@ -1,11 +1,8 @@
 <?php
-    //session_start();
-    //$_SESSION["usuario"] = "ElPiezass";
+    session_start();
 
-    //session_destroy();
-    //$_SESSION["usuario"] = null;
-
-    $sesion_iniciada = isset($_SESSION["usuario"]);
+    $sesion_iniciada = isset($_SESSION["username"]);
+    var_dump($_SESSION["username"]);
 ?>
 
 <!DOCTYPE html>

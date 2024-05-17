@@ -4,10 +4,9 @@
     <h1>Iniciar sesión</h1>
     <p>Introduce tus credenciales para iniciar sesión</p>
 
-    <form id="inicio_form" action="../Controllers/usuario_controller.php" method="POST">
-        <input type="hidden" id="key" name="key" value="inicio"/>
-        <input type="text" id="inicio_username" name="inicio_username" class="username" placeholder="Usuario o E-mail" autocomplete="off"/>
-        <input type="password" id="inicio_password" name="inicio_password" class="password" placeholder="Contraseña" autocomplete="off"/>
+    <form id="inicio_form">
+        <input type="text" id="username_inicio" name="username_inicio" class="username" placeholder="Usuario o E-mail" autocomplete="off"/>
+        <input type="password" id="password_inicio" name="password_inicio" class="password" placeholder="Contraseña" autocomplete="off"/>
         <button id="boton_inicio" name="boton_inicio" class="boton_enviar">Iniciar sesión</button>
     </form>
 </div>

@@ -261,51 +261,46 @@ if (isset($_GET["accion"])) {
             history.back();
         });
 
-        jQuery("#boton_registro").on("click", function(event) {
-            event.preventDefault();
-
-            let key = jQuery("#key").val();
-            var formData = new FormData(jQuery('#form_insert')[0]);
-            jQuery.ajax({
-                url: '../Controllers/usuario_controller.php',
-                method: 'POST',
-                data: {
-                    id_pelicula: id_pelicula,
-                    key: key
-                },
-                success: function (data) {
-                    // Obtengo el array de actores.
-                    let actores = JSON.parse(data).actores;
-
-                    // Se muestra el h1 y se oculta la pantalla de carga.
-                    jQuery(".secundario h1").show();
-                    jQuery("#pantalla_carga").hide();
-
-                    // Se cargan los datos en el DOM.
-                    create_DOM_actores(actores);
-                },
-                error: function(xhr, status, error) {
-                    // En caso de error, se agrega un mensaje al contenedor principal y se oculta el resto de elementos.
-                    jQuery("#principal").append("<h2>No se han podido cargar las películas. Vuelve a intentarlo más tarde.</h2>");
-
-                    jQuery("#pelicula").hide();
-                    jQuery("#secundario").hide();
-                    jQuery("#pantalla_carga").hide();
-                }
-            });
-        });
+        // GUARDAR SESION INICIADA EN UNA COOKIE SI SE PULSA MANTENER ABIERTA Y SI NO SE CIERRE AL CERRAR EL NAVEGADOR
 
         jQuery("#boton_inicio").on("click", function(event) {
             event.preventDefault();
 
-            let key = jQuery("#key").val();
-            var formData = new FormData(jQuery('#form_insert')[0]);
+            jQuery.ajax({
+                url: '../Controllers/usuario_controller.php',
+                method: 'POST',
+                data: {
+                    username: jQuery('#username_inicio').val(),
+                    password: jQuery("#password_inicio").val(),
+                    key: "inicio"
+                },
+                success: function (data) {
+                    let respuesta = JSON.parse(data);
+
+                    if (respuesta == "inicio_exitoso") {
+                        window.location = "../index.php";
+                    } else {
+                        alert(respuesta);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // En caso de error, se muestra un modal.
+
+                }
+            });
+        });
+
+        jQuery("#boton_registro").on("click", function(event) {
+            event.preventDefault();
+
+            let formulario_registro = new FormData(jQuery('#registro_form')[0]);
+
             jQuery.ajax({
                 url: '../Controllers/usuario_controller.php',
                 method: 'POST',
                 data: {
                     id_pelicula: id_pelicula,
-                    key: key
+                    key: "registro"
                 },
                 success: function (data) {
                     // Obtengo el array de actores.
