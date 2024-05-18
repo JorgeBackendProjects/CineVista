@@ -1,11 +1,10 @@
 <?php
 session_start();
+$sesion_iniciada = isset($_SESSION["username"]);
 
 $id_pelicula = isset($_GET["id"]) ? $_GET["id"] : null;
 $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película";
-
-$sesion_iniciada = isset($_SESSION["username"]);
-var_dump($_SESSION["username"]);
+$pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
 ?>
 
 <!DOCTYPE html>
@@ -405,7 +404,11 @@ var_dump($_SESSION["username"]);
             <div class="header_right">
                 <?php
                 if ($sesion_iniciada) {
-                    include_once ("Assets/Templates/view_sesion_header.html");
+                    if ($_SESSION["rol"] == "Administrador") {
+                        include_once ("Assets/Templates/view_admin_header.html");
+                    } else {
+                        include_once ("Assets/Templates/view_sesion_header.html");
+                    }
                 } else {
                     include_once ("Assets/Templates/view_no_sesion_header.html");
                 }
@@ -416,6 +419,7 @@ var_dump($_SESSION["username"]);
 
     <main>
         <div class="principal">
+            <input type="hidden" id="pagina_actual" name="pagina_actual" value="<?php echo $pagina_actual; ?>" />
             <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
 
             <button id="atras" class="atras">Volver</button>
@@ -494,7 +498,8 @@ var_dump($_SESSION["username"]);
 
                 // Listener para que, al pulsar el botón vuelve atrás hasta la última coordenada clickada en el index. 
                 jQuery("#atras").on("click", function () {
-                    window.location = "../index.php";
+                    let pagina_actual = jQuery("#pagina_actual").val();
+                    window.location.href = `../index.php?pagina=${pagina_actual}`;
                 });
 
                 // Prevenimos el comportamiento por defecto del elemento <a> para hacer una petición al controller de usuario que cierra la sesión y recargar la página.

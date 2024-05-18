@@ -107,8 +107,32 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             margin-right: 0.3rem;
         }
 
-        /*Contenedor principal*/
-        .principal {
+        /*Botón Volver*/
+        .atras {
+            width: 7rem;
+            height: 2.5rem;
+            font-size: 1.25rem;
+            position: absolute;
+            top: 6.8rem;
+            left: 3rem;
+            background-color: rgb(255, 188, 50);
+            color: white;
+            border-radius: 15px;
+            cursor: pointer;
+            border: 1px solid;
+        }
+
+        /*Texto*/
+        .principal h1 {
+            margin: 3rem auto 1rem 3rem;
+        }
+
+        .principal p {
+            margin: 0 3vw 2rem 2.5vw;
+        }
+
+        /*Variación para la clase principal de inicio*/
+        #iniciar_principal {
             display: flex;
             flex-direction: column;
             width: 30rem;
@@ -118,44 +142,14 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             border-radius: 30px;
         }
 
-        /*Variación para la clase principal de registro*/
-        #registro_principal {
-            height: 72vh;
-            margin: 3% auto auto auto;
-        }
-
-        .principal h1 {
-            margin: 3rem auto 1rem 3rem;
-        }
-
-        .principal p {
-            margin: 0 3vw 2rem 2.5vw;
-        }
-
-        /*Botón Volver*/
-        .atras {
-            width: 7rem;
-            height: 2.5rem;
-            font-size: 1.25rem;
-            position: absolute;
-            top: 6.8rem;
-            left: 3rem;
-            background: linear-gradient(90deg, rgb(219, 206, 0) 0%, rgb(255, 188, 0) 100%);
-            color: white;
-            border-radius: 15px;
-            cursor: pointer;
-            border: 1px solid;
-        }
-
-        /*FORMULARIO*/
-        form {
+        #iniciar_principal form {
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
         }
 
-        input {
+        #iniciar_principal form input {
             width: 80%;
             height: 3rem;
             padding-left: 5%;
@@ -164,35 +158,104 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             border-radius: 10px;
         }
 
-        /*Botón de envío de formulario*/
-        .boton_enviar {
+        #iniciar_principal form .boton_enviar {
             width: 10rem;
             height: 2.5rem;
             font-size: 1.25rem;
             margin: 3rem 0 3rem 45%;
-            background: linear-gradient(90deg, rgb(219, 206, 0) 0%, rgb(255, 188, 0) 100%);
+            background-color: rgb(255, 188, 50);
             color: white;
             border-radius: 15px;
             cursor: pointer;
             border: 1px solid;
         }
 
-        /*Modal de información sobre el envío*/
-        .modal_envio {
+        /*Variación para la clase principal de registro*/
+        #registro_principal {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 70%;
-            height: 200px;
-            margin: 10rem auto 10rem auto;
-            overflow-x: auto;
-            z-index: 10;
-            border-radius: 15px;
-            background-color: rgba(255, 255, 255, 0.1);
+            flex-direction: column;
+            width: 50vw;
+            height: 72vh;
+            margin: 3% auto auto auto;
+            background-color: rgba(0, 0, 0, 50%);
+            border-radius: 30px;
         }
 
-        .modal_envio h2 {
-            margin-left: 1rem;
+        #registro_principal form{
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            justify-content: center;
+            align-content: flex-end;
+            align-items: flex-end;
+            width: 82.5%;
+        } 
+
+        #registro_principal form input{
+            width: 30vw;
+            height: 3rem;
+            padding-left: 5%;
+            margin: 1rem 1rem 1rem 2rem;
+            border: 2px solid black;
+            border-radius: 10px;
+        } 
+
+        #registro_principal form .boton_enviar{
+            width: 10rem;
+            height: 2.5rem;
+            margin: 2rem 2% 0 0;
+            font-size: 1.25rem;
+            background-color: rgb(255, 188, 50);
+            color: white;
+            border-radius: 15px;
+            cursor: pointer;
+            border: 1px solid;
+        } 
+
+        /*Modal de información sobre el envío*/
+        .contenedor_modal {
+            display: none;
+            position: fixed;
+            width: 100%; 
+            height: 100%; 
+            left: 0;
+            top: 0;
+            z-index: 1;
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.6); 
+        }
+
+        .modal {
+            width: 25%;
+            height: 20%;
+            margin: 18% auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 35px;
+            border: 1px solid black;
+        }
+
+        .mensaje_modal {
+            display: flex;
+            justify-content: center;
+            margin-top: 6vh;
+            text-align: center;
+            font-size: 1.1rem;
+            color: black;
+        }
+
+        .cerrar_modal {
+            color: grey;
+            float: right;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .cerrar_modal:hover,
+        .cerrar_modal:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
         }
 
         /*Footer*/
@@ -256,79 +319,143 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
         ?>
     </main>
 
+    <div id="contenedor_modal" class="contenedor_modal">
+        <div id="modal" class="modal">
+            <span id="cerrar_modal" class="cerrar_modal">&times;</span>
+            <p id="mensaje_modal" class="mensaje_modal"></p>
+        </div>
+    </div>
+
     <?php include_once ("Assets/Templates/footer.html"); ?>
 
     <script>
-        // Listener para que, al pulsar el botón vuelve atrás hasta la última coordenada clickada en el index. 
-        jQuery("#atras").on("click", function () {
-            history.back();
-        });
+        function iniciar_listeners() {
+            var contenedor_modal = jQuery("#contenedor_modal");
+            var modal = jQuery("#modal");
 
-        // GUARDAR SESION INICIADA EN UNA COOKIE SI SE PULSA MANTENER ABIERTA Y SI NO SE CIERRE AL CERRAR EL NAVEGADOR
+            // Cuando el documento cargue se inician todos los listeners.
+            jQuery(document).ready(function() {
+                // Eventos click para cerrar el modal tanto en la cruz como fuera del modal.
+                jQuery("#cerrar_modal").on("click", function() {
+                    contenedor_modal.css("display", "none");
+                });
 
-        jQuery("#boton_inicio").on("click", function(event) {
-            event.preventDefault();
-
-            jQuery.ajax({
-                url: '../Controllers/usuario_controller.php',
-                method: 'POST',
-                data: {
-                    username: jQuery('#username_inicio').val(),
-                    password: jQuery("#password_inicio").val(),
-                    key: "inicio",
-                    redirect_url: jQuery("#redirect_url").val()
-                },
-                success: function (data) {
-                    let respuesta = JSON.parse(data);
-
-                    if (respuesta.status == "OK") {
-                        let redirect_url = respuesta.redirect_url;
-                        window.location = redirect_url || "../index.php";
-                    } else {
-                        alert(respuesta.mensaje);
+                jQuery(window).on("click", function(event) {
+                    if (event.target == contenedor_modal[0]) {
+                        contenedor_modal.css("display", "none");
                     }
-                },
-                error: function(xhr, status, error) {
-                    // En caso de error, se muestra un modal.
+                });
 
-                }
+                // Evento para envío de credenciales. Se previene el comportamiento por defecto y se envía una petición ajax al controller de usuarios. 
+                jQuery("#boton_inicio").on("click", function(event) {
+                    event.preventDefault();
+
+                    // Se envía el username, password y la url desde donde se ha llegado a sesion.php, para devolver al usuario al finalizar la petición.
+                    jQuery.ajax({
+                        url: '../Controllers/usuario_controller.php',
+                        method: 'POST',
+                        data: {
+                            username: jQuery('#username_inicio').val(),
+                            password: jQuery("#password_inicio").val(),
+                            key: "inicio",
+                            redirect_url: jQuery("#redirect_url").val()
+                        },
+                        success: function (data) {
+                            let respuesta = JSON.parse(data);
+
+                            // Si se ha devuelto OK, redirige al usuario a la página anterior.
+                            if (respuesta.status == "OK") {
+                                let redirect_url = respuesta.redirect_url;
+                                window.location = redirect_url || "../index.php";
+                            } else {
+                                mostrar_modal(respuesta.mensaje);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            mostrar_modal("Ocurrió un error en el servidor. Por favor, inténtalo de nuevo.");
+                        }
+                    });
+                });
+
+                jQuery("#boton_registro").on("click", function(event) {
+                    event.preventDefault();
+
+                    console.log("CLICK");
+
+                    let nombre = jQuery("#registro_nombre").val();
+                    let username = jQuery("#registro_username").val();
+                    let email = jQuery("#registro_email").val();
+                    let password = jQuery("#registro_password").val();
+                    let repetir_password = jQuery("#registro_repetir_password").val();
+
+                    // Si las contraseñas coinciden se comprueban los campos con expresiones regulares.
+                    if (password == repetir_password) {
+                        let comp_username = /^[a-zA-Z0-9_.]{5,20}$/;
+                        let comp_email = /^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}$/;
+                        let comp_password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&_-])[A-Za-z\d$@$!%*?&_-]{8,25}$/;
+                        
+                        // Si todas las expresiones regulares se cumplen, se procede al envío para registrar la cuenta de usuario.
+                        if (!comp_username.test(username)) {
+                            mostrar_modal("El nombre de usuario debe tener una longitud entre 5 y 20 caracteres sin espacios en blanco, como separador se permiten guiones bajos y puntos.");
+                        } else if (!comp_email.test(email)) {
+                            mostrar_modal("La dirección de correo electrónico no es válida.");
+                        } else if (!comp_password.test(password)) {
+                            mostrar_modal("La contraseña debe tener una longitud entre 8 y 15 caracteres sin espacios en blanco en los que, al menos haya: una minúscula, una mayúscula, un número y un carácter especial.");
+                        
+                        // Se hace la solicitud ajax al controller de usuario.
+                        } else {
+                            jQuery.ajax({
+                                url: '../Controllers/usuario_controller.php',
+                                method: 'POST',
+                                data: {
+                                    nombre: nombre,
+                                    username: username,
+                                    email: email,
+                                    password: password,
+                                    key: "registro",
+                                    redirect_url: jQuery("#redirect_url").val()
+                                },
+                                success: function (data) {
+                                    let respuesta = JSON.parse(data);
+
+                                    // Si se ha devuelto OK, redirige al usuario a la página anterior.
+                                    if (respuesta.status == "OK") {
+                                        mostrar_modal("La cuenta se ha registrado con éxito, inicia sesión cuando quieras.");
+
+                                        setTimeout(() => {
+                                            let redirect_url = respuesta.redirect_url;
+                                            window.location = redirect_url || "../index.php";
+                                        }, 3000);
+                                    } else {
+                                        mostrar_modal(respuesta.mensaje);
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    mostrar_modal("Ocurrió un error en el servidor. Por favor, inténtalo de nuevo.");
+                                }
+                            });
+                        }
+
+                    } else {
+                        mostrar_modal("Las contraseñas no coinciden.");
+                    }
+                });
             });
-        });
 
-        jQuery("#boton_registro").on("click", function(event) {
-            event.preventDefault();
-
-            let formulario_registro = new FormData(jQuery('#registro_form')[0]);
-
-            jQuery.ajax({
-                url: '../Controllers/usuario_controller.php',
-                method: 'POST',
-                data: {
-                    id_pelicula: id_pelicula,
-                    key: "registro"
-                },
-                success: function (data) {
-                    // Obtengo el array de actores.
-                    let actores = JSON.parse(data).actores;
-
-                    // Se muestra el h1 y se oculta la pantalla de carga.
-                    jQuery(".secundario h1").show();
-                    jQuery("#pantalla_carga").hide();
-
-                    // Se cargan los datos en el DOM.
-                    create_DOM_actores(actores);
-                },
-                error: function(xhr, status, error) {
-                    // En caso de error, se agrega un mensaje al contenedor principal y se oculta el resto de elementos.
-                    jQuery("#principal").append("<h2>No se han podido cargar las películas. Vuelve a intentarlo más tarde.</h2>");
-
-                    jQuery("#pelicula").hide();
-                    jQuery("#secundario").hide();
-                    jQuery("#pantalla_carga").hide();
-                }
+            // Listener para que, al pulsar el botón vuelve atrás hasta la coordenada anterior. 
+            jQuery("#atras").on("click", function () {
+                history.back();
             });
-        });
+            
+        }
+        
+        // Función para mostrar el modal con el mensaje determinado.
+        function mostrar_modal(mensaje) {
+            jQuery("#mensaje_modal").text(mensaje);
+            jQuery("#contenedor_modal").css("display", "block");
+        }
 
+        iniciar_listeners();
     </script>
 </body>
 

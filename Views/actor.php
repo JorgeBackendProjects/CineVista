@@ -1,12 +1,10 @@
 <?php
 session_start();
+$sesion_iniciada = isset($_SESSION["username"]);
 
 $id_actor = isset($_GET["id"]) ? $_GET["id"] : null;
 $nombre = isset($_GET["nombre"]) ? $_GET["nombre"] : "";
 $pelicula_url = isset($_GET["pelicula_url"]) ? $_GET["pelicula_url"] : '../index.php';
-
-$sesion_iniciada = isset($_SESSION["username"]);
-var_dump($_SESSION["username"]);
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +31,11 @@ var_dump($_SESSION["username"]);
             <div class="header_right">
                 <?php
                 if ($sesion_iniciada) {
-                    include_once ("Assets/Templates/view_sesion_header.html");
+                    if ($_SESSION["rol"] == "Administrador") {
+                        include_once ("Assets/Templates/view_admin_header.html");
+                    } else {
+                        include_once ("Assets/Templates/view_sesion_header.html");
+                    }
                 } else {
                     include_once ("Assets/Templates/view_no_sesion_header.html");
                 }

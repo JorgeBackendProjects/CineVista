@@ -16,13 +16,26 @@ if (isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["key"
     }
 }
 
+// Condición para cerrar sesión.
 if (isset($_POST["key"]) && $_POST["key"] == "cerrar_sesion") {
     Usuario::cerrar_sesion();
     echo json_encode("OK");
 }
 
-if (isset($_POST["key"]) && $_POST["key"] == "registro") {
-    
+if (isset($_POST["nombre"]) && isset($_POST["username"]) && isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["key"]) && $_POST["key"] == "registro") {
+    $redirect_url = isset($_POST['redirect_url']) ? $_POST['redirect_url'] : '../index.php';
+    $username = $_POST["username"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $nombre = $_POST["nombre"];
+
+    $registro = Usuario::insert_usuario($username, $email, $password, $nombre); 
+
+    if ($registro == "OK") {
+        echo json_encode(["status" => "OK", "redirect_url" => $redirect_url]);
+    } else {
+        echo json_encode(["status" => "error", "mensaje" => $registro]);
+    }
 }
 
 if (isset($_POST["key"]) && $_POST["key"] == "editar_usuario") {

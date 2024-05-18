@@ -259,6 +259,20 @@ nav {
         width: 50%;
         padding-left: 4%;
     }
+
+    .paginacion {
+        display: flex;
+        justify-content: space-around;
+        width: 60%;
+    }
+
+    #anterior, #siguiente {
+        display: none;
+    }
+
+    .container_paginacion .paginacion .pagina { 
+        margin-bottom: 4%;
+    }
 }
 
 /*Responsive para pantallas más pequeñas*/
@@ -324,20 +338,4 @@ nav {
         justify-content: space-around;
         width: 80%;
     }
-
-    .pagina {
-        display: none;
-    }
-
-    #anterior, #siguiente {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .container_paginacion .paginacion .pagina { 
-        margin-bottom: 4%;
-    }
-
-    
 }

@@ -1,8 +1,8 @@
 <?php
 session_start();
-
 $sesion_iniciada = isset($_SESSION["username"]);
-var_dump($_SESSION["username"]);
+
+$pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +29,11 @@ var_dump($_SESSION["username"]);
             <div class="header_right">
                 <?php
                     if ($sesion_iniciada) {
-                        include_once("Views/Assets/Templates/index_sesion_header.html");
+                        if ($_SESSION["rol"] == "Administrador") {
+                            include_once("Views/Assets/Templates/index_admin_header.html");
+                        } else {
+                            include_once("Views/Assets/Templates/index_sesion_header.html");
+                        }
                     } else {
                         include_once("Views/Assets/Templates/index_no_sesion_header.html");
                     }
@@ -39,6 +43,7 @@ var_dump($_SESSION["username"]);
     </header>
 
     <main>
+        <input type="hidden" id="pagina_actual" name="pagina_actual" value="<?php echo $pagina_actual; ?>"/>
         <div id="container_buscador" class="container_buscador">
             <input type="search" id="buscador" class="buscador" placeholder="Busca películas por título o fecha" autocomplete="off">
         </div>

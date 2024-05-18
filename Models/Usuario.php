@@ -7,37 +7,81 @@ class Usuario {
     private string $email;
     private string $password;
     private string $nombre;
-    private string $ciudad;
-    private string $fecha_nacimiento;
     private string $imagen;
     private string $rol;
 
-    public function __construct($username, $email, $nombre, $ciudad, $fecha_nacimiento, $rol, $imagen = "", $password = "", $id = 0) {
+    public function __construct($username, $email, $nombre, $rol, $imagen = "", $password = "", $id = 0) {
         $this->username = $username;
         $this->email = $email;
         $this->nombre = $nombre;
-        $this->ciudad = $ciudad;
-        $this->fecha_nacimiento = $fecha_nacimiento;
         $this->imagen = $imagen;
         $this->rol = $rol;
         $this->password = $password;
         $this->id = $id;
     }
 
-    public static function insert_usuario($username, $email, $password, $ciudad, $fecha_nacimiento) {
-        //$passwordHash = password_hash($usuario->getPassword(), PASSWORD_ARGON2I);
+    public static function insert_usuario($username, $email, $password, $nombre) {
+        $pdo = Conexion::connection_database();
+        $username_existente = false;
+        $email_existente = false;
+
+        // Se obtienen todos los usuarios de la base de datos para evitar que se repita el username o email.
+        $stmt = $pdo->prepare("SELECT username, email, rol, password FROM usuario");
+        if ($stmt->execute()) {
+            $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Si hay usuarios se recorre el array en busca de la coincidencia de username o email.
+            if (count($usuarios) > 0) {
+                foreach ($usuarios as $usuario) {
+                    // Si el username o email coinciden se setea a true la variable.
+                    if ($usuario["username"] == $username) {
+                        $username_existente = true;
+                    }
+
+                    if ($usuario["email"] == $email) {
+                        $email_existente = true;
+                    }
+                }
+            }
+
+            // Si el username o email existen se devuelve un mensaje, en caso contrario se inserta el usuario y se devuelve un OK.
+            if ($username_existente && $email_existente) {
+                return "Ya existe un usuario registrado con el mismo username y email.";
+            } else if ($username_existente) {
+                return "Ya existe un usuario registrado con el mismo username.";
+            } else if ($email_existente) {
+                return "Ya existe un usuario registrado con el mismo email.";
+            } else {
+                // Se inserta el usuario.
+                $stmt = $pdo->prepare("INSERT INTO usuario (username, email, password, nombre, imagen, rol) VALUES (?, ?, ?, ?, ?, ?)");
+                if ($stmt->execute([$username, $email, password_hash($password, PASSWORD_ARGON2I), $nombre, "", "Usuario"])) {
+                    return "OK";
+                } else {
+                    return "Ha habido un error al procesar el registro. Inténtalo de nuevo más tarde.";
+                }
+            }
+        }
     }
 
-    public static function update_usuario($id, $username, $email, $password, $ciudad, $fecha_nacimiento, $imagen) {
-
+    public static function update_usuario($id, $username, $email, $password, $ciudad, $imagen) {
+        // OBTENER EL USUARIO POR ID Y REEMPLAZAR EL RESTO.
     }
 
-    //HACER EN LISTAS DELETE LISTAS USUARIO.
+    //FALTA: HACER EN LISTAS DELETE LISTAS USUARIO. // Se eliminan todos los comentarios del usuario y el usuario.
     public static function delete_usuario($id) {
-        
+        $pdo = Conexion::connection_database();
+        $stmt = $pdo->prepare("DELETE FROM comentario WHERE id_usuario = ?");
+        $stmt->execute([$id]);
+
+        $stmt = $pdo->prepare("DELETE FROM usuario WHERE id = ?");
+        if ($stmt->execute([$id])) {
+            echo json_encode("OK");
+        } else {
+            echo json_encode("No se ha podido eliminar el perfil. Prueba de nuevo más tarde.");
+        }
     }
 
-    //GUARDAR $id y $username.
+    // Inicia sesión con // AÑADIR PASSWORD VERIFY.
     public static function iniciar_sesion($username, $password) {
         $pdo = Conexion::connection_database();
         $usuario_existente = false;
@@ -53,8 +97,7 @@ class Usuario {
                     // Si el username o email coinciden se setea a true la variable de usuario existente.
                     if ($usuario["username"] == $username || $usuario["email"] == $username) {
                         // Si la contraseña también coincide se inicia la sesión con el id, username y email; y se setea la variable credenciales a true.
-                        //if (password_verify($usuario["password"], PASSWORD_ARGON2I)  == $password) {
-                        if ($usuario["password"] == $password) {
+                        if (password_verify($password, $usuario["password"])) {
                             session_start();
                             $_SESSION = array(
                                 "id" => $usuario["id"],
@@ -84,25 +127,18 @@ class Usuario {
         }
     }
 
+    // Setea el array $_SESSION y se destruye la sesión.
     public static function cerrar_sesion() {
         session_start();
         
         $_SESSION = array();
 
-       /* if (ini_get("session.use_cookies")) {
-            $params = session_get_cookie_params();
-            setcookie(session_name(), '', time() - 42000,
-                $params["path"], $params["domain"],
-                $params["secure"], $params["httponly"]
-            );
-        }*/
-
         session_destroy();
         session_abort();
     }
     
-
-    public static function escribir_comentario($id_pelicula) {
+    // Escribir comentario en pelicula
+    public static function escribir_comentario() {
         
     }
 
@@ -130,16 +166,6 @@ class Usuario {
     public function get_nombre(): string
     {
         return $this->nombre;
-    }
-
-    public function get_ciudad(): string
-    {
-        return $this->ciudad;
-    }
-
-    public function get_fecha_nacimiento(): string
-    {
-        return $this->fecha_nacimiento;
     }
 
     public function get_imagen(): string
@@ -176,16 +202,6 @@ class Usuario {
     public function set_nombre(string $nombre): void
     {
         $this->nombre = $nombre;
-    }
-
-    public function set_ciudad(string $ciudad): void
-    {
-        $this->ciudad = $ciudad;
-    }
-
-    public function set_fecha_nacimiento(string $fecha_nacimiento): void
-    {
-        $this->fecha_nacimiento = $fecha_nacimiento;
     }
 
     public function set_imagen(string $imagen): void

@@ -1,5 +1,3 @@
-var pagina_actual = 1;
-
 // Hace una petición al controller de películas para obtener los id, títulos y pósters mediante la key para identificar la petición en el back-end
 function get_peliculas(pagina) {
     jQuery.ajax({
@@ -137,12 +135,20 @@ function set_paginacion(total_paginas, pagina_actual, total_peliculas) {
     jQuery("#numero_paginas").show();
 
     // Calcula el rango de botones a mostrar, siempre debe haber mínimo 10 botones.
-    let inicio = Math.max(1, Math.min(pagina_actual - 4, total_paginas - 9));
-    let fin = Math.min(total_paginas, inicio + 9);
+    let inicio = Math.max(1, Math.min(pagina_actual - 1, total_paginas - 6));
+    let fin = Math.min(total_paginas, inicio + 6);
 
     // Agregamos el botón con clase "anterior" cuando no estamos en la primera página.
     if (pagina_actual > 1) {
         jQuery("#paginacion").append(`<button id="anterior" class="pagina anterior">Anterior</button>`);
+    }
+
+    // Agregamos el botón a la primera página siempre.
+    if (inicio > 1) {
+        jQuery("#paginacion").append(`<button class="pagina">1</button>`);
+        if (inicio > 2) {
+            jQuery("#paginacion").append(`<button class="pagina">...</button>`);
+        }
     }
 
     // Se crean los botones de paginación para cada página dentro del rango.
@@ -156,6 +162,14 @@ function set_paginacion(total_paginas, pagina_actual, total_peliculas) {
 
         // Se añade cada botón al div de paginación.
         jQuery("#paginacion").append(boton);
+    }
+
+    // Agregamos el botón a la última página siempre.
+    if (fin < total_paginas) {
+        if (fin < total_paginas - 1) {
+            jQuery("#paginacion").append(`<button class="pagina">...</button>`);
+        }
+        jQuery("#paginacion").append(`<button class="pagina">${total_paginas}</button>`);
     }
 
     // Agrega el botón con clase "siguiente" cuando no estamos en la última página.
@@ -172,9 +186,11 @@ function set_paginacion(total_paginas, pagina_actual, total_peliculas) {
 
 // Inicia los listeners para el index.php
 function inicializar_DOM() {
+    var pagina_actual = jQuery("#pagina_actual").val();
+
     // Cuando el documento está listo, se hace una llamada para obtener las primeras 20 películas.
     jQuery(document).ready(function() {
-        get_peliculas(1); 
+        get_peliculas(pagina_actual); 
     });
 
     jQuery(document).on("input", "#buscador", function(){
@@ -197,7 +213,7 @@ function inicializar_DOM() {
         let titulo = jQuery(this).find(".titulo").text();
     
         // Redirige a la página de detalles de película con el id y título en la URL
-        window.location = `Views/pelicula.php?id=${id_pelicula}&titulo=${titulo}`;
+        window.location = `Views/pelicula.php?id=${id_pelicula}&titulo=${titulo}&pagina=${pagina_actual}`;
     });
 
     // Listener onclick que, al pulsar un botón de paginación obtiene el número de la página del texto del botón y vuelve a solicitar al servidor las películas de la página actual. 
