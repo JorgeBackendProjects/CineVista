@@ -7,7 +7,9 @@
     <form id="inicio_form">
         <input type="hidden" id="redirect_url" name="redirect_url" value="<?php echo htmlspecialchars($redirect_url); ?>">
 
+        <label>Nombre de usuario o E-mail</label>
         <input type="text" id="username_inicio" name="username_inicio" class="username" placeholder="Usuario o E-mail" required/>
+        <label>Contraseña</label>
         <input type="password" id="password_inicio" name="password_inicio" class="password" placeholder="Contraseña" autocomplete="off" required/>
         <button id="boton_inicio" name="boton_inicio" class="boton_enviar">Iniciar sesión</button>
     </form>

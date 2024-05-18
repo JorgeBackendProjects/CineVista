@@ -34,6 +34,10 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             color: white;
         }
 
+        main {
+            min-height: 150vh;
+        }
+
         /*Cabecera*/
         header {
             position: sticky;
@@ -131,6 +135,20 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             margin: 0 3vw 2rem 2.5vw;
         }
 
+        #registro_ver_password {
+            display: flex;
+            justify-content: center;
+            width: 6rem;
+            height: 2rem;
+            margin: 0rem 0 1rem 6%;
+            font-size: 1.25rem;
+            background-color: blue;
+            color: white;
+            border-radius: 15px;
+            cursor: pointer;
+            border: 1px solid;
+        }
+
         /*Variación para la clase principal de inicio*/
         #iniciar_principal {
             display: flex;
@@ -175,7 +193,7 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             display: flex;
             flex-direction: column;
             width: 50vw;
-            height: 72vh;
+            height: 120vh;
             margin: 3% auto auto auto;
             background-color: rgba(0, 0, 0, 50%);
             border-radius: 30px;
@@ -200,6 +218,15 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             border-radius: 10px;
         } 
 
+        #registro_principal form label{
+            margin-left: 5%;
+        } 
+
+        #registro_inputs {
+            display: flex;
+            flex-direction: column;
+        }
+        
         #registro_principal form .boton_enviar{
             width: 10rem;
             height: 2.5rem;
@@ -260,7 +287,7 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
 
         /*Footer*/
         .footer {
-            position: absolute;
+            position: fixed;
             width: 100%;
             bottom: 0;
             z-index: 1;
@@ -292,6 +319,16 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
         .social_media a i {
             margin-right: 0.3rem;
             font-size: 2rem;
+        }
+
+        @media only screen and (max-width: 1600px) {
+            main {
+                min-height: 150vh;
+            }
+
+            #registro_principal {
+                height: 200vh;
+            }
         }
     </style>
 </head>
@@ -437,6 +474,14 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
                     } else {
                         mostrar_modal("Las contraseñas no coinciden.");
                     }
+                });
+
+                jQuery("#registro_ver_password").on("click", function() {
+                    let tipo_1 = jQuery("#registro_password").attr("type") == "password" ? "text" : "password";
+                    jQuery("#registro_password").attr("type", tipo_1);
+
+                    let tipo_2 = jQuery("#registro_repetir_password").attr("type") == "password" ? "text" : "password";
+                    jQuery("#registro_repetir_password").attr("type", tipo_2);
                 });
             });
 
