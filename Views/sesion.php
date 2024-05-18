@@ -138,10 +138,11 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
         #registro_ver_password {
             display: flex;
             justify-content: center;
-            width: 6rem;
-            height: 2rem;
+            align-items: center;
+            width: 12rem;
+            height: 2.3rem;
             margin: 0rem 0 1rem 6%;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             background-color: blue;
             color: white;
             border-radius: 15px;
