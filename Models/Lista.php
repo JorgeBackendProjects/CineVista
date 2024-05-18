@@ -18,6 +18,50 @@ class Lista {
         $this->id = $id;
     }
 
+    public static function select_listas_by_user($id_usuario) {
+        $pdo = Conexion::connection_database();
+        $stmt = $pdo->prepare("SELECT nombre FROM lista WHERE id_usuario = ?");
+
+        if ($stmt->execute([$id_usuario])) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            return "No se han encontrado listas creadas por el usuario.";
+        }
+    }
+
+    public static function insert_lista($nombre, $fecha_creacion, $id_usuario) {
+        $pdo = Conexion::connection_database();
+        $stmt = $pdo->prepare("INSERT INTO lista (nombre, fecha_creacion, id_usuario) VALUES (?, ?, ?)");
+
+        if ($stmt->execute([$nombre, $fecha_creacion, $id_usuario])) {
+            return "OK";
+        } else {
+            return "No se ha podido crear la lista en estos momentos.";
+        }
+    }
+
+    public static function update_lista($nombre) {
+        $pdo = Conexion::connection_database();
+        $stmt = $pdo->prepare("UPDATE lista SET nombre = ?");
+
+        if ($stmt->execute([$nombre])) {
+            return "OK";
+        } else {
+            return "No se ha cambiar el nombre de la lista en estos momentos.";
+        }
+    }
+    
+    public static function delete_lista($id_usuario, $nombre) {
+        $pdo = Conexion::connection_database();
+        $stmt = $pdo->prepare("DELETE lista WHERE id_usuario = ? AND nombre = ?");
+
+        if ($stmt->execute([$id_usuario, $nombre])) {
+            return "OK";
+        } else {
+            return "No se ha podido eliminar la lista en estos momentos.";
+        }
+    }
+
     // Getters
     public function get_id(): int
     {

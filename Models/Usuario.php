@@ -137,9 +137,13 @@ class Usuario {
         session_abort();
     }
     
-    // Escribir comentario en pelicula
-    public static function escribir_comentario() {
-        
+    // Obtiene el id del usuario mediante su username.
+    public static function get_id_usuario($username) {
+        $pdo = Conexion::connection_database();
+        $stmt = $pdo->prepare("SELECT id FROM usuario WHERE username = ?");
+        $stmt->execute([$username]);
+
+        return $stmt->fetchColumn();
     }
 
     // Getters

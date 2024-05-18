@@ -5,6 +5,7 @@ $sesion_iniciada = isset($_SESSION["username"]);
 $id_pelicula = isset($_GET["id"]) ? $_GET["id"] : null;
 $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película";
 $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
+$comp_sesion = $sesion_iniciada == true ? "Si" : "No";
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +14,7 @@ $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="Views/Assets/Images/icon.ico" sizes="64x64" type="image/png">
+    <link rel="icon" href="Assets/Images/icon.png" sizes="156x156" type="image/png">
     <script src="https://kit.fontawesome.com/001ac9542b.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
@@ -146,6 +147,52 @@ $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
             margin-left: 1rem;
         }
 
+        /*Modal información*/
+        .contenedor_modal {
+            display: none;
+            position: fixed;
+            width: 100%; 
+            height: 100%; 
+            left: 0;
+            top: 0;
+            z-index: 1;
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.6); 
+        }
+
+        .modal {
+            width: 25%;
+            height: 20%;
+            margin: 18% auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 35px;
+            border: 1px solid black;
+        }
+
+        .mensaje_modal {
+            display: flex;
+            justify-content: center;
+            margin-top: 6vh;
+            text-align: center;
+            font-size: 1.1rem;
+            color: black;
+        }
+
+        .cerrar_modal {
+            color: grey;
+            float: right;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .cerrar_modal:hover,
+        .cerrar_modal:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
         /*Vista película*/
         .principal {
             display: flex;
@@ -156,7 +203,7 @@ $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
             position: absolute;
             width: 75%;
             height: 75.5vh;
-            top: 13rem;
+            top: 12rem;
             left: 12.5%;
             opacity: 0.7;
             background-size: 100% 100%;
@@ -171,7 +218,7 @@ $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
             height: 75.5vh;
             padding: 4rem 3.5rem;
             margin: 0 auto;
-            top: 8rem;
+            top: 7rem;
             background-color: rgba(0, 0, 0, 65%);
             border-radius: 15px;
         }
@@ -420,6 +467,7 @@ $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
     <main>
         <div class="principal">
             <input type="hidden" id="pagina_actual" name="pagina_actual" value="<?php echo $pagina_actual; ?>" />
+            <input type="hidden" id="comp_sesion" name="comp_sesion" value="<?php echo $comp_sesion; ?>" />
             <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
 
             <button id="atras" class="atras">Volver</button>
@@ -476,6 +524,13 @@ $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
 
             <div id="comentarios" class="comentarios"></div>
         </div>
+
+        <div id="contenedor_modal" class="contenedor_modal">
+            <div id="modal" class="modal">
+                <span id="cerrar_modal" class="cerrar_modal">&times;</span>
+                <p id="mensaje_modal" class="mensaje_modal"></p>
+            </div>
+        </div>
     </main>
 
     <?php include_once ("Assets/Templates/footer.html"); ?>
@@ -483,6 +538,9 @@ $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
     <script>
         // Esta función es la que usa todas las demás, tanto para crear el DOM como para inicializar los listener cuando el documento esté cargado y listo.
         function create_DOM() {
+            var contenedor_modal = jQuery("#contenedor_modal");
+            var modal = jQuery("#modal");
+
             // Obtengo el id del input hidden.
             let id_pelicula = jQuery("#id_pelicula").val();
 
@@ -495,6 +553,38 @@ $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
 
                 // Inicializa los eventos click de los botones para el scroll de los botones
                 scroll_actores();
+
+                // Eventos click para cerrar el modal tanto en la cruz como fuera del modal.
+                jQuery("#cerrar_modal").on("click", function() {
+                    contenedor_modal.css("display", "none");
+                });
+
+                jQuery(window).on("click", function(event) {
+                    if (event.target == contenedor_modal[0]) {
+                        contenedor_modal.css("display", "none");
+                    }
+                });
+
+                // Eventos click Añadir a lista y Favoritos
+                jQuery("#aniadir_a_lista").on("click", function() {
+                    // Si la sesión no está iniciada se muestra un modal, en caso contrario FALTA SELECCION DE LISTAS.
+                    if (jQuery("#comp_sesion").val() == "No") {
+                        alert("CLICK");
+                        mostrar_modal("Para guardar películas en listas debes iniciar sesión.");
+                    } else {
+                        
+                    }
+                });
+
+                jQuery("#aniadir_a_favoritos").on("click", function() {
+                    // Si la sesión no está iniciada se muestra un modal, en caso contrario FALTA SELECCION DE LISTAS.
+                    if (jQuery("#comp_sesion").val() == "No") {
+                        alert("CLICK");
+                        mostrar_modal("Para guardar películas en listas debes iniciar sesión.");
+                    } else {
+                        
+                    }
+                });
 
                 // Listener para que, al pulsar el botón vuelve atrás hasta la última coordenada clickada en el index. 
                 jQuery("#atras").on("click", function () {
@@ -520,7 +610,7 @@ $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
                             }
                         },
                         error: function(xhr, status, error) {
-                            // Mostrar modal.
+                            console.error("Error al cerrar sesión: " + error);
                         }
                     });
                 });
@@ -695,6 +785,12 @@ $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
             }).on("mouseup mouseleave", function() {
                 clearInterval(intervalo);
             });
+        }
+
+        // Función para mostrar el modal con el mensaje determinado.
+        function mostrar_modal(mensaje) {
+            jQuery("#mensaje_modal").text(mensaje);
+            jQuery("#contenedor_modal").css("display", "block");
         }
 
         create_DOM();

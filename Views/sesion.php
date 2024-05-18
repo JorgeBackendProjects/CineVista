@@ -380,8 +380,6 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
                 jQuery("#boton_registro").on("click", function(event) {
                     event.preventDefault();
 
-                    console.log("CLICK");
-
                     let nombre = jQuery("#registro_nombre").val();
                     let username = jQuery("#registro_username").val();
                     let email = jQuery("#registro_email").val();
@@ -446,7 +444,6 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             jQuery("#atras").on("click", function () {
                 history.back();
             });
-            
         }
         
         // Función para mostrar el modal con el mensaje determinado.

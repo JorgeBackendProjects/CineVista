@@ -70,7 +70,7 @@ function buscar_peliculas() {
         },
         error: function(xhr, status, error) {
             // En caso de error, se agrega un mensaje al contenedor de películas.
-            jQuery("#peliculas").empty().append("<h2>No se han podido cargar las películas. Vuelve a intentarlo más tarde.</h2>");
+            jQuery("#peliculas").empty().append("<h2>No se han podido buscar las películas. Vuelve a intentarlo más tarde.</h2>");
         }
     });
 }
@@ -261,7 +261,7 @@ function inicializar_DOM() {
                 }
             },
             error: function(xhr, status, error) {
-                // Mostrar modal.
+                console.error("Error al cerrar sesión: " + error);
             }
         });
     });
