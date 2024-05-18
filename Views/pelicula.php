@@ -646,8 +646,8 @@ $comp_sesion = $sesion_iniciada == true ? "Si" : "No";
 
         // Función que obtiene todos los datos de la película y los setea correctamente para añadirlos al DOM.
         function create_DOM_pelicula(pelicula) {
-            // Obtenemos los nombres de los géneros en un string separado por ", ". 
-            let generos = pelicula["generos"].length > 0 ? pelicula["generos"].map(genero => genero.nombre).join(", ") : "No disponible";
+            // Obtenemos los nombres de los géneros en un string separado por ", " desde una estructura Set para omitir los repetidos, si los hay. 
+            let generos = pelicula["generos"].length > 0 ? [...new Set(pelicula["generos"].map(genero => genero.nombre))].join(", ") : "No disponible";
             // Obtenemos la duración en horas y minutos.
             let duracion = pelicula["duracion"] > 0 ? Math.floor(pelicula["duracion"] / 60) + "h y " + pelicula["duracion"] % 60 + " minutos." : "No disponible";
             // Obtenemos la fecha con el formato español.
