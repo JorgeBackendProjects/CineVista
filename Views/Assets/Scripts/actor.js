@@ -6,9 +6,33 @@ function create_DOM() {
     // Se carga la información del actor.
     cargar_actor(id_actor);
 
-    // Listener para que, al pulsar el botón vuelve a pelicula.php. 
+    // Listener para que, al pulsar el botón redirige a la película donde nos encontrábamos. 
     jQuery("#atras").on("click", function () {
-        history.back();
+        let pelicula_url = jQuery("#pelicula_url").val();
+        window.location = pelicula_url || "../index.php";
+    });
+
+    // Prevenimos el comportamiento por defecto del elemento <a> para hacer una petición al controller de usuario que cierra la sesión y recargar la página.
+    jQuery("#redirect_cerrar_sesion").on("click", function(event) {
+        event.preventDefault();
+
+        jQuery.ajax({
+            url: '../Controllers/usuario_controller.php',
+            method: 'POST',
+            data: {
+                key: "cerrar_sesion"
+            },
+            success: function(data) {
+                let resultado = JSON.parse(data);
+    
+                if (resultado == "OK") {
+                    window.location.reload();
+                }
+            },
+            error: function(xhr, status, error) {
+                // Mostrar modal.
+            }
+        });
     });
 }
 

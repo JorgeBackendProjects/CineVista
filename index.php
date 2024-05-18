@@ -1,8 +1,8 @@
 <?php
-    session_start();
+session_start();
 
-    $sesion_iniciada = isset($_SESSION["username"]);
-    var_dump($_SESSION["username"]);
+$sesion_iniciada = isset($_SESSION["username"]);
+var_dump($_SESSION["username"]);
 ?>
 
 <!DOCTYPE html>

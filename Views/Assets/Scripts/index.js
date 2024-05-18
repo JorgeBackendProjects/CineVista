@@ -226,4 +226,27 @@ function inicializar_DOM() {
             scrollTop: 0
         }, 1000);
     });
+
+    // Prevenimos el comportamiento por defecto del elemento <a> para hacer una petición al controller de usuario que cierra la sesión y recargar la página.
+    jQuery("#redirect_cerrar_sesion").on("click", function(event) {
+        event.preventDefault();
+
+        jQuery.ajax({
+            url: 'Controllers/usuario_controller.php',
+            method: 'POST',
+            data: {
+                key: "cerrar_sesion"
+            },
+            success: function(data) {
+                let resultado = JSON.parse(data);
+    
+                if (resultado == "OK") {
+                    window.location.reload();
+                }
+            },
+            error: function(xhr, status, error) {
+                // Mostrar modal.
+            }
+        });
+    });
 }

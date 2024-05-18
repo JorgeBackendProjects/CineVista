@@ -1,14 +1,11 @@
 <?php
+session_start();
+
 $id_pelicula = isset($_GET["id"]) ? $_GET["id"] : null;
 $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película";
 
-//session_start();
-//$_SESSION["usuario"] = "ElPiezass";
-
-//session_destroy();
-//$_SESSION["usuario"] = null;
-
-$sesion_iniciada = isset($_SESSION["usuario"]);
+$sesion_iniciada = isset($_SESSION["username"]);
+var_dump($_SESSION["username"]);
 ?>
 
 <!DOCTYPE html>
@@ -497,7 +494,30 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
                 // Listener para que, al pulsar el botón vuelve atrás hasta la última coordenada clickada en el index. 
                 jQuery("#atras").on("click", function () {
-                    history.back();
+                    window.location = "../index.php";
+                });
+
+                // Prevenimos el comportamiento por defecto del elemento <a> para hacer una petición al controller de usuario que cierra la sesión y recargar la página.
+                jQuery("#redirect_cerrar_sesion").on("click", function(event) {
+                    event.preventDefault();
+
+                    jQuery.ajax({
+                        url: '../Controllers/usuario_controller.php',
+                        method: 'POST',
+                        data: {
+                            key: "cerrar_sesion"
+                        },
+                        success: function(data) {
+                            let resultado = JSON.parse(data);
+                
+                            if (resultado == "OK") {
+                                window.location.reload();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            // Mostrar modal.
+                        }
+                    });
                 });
             });
         }
@@ -634,7 +654,8 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
             jQuery(".actor").on("click", function() {
                 let id_actor = jQuery(this).find(".id_actor").val();
                 let nombre = jQuery(this).find(".nombre").text();
-                window.location = `actor.php?id=${id_actor}&nombre=${nombre}`;
+                let pelicula_url = window.location.href;
+                window.location = `actor.php?id=${id_actor}&nombre=${nombre}&pelicula_url=${encodeURIComponent(pelicula_url)}`;
             });
 
             // Se cambia el display del div de los botones para scrollear.

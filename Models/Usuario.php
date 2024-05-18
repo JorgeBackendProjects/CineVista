@@ -6,14 +6,16 @@ class Usuario {
     private string $username;
     private string $email;
     private string $password;
+    private string $nombre;
     private string $ciudad;
     private string $fecha_nacimiento;
     private string $imagen;
     private string $rol;
 
-    public function __construct($username, $email, $ciudad, $fecha_nacimiento, $imagen = "", $rol = "usuario", $password = "", $id = 0) {
+    public function __construct($username, $email, $nombre, $ciudad, $fecha_nacimiento, $rol, $imagen = "", $password = "", $id = 0) {
         $this->username = $username;
         $this->email = $email;
+        $this->nombre = $nombre;
         $this->ciudad = $ciudad;
         $this->fecha_nacimiento = $fecha_nacimiento;
         $this->imagen = $imagen;
@@ -71,7 +73,7 @@ class Usuario {
             }
 
             if ($usuario_existente && $credenciales) {
-                return "inicio_exitoso";
+                return "OK";
             } else if ($usuario_existente && $credenciales == false) {
                 return "La contraseña no coincide.";
             } else if ($usuario_existente == false){
@@ -87,13 +89,13 @@ class Usuario {
         
         $_SESSION = array();
 
-        if (ini_get("session.use_cookies")) {
+       /* if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - 42000,
                 $params["path"], $params["domain"],
                 $params["secure"], $params["httponly"]
             );
-        }
+        }*/
 
         session_destroy();
         session_abort();
@@ -123,6 +125,11 @@ class Usuario {
     public function get_password(): string
     {
         return $this->password;
+    }
+
+    public function get_nombre(): string
+    {
+        return $this->nombre;
     }
 
     public function get_ciudad(): string
@@ -164,6 +171,11 @@ class Usuario {
     public function set_password(string $password): void
     {
         $this->password = $password;
+    }
+
+    public function set_nombre(string $nombre): void
+    {
+        $this->nombre = $nombre;
     }
 
     public function set_ciudad(string $ciudad): void

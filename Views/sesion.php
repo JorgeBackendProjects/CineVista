@@ -2,6 +2,9 @@
 if (isset($_GET["accion"])) {
     $accion = $_GET["accion"] == "iniciar_sesion" ? "Iniciar sesion" : "Registro";
 }
+
+// Se almacena la última url para devolver al usuario a la misma página al iniciar o registrarse.
+$redirect_url = $_SERVER['HTTP_REFERER'];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -272,15 +275,17 @@ if (isset($_GET["accion"])) {
                 data: {
                     username: jQuery('#username_inicio').val(),
                     password: jQuery("#password_inicio").val(),
-                    key: "inicio"
+                    key: "inicio",
+                    redirect_url: jQuery("#redirect_url").val()
                 },
                 success: function (data) {
                     let respuesta = JSON.parse(data);
 
-                    if (respuesta == "inicio_exitoso") {
-                        window.location = "../index.php";
+                    if (respuesta.status == "OK") {
+                        let redirect_url = respuesta.redirect_url;
+                        window.location = redirect_url || "../index.php";
                     } else {
-                        alert(respuesta);
+                        alert(respuesta.mensaje);
                     }
                 },
                 error: function(xhr, status, error) {

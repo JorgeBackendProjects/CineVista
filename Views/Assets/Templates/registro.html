@@ -4,6 +4,8 @@
     <p>Rellena los datos para crear tu cuenta de usuario</p>
 
     <form id="registro_form">
+        <input type="hidden" id="redirect_url" name="redirect_url" value="<?php echo htmlspecialchars($redirect_url); ?>">
+
         <input type="text" id="registro_username" name="registro_username" class="username" placeholder="Usuario o E-mail" autocomplete="off"/>
         <input type="password" id="registro_password" name="registro_password" class="password" placeholder="Contraseña" autocomplete="off"/>
         <button id="boton_registro" name="boton_registro" class="boton_enviar">Regístrame</button>

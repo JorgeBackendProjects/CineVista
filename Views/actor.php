@@ -1,14 +1,12 @@
 <?php
+session_start();
+
 $id_actor = isset($_GET["id"]) ? $_GET["id"] : null;
 $nombre = isset($_GET["nombre"]) ? $_GET["nombre"] : "";
+$pelicula_url = isset($_GET["pelicula_url"]) ? $_GET["pelicula_url"] : '../index.php';
 
-//session_start();
-//$_SESSION["usuario"] = "ElPiezass";
-
-//session_destroy();
-//$_SESSION["usuario"] = null;
-
-$sesion_iniciada = isset($_SESSION["usuario"]);
+$sesion_iniciada = isset($_SESSION["username"]);
+var_dump($_SESSION["username"]);
 ?>
 
 <!DOCTYPE html>
@@ -46,6 +44,7 @@ $sesion_iniciada = isset($_SESSION["usuario"]);
 
     <main>
         <div class="principal">
+            <input type="hidden" id="pelicula_url" name="pelicula_url" value="<?php echo htmlspecialchars($pelicula_url); ?>" />
             <input type="hidden" id="id_actor" name="id_actor" value="<?php echo $id_actor; ?>" />
 
             <button id="atras" class="atras">Volver</button>
