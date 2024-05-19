@@ -3,7 +3,7 @@ session_start();
 $sesion_iniciada = isset($_SESSION["username"]);
 
 // Se almacena la última url para devolver al usuario a la misma página al iniciar o registrarse.
-$redirect_url = $_SERVER['HTTP_REFERER'];
+$redirect_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "..index.php";
 ?>
 
 <!DOCTYPE html>
@@ -12,378 +12,11 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--<link rel="stylesheet" href="Assets/Styles/sesion.css">-->
+    <link rel="stylesheet" href="Assets/Styles/perfil.css">
     <link rel="icon" href="Assets/Images/icon.png" sizes="156x156" type="image/png">
     <script src="https://kit.fontawesome.com/001ac9542b.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <title>Perfil de usuario</title>
-
-    <style>
-         @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: "Inria Sans", sans-serif;
-            font-size: 1.1rem;
-            background-color: rgb(2, 16, 29, 93%);
-            color: white;
-        }
-
-        /*Cabecera*/
-        header {
-            position: sticky;
-            width: 100%;
-            top: 0;
-            z-index: 1;
-            background-color: rgb(2, 27, 48);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 5rem;
-            padding: 10px 20px;
-        }
-
-        .header_left,
-        .header_right {
-            display: flex;
-            align-items: center;
-        }
-
-        .header_left {
-            margin-left: 30px;
-        }
-
-        .header_right {
-            margin-right: 30px;
-        }
-
-        .header_left .icon {
-            width: 3.5rem;
-            height: 3rem;
-            background-image: url("Assets/Images/icon.png");
-            background-size: 100% 100%;
-        }
-
-        .header_left a {
-            text-decoration: none;
-            color: white;
-        }
-
-        .header_left .title {
-            font-family: "Montserrat", sans-serif;
-            font-weight: normal;
-            font-size: 1.9rem;
-            margin: 0 20px;
-        }
-
-        .header_right ul {
-            display: flex;
-            margin: 0;
-            list-style-type: none;
-        }
-
-        .header_right ul p {
-            margin: 0.5rem 10px 0 0;
-        }
-
-        .header_right ul li {
-            margin-right: 10px;
-            display: flex;
-            align-items: center;
-        }
-
-        .header_right ul li a {
-            text-decoration: none;
-            color: white;
-            border: 1px solid;
-            border-radius: 10px;
-            padding: 0.4rem;
-        }
-
-        .header_right ul li a i {
-            margin-right: 0.3rem;
-        }
-
-        /*Div principal del perfil*/
-        .perfil {
-            display: flex;
-            flex-direction: column;
-            width: 30rem;
-            height: 65vh;
-            margin: 1% auto auto auto;
-            background-color: rgba(0, 0, 0, 50%);
-            border-radius: 30px;
-        }
-
-        .perfil h1 {
-            margin: 2rem auto 1rem 3rem;
-        }
-
-        .perfil p {
-            margin: 1vw 3vw 2rem 2.5vw;
-        }
-        .perfil .info_perfil {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
-        }
-
-        .perfil .imagen {
-            width: 11rem;
-            height: 10.5rem;
-            background-image: url("Assets/Images/usuario_por_defecto.png");
-            background-size: 100% 100%;
-            border-radius: 50%;
-        }
-
-        /*Botones*/
-        .container_boton_atras {
-            display: flex;
-            flex-direction: column;
-            width: 30rem;
-            margin: 2% auto auto auto;
-        }
-
-        .atras {
-            width: 6rem;
-            height: 2.7rem;
-            margin: 0 0 0 0;
-            font-size: 1.25rem;
-            background-color: rgb(255, 188, 50);
-            color: white;
-            border-radius: 15px;
-            cursor: pointer;
-            border: 1px solid;
-        }
-
-        .perfil .editar_perfil_button {
-            width: 12rem;
-            height: 2.5rem;
-            font-size: 1.25rem;
-            background-color: rgb(255, 188, 50);
-            color: white;
-            border-radius: 15px;
-            cursor: pointer;
-            border: 1px solid;
-        }
-
-        .perfil .eliminar_perfil_button {
-            width: 12rem;
-            height: 2.5rem;
-            margin-top: 10vh;
-            font-size: 1.25rem;
-            background-color: rgb(255, 50, 50);
-            color: white;
-            border-radius: 15px;
-            cursor: pointer;
-            border: 1px solid;
-        }
-
-        .perfil form {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-
-        .perfil form label {
-            margin: 1rem auto 1vh 3.5rem;
-        }
-
-        .perfil form input {
-            width: 80%;
-            height: 3rem;
-            padding-left: 5%;
-            border: 2px solid black;
-            border-radius: 10px;
-        }
-
-        .perfil form .botones {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            margin-top: 2vh;
-        }
-        
-        .boton_cancelar {
-            width: 30%;
-            height: 2.5rem;
-            font-size: 1.25rem;
-            background-color: rgb(255, 188, 50);
-            color: white;
-            border-radius: 15px;
-            cursor: pointer;
-            border: 1px solid;
-        }
-
-        .boton_enviar {
-            width: 30%;
-            height: 2.5rem;
-            font-size: 1.25rem;
-            background-color: rgb(255, 50, 50);
-            color: white;
-            border-radius: 15px;
-            cursor: pointer;
-            border: 1px solid;
-        }
-        
-        .input_imagen {
-            display: none; 
-        }
-
-        .imagen_label {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            margin-left: 75%;
-            margin-top: 60%;
-            border-radius: 50%;
-            background-color: #043962;
-            color: white;
-            text-align: center;
-            line-height: 50px;
-            cursor: pointer;
-            font-size: 24px;
-            transition: background-color 0.3s ease;
-        }
-
-        .imagen_label:hover {
-            background-color: #0056b3;
-        }
-
-        /*Modal de confirmación para eliminar perfil*/
-        .contenedor_modal {
-            display: none;
-            position: fixed;
-            width: 100%; 
-            height: 100%; 
-            left: 0;
-            top: 0;
-            z-index: 1;
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.6); 
-        }
-
-        .modal {
-            display: flex;
-            flex-direction: row-reverse;
-            width: 35rem;
-            height: 15rem;
-            margin: 18% auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 35px;
-            border: 1px solid black;
-        }
-
-        .columna_modal {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .mensaje_modal {
-            display: flex;
-            justify-content: center;
-            text-align: center;
-            font-size: 1.1rem;
-            color: black;
-        }
-
-        .eliminar_cuenta_modal {
-            display: none;
-            width: 50%;
-            height: 2.5rem;
-            margin-top: 3vh;
-            font-size: 1.2rem;
-            background-color: rgb(255, 50, 50);
-            color: white;
-            border-radius: 15px;
-            cursor: pointer;
-        }
-
-        .cerrar_modal {
-            color: grey;
-            float: right;
-            font-size: 30px;
-            font-weight: bold;
-        }
-
-        .cerrar_modal:hover,
-        .cerrar_modal:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /*Footer*/
-        .footer {
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-            z-index: 1;
-            background-color: rgb(2, 27, 48);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            height: 5rem;
-            padding: 10px 20px;
-        }
-
-        .privacidad {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .privacidad p {
-            margin-right: 2rem;
-            cursor: pointer;
-        }
-
-        .social_media a {
-            text-decoration: none;
-            color: white;
-            border-radius: 10px;
-            padding: 0.4rem;
-        }
-
-        .social_media a i {
-            margin-right: 0.3rem;
-            font-size: 2rem;
-        }
-
-        @media only screen and (max-width: 1600px) {
-            main {
-                min-height: 150vh;
-            }
-        }
-
-        @media only screen and (max-width: 1000px) { 
-            #perfil {
-                width: 25rem;
-                margin: 3% auto auto auto;
-            }
-
-            .container_boton_atras {
-                width: 25rem;
-                margin: 3% auto auto auto;
-            }
-        }
-
-        /*AÑADIR FOOTER, HEADER y MENOS ANCHURA AL CONTAINER */
-
-    </style>
 </head>
 
 <body>
@@ -409,14 +42,14 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
 
     <main>
         <input type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION["id"]; ?>" />
-        <input type="hidden" id="base64_imagen_code" name="base64_imagen_code" />
-        <!--<input type="hidden" id="redirect_url" name="redirect_url" value="<?php //echo htmlspecialchars($redirect_url); ?>">-->
+
         <div class="container_boton_atras">
             <button id="atras" class="atras">Volver</button>
         </div>
 
         <div id="perfil" class="perfil">
             <h1 id="titulo" class="titulo">Tu perfil</h1>
+            <p id="info_editar" class="info_editar">Puedes editar sin modificar la contraseña</p>
 
             <div id="info_perfil" class="info_perfil">
                 <div id="imagen" class="imagen">
@@ -471,12 +104,14 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
                 jQuery("#editar_perfil_button").on("click", function() {
                     jQuery("#info_perfil").hide();
                     jQuery("#titulo").text("Editar perfil");
+                    jQuery("#info_editar").show();
                     jQuery("#editar_perfil_form").show().css("display", "flex");
                 });
 
                 // Evento para ocultar el formulario de editar perfil y mostrar el resto.
                 jQuery("#boton_cancelar").on("click", function() {
                     jQuery("#editar_perfil_form").hide();
+                    jQuery("#info_editar").hide();
                     jQuery("#titulo").text("Tu perfil");
                     jQuery("#info_perfil").show();
                 });
@@ -485,6 +120,11 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
                 jQuery("#eliminar_perfil_button").on("click", function() {
                     jQuery("#eliminar_cuenta_modal").show();
                     mostrar_modal("¿Estás seguro de que quieres eliminar tu cuenta?");
+                });
+
+                jQuery("#boton_enviar").on("click", function(event) {
+                    event.preventDefault();
+                    actualizar_informacion();
                 });
 
                 // Evento botón del modal para eliminar la cuenta.                
@@ -571,7 +211,6 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
                     
                     if (imagen != "") {
                         jQuery("#imagen").css("background-image", `url(${imagen})`);
-                        jQuery("#base64_imagen_code").val(imagen);
                         imagen_base64 = imagen;
                     }
                 },
@@ -609,33 +248,78 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             });
         }
 
-        // FALTA // Controlar si hay nueva contraseña, si no dejar la que estaba...
+        // FALTA
         function actualizar_informacion() {
-            jQuery.ajax({
-                url: '../Controllers/usuario_controller.php',
-                method: 'POST',
-                data: {
-                    id_usuario: jQuery("#id_usuario").val(),
-                    username: jQuery("#editar_username").val(),
-                    email: jQuery("#editar_email").val(),
-                    password: jQuery("#editar_nueva_password").val(),
-                    key: "editar_imagen"
-                },
-                success: function (data) {
-                    let resultado = JSON.parse(data);
-                    
-                    if (resultado == "OK") {
-                        window.location.reload();
-                    } else {
+            let password_actual = jQuery("#editar_password").val();
+            let password_nueva = jQuery("#editar_nueva_password").val();
+            
+            // Si no hay nueva contraseña se edita la información omitiendo esta. En caso contrario se comprueba la contraseña actual, y si coincide se edita toda la información.
+            if (password_nueva == "") {
+                jQuery.ajax({
+                    url: '../Controllers/usuario_controller.php',
+                    method: 'POST',
+                    data: {
+                        id_usuario: jQuery("#id_usuario").val(),
+                        username: jQuery("#editar_username").val(),
+                        email: jQuery("#editar_email").val(),
+                        key: "editar_sin_password"
+                    },
+                    success: function (data) {
+                        let resultado = JSON.parse(data);
+                        
+                        // Si todo ha ido bien se muestra un modal y se recarga la página a los 2 segundos. Si no, se muestra otro mensaje en el modal.
+                        if (resultado == "OK") {
+                            jQuery("#eliminar_cuenta_modal").hide();
+                            mostrar_modal("Información editada con éxito");
+
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            jQuery("#eliminar_cuenta_modal").hide();
+                            mostrar_modal(resultado);
+                        }
+                    },
+                    error: function(xhr, status, error) {
                         jQuery("#eliminar_cuenta_modal").hide();
-                        mostrar_modal(resultado);
+                        mostrar_modal("No se pudo obtener tu imagen del perfil.");
                     }
-                },
-                error: function(xhr, status, error) {
-                    jQuery("#eliminar_cuenta_modal").hide();
-                    mostrar_modal("No se pudo obtener tu imagen del perfil.");
-                }
-            });
+                });
+            } else {
+                jQuery.ajax({
+                    url: '../Controllers/usuario_controller.php',
+                    method: 'POST',
+                    data: {
+                        id_usuario: jQuery("#id_usuario").val(),
+                        username: jQuery("#editar_username").val(),
+                        email: jQuery("#editar_email").val(),
+                        password_actual: password_actual,
+                        password_nueva: password_nueva,
+                        key: "editar_con_password"
+                    },
+                    success: function (data) {
+                        let resultado = JSON.parse(data);
+                        
+                        // Si todo ha ido bien se muestra un modal y se recarga la página a los 2 segundos. Si no, se muestra otro mensaje en el modal.
+                        if (resultado == "OK") {
+                            jQuery("#eliminar_cuenta_modal").hide();
+                            mostrar_modal("Información editada con éxito");
+
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            jQuery("#eliminar_cuenta_modal").hide();
+                            mostrar_modal(resultado);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        jQuery("#eliminar_cuenta_modal").hide();
+                        mostrar_modal("No se pudo actualizar en estos momentos. Por favor, inténtalo más tarde.");
+                    }
+                });
+            }
+            
         }
 
         // Función que envía una petición para eliminar la cuenta de usuario y redirige al index.php

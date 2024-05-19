@@ -79,13 +79,61 @@ class Usuario {
         }
     }
 
+    // Comprobar contraseña actual antes de actualizar
+    public static function comp_password($id, $password) {
+        try {
+            // Establecemos la conexión a la base de datos
+            $pdo = Conexion::connection_database();
+    
+            // Preparamos la consulta para seleccionar la contraseña del usuario
+            $stmt = $pdo->prepare("SELECT password FROM usuario WHERE id = ?");
+            $stmt->execute([$id]);
+    
+            // Obtenemos la contraseña de la base de datos
+            $password_db = $stmt->fetchColumn();
+    
+            // Si se encuentra la contraseña se verifica
+            if ($password_db && password_verify($password, $password_db)) {
+                return "OK";
+            } else {
+                return "La contraseña actual no es correcta.";
+            }
+        } catch (PDOException $e) {
+            return "Error en la base de datos: " . $e->getMessage();
+
+        } catch (Exception $e) {
+            return "Ha ocurrido un error: " . $e->getMessage();
+        }
+    }
+
     // Actualiza la información del usuario.
-    public static function update_usuario($id, $username, $email, $password) {
+    public static function update_con_password($id, $username, $email, $password) {
         $pdo = Conexion::connection_database();
 
-        $stmt = $pdo->prepare("UPDATE FROM usuario SET username = ?, email = ?, password = ? WHERE id = ?");
+        $stmt = $pdo->prepare("UPDATE usuario SET username = ?, email = ?, password = ? WHERE id = ?");
         // Si se ha actualizado devuelve OK, en caso contrario un mensaje informativo.
-        if ($stmt->execute([$username, $email, $password, $id])) {
+        if ($stmt->execute([$username, $email, password_hash($password, PASSWORD_ARGON2I), $id])) {
+            session_start();
+            $_SESSION["username"] = $username;
+            $_SESSION["email"] = $email;
+
+            return "OK";
+        } else {
+            return "No se ha podido editar la información. Inténtalo de nuevo más tarde.";
+        }
+    }
+
+    // Actualiza la información del usuario menos la contraseña.
+    public static function update_sin_password($id, $username, $email) {
+        $pdo = Conexion::connection_database();
+
+        $stmt = $pdo->prepare("UPDATE usuario SET username = ?, email = ? WHERE id = ?");
+        // Si se ha actualizado devuelve OK, en caso contrario un mensaje informativo.
+        if ($stmt->execute([$username, $email, $id])) {
+            session_start();
+            $_SESSION["username"] = $username;
+            $_SESSION["email"] = $email;
+
             return "OK";
         } else {
             return "No se ha podido editar la información. Inténtalo de nuevo más tarde.";
@@ -153,6 +201,8 @@ class Usuario {
             } else {
                 return "No se han podido comprobar las credenciales, inténtalo de nuevo más tarde.";
             }
+        } else {
+            return "No se han podido comprobar las credenciales, inténtalo de nuevo más tarde.";
         }
     }
 

@@ -69,8 +69,44 @@ if (isset($_POST["key"]) && $_POST["key"] == "editar_imagen" && isset($_POST["id
     echo json_encode($actualizado);
 }
 
-if (isset($_POST["key"]) && $_POST["key"] == "editar_usuario") {
-    
+// Se editan todos los campos del usuario menos la imagen
+if (isset($_POST["key"]) && $_POST["key"] == "editar_con_password" && isset($_POST["id_usuario"]) && isset($_POST["password_actual"]) && isset($_POST["password_nueva"]) && isset($_POST["username"]) && isset($_POST["email"])) {
+    $id = $_POST["id_usuario"];
+    $password_actual = $_POST["password_actual"];
+    $password_nueva = $_POST["password_nueva"];
+    $username = $_POST["username"];
+    $email = $_POST["email"];
+
+    // Si las contraseñas actuales coinciden se edita la información del usuario, en caso contrario se informa al usuario con un mensaje.
+    $comp_password = Usuario::comp_password($id, $password_actual); 
+    if ($comp_password == "OK") {
+        $actualizado = Usuario::update_con_password($id, $username, $email, $password_nueva);
+
+        // Si la actualización ha ido bien se devuelve OK, en caso contrario un mensaje.
+        if ($actualizado == "OK") {
+            echo json_encode("OK");
+        } else {
+            echo json_encode($actualizado);
+        }
+    } else {
+        echo json_encode($comp_password);
+    }
+}
+
+// Se editan todos los campos del usuario menos la imagen y la contraseña
+if (isset($_POST["key"]) && $_POST["key"] == "editar_sin_password" && isset($_POST["id_usuario"]) && isset($_POST["username"]) && isset($_POST["email"])) {
+    $id = $_POST["id_usuario"];
+    $username = $_POST["username"];
+    $email = $_POST["email"];
+
+    $actualizado = Usuario::update_sin_password($id, $username, $email);
+
+    // Si la actualización ha ido bien se devuelve OK, en caso contrario un mensaje.
+    if ($actualizado == "OK") {
+        echo json_encode("OK");
+    } else {
+        echo json_encode($actualizado);
+    }
 }
 
 // Condición para eliminar la cuenta de usuario y cerrar su sesión.

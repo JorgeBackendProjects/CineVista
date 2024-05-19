@@ -1,0 +1,399 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Inria Sans", sans-serif;
+    font-size: 1.1rem;
+    background-color: rgb(2, 16, 29, 93%);
+    color: white;
+}
+
+/*Cabecera*/
+header {
+    position: sticky;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+    background-color: rgb(2, 27, 48);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5rem;
+    padding: 10px 20px;
+}
+
+.header_left,
+.header_right {
+    display: flex;
+    align-items: center;
+}
+
+.header_left {
+    margin-left: 30px;
+}
+
+.header_right {
+    margin-right: 30px;
+}
+
+.header_left .icon {
+    width: 3.5rem;
+    height: 3rem;
+    background-image: url("Assets/Images/icon.png");
+    background-size: 100% 100%;
+}
+
+.header_left a {
+    text-decoration: none;
+    color: white;
+}
+
+.header_left .title {
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+    font-size: 1.9rem;
+    margin: 0 20px;
+}
+
+.header_right ul {
+    display: flex;
+    margin: 0;
+    list-style-type: none;
+}
+
+.header_right ul p {
+    margin: 0.5rem 10px 0 0;
+}
+
+.header_right ul li {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.header_right ul li a {
+    text-decoration: none;
+    color: white;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 0.4rem;
+}
+
+.header_right ul li a i {
+    margin-right: 0.3rem;
+}
+
+/*Div principal del perfil*/
+.perfil {
+    display: flex;
+    flex-direction: column;
+    width: 30rem;
+    height: 70vh;
+    margin: 1% auto auto auto;
+    background-color: rgba(0, 0, 0, 50%);
+    border-radius: 30px;
+}
+
+.perfil h1 {
+    margin: 2rem auto 1rem 3rem;
+}
+
+.perfil p {
+    margin: 1vw 3vw 2rem 2.5vw;
+}
+
+.perfil .info_editar {
+    display: none;
+    margin: 0rem auto 1rem 3rem;
+}
+
+.perfil .info_perfil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.perfil .imagen {
+    width: 11rem;
+    height: 10.5rem;
+    background-image: url("Assets/Images/usuario_por_defecto.png");
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+
+/*Botones*/
+.container_boton_atras {
+    display: flex;
+    flex-direction: column;
+    width: 30rem;
+    margin: 2% auto auto auto;
+}
+
+.atras {
+    width: 6rem;
+    height: 2.7rem;
+    margin: 0 0 0 0;
+    font-size: 1.25rem;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.perfil .editar_perfil_button {
+    width: 12rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.perfil .eliminar_perfil_button {
+    width: 12rem;
+    height: 2.5rem;
+    margin-top: 20vh;
+    font-size: 1.25rem;
+    background-color: rgb(255, 50, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.perfil form {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.perfil form label {
+    margin: 1rem auto 1vh 3.5rem;
+}
+
+.perfil form input {
+    width: 80%;
+    height: 3rem;
+    padding-left: 5%;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.perfil form .botones {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 5vh;
+}
+
+.boton_cancelar {
+    width: 30%;
+    height: 2.5rem;
+    font-size: 1.25rem;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.boton_enviar {
+    width: 30%;
+    height: 2.5rem;
+    font-size: 1.25rem;
+    background-color: rgb(255, 50, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.input_imagen {
+    display: none;
+}
+
+.imagen_label {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    margin-left: 75%;
+    margin-top: 60%;
+    border-radius: 50%;
+    background-color: #043962;
+    color: white;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    font-size: 24px;
+    transition: background-color 0.3s ease;
+}
+
+.imagen_label:hover {
+    background-color: #0056b3;
+}
+
+/*Modal de confirmación para eliminar perfil*/
+.contenedor_modal {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 35rem;
+    height: 15rem;
+    margin: 18% auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 35px;
+    border: 1px solid black;
+}
+
+.columna_modal {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.mensaje_modal {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.1rem;
+    color: black;
+}
+
+.eliminar_cuenta_modal {
+    display: none;
+    width: 50%;
+    height: 2.5rem;
+    margin-top: 3vh;
+    font-size: 1.2rem;
+    background-color: rgb(255, 50, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.cerrar_modal {
+    color: grey;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.cerrar_modal:hover,
+.cerrar_modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*Footer*/
+.footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 1;
+    background-color: rgb(2, 27, 48);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 5rem;
+    padding: 10px 20px;
+}
+
+.privacidad {
+    display: flex;
+    justify-content: space-between;
+}
+
+.privacidad p {
+    margin-right: 2rem;
+    cursor: pointer;
+}
+
+.social_media a {
+    text-decoration: none;
+    color: white;
+    border-radius: 10px;
+    padding: 0.4rem;
+}
+
+.social_media a i {
+    margin-right: 0.3rem;
+    font-size: 2rem;
+}
+
+@media only screen and (max-width: 1600px) {
+    main {
+        min-height: 150vh;
+    }
+}
+
+@media only screen and (max-width: 1020px) {
+    .header_left {
+        margin-left: 0;
+    }
+
+    .header_left .icon {
+        width: 3rem;
+        height: 2.8rem;
+    }
+
+    .header_left .title {
+        font-size: 2.5vw;
+        margin: 0 10px;
+    }
+
+    .header_right {
+        margin-right: 0;
+    }
+
+    .header_right ul li a {
+        font-size: 1.7vw;
+    }
+
+    #perfil {
+        width: 25rem;
+        margin: 3% auto auto auto;
+    }
+
+    .container_boton_atras {
+        width: 25rem;
+        margin: 3% auto auto auto;
+    }
+
+    .privacidad p {
+        font-size: 0.7rem;
+        margin-right: 1rem;
+    }
+
+    .social_media a i {
+        font-size: 1.5rem;
+        margin-right: 0;
+    }
+}
