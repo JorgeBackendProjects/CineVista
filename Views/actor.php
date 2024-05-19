@@ -73,7 +73,7 @@ $pelicula_url = isset($_GET["pelicula_url"]) ? $_GET["pelicula_url"] : '../index
     <?php include_once ("Assets/Templates/footer.html"); ?>
 
     <script>
-        create_DOM();
+        iniciar_listeners();
     </script>
 </body>
 

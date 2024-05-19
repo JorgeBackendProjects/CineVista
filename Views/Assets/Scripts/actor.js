@@ -1,5 +1,5 @@
 // Esta función es la que usa todas las demás, tanto para crear el DOM como para inicializar los listener cuando el documento esté cargado y listo.
-function create_DOM() {
+function iniciar_listeners() {
     // Obtengo el id del input hidden.
     let id_actor = jQuery("#id_actor").val();
 

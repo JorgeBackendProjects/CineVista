@@ -1,25 +1,28 @@
-<div id="registro_principal" class="principal">
+<div class="registro_container_boton_atras">
     <button id="atras" class="atras">Volver</button>
+</div>
+
+<div id="registro_principal" class="principal">
     <h1>Registro</h1>
     <p>Rellena los datos para crear tu cuenta de usuario</p>
 
     <form id="registro_form">
         <input type="hidden" id="redirect_url" name="redirect_url" value="<?php echo htmlspecialchars($redirect_url); ?>">
 
-        <div id="registro_inputs" class="registro_inputs">
-            <label>Nombre</label>
-            <input type="text" id="registro_nombre" name="registro_nombre" class="nombre" placeholder="Nombre" required/>
-            <label>Nombre de usuario</label>
-            <input type="text" id="registro_username" name="registro_username" class="username" placeholder="Nombre de usuario" pattern="^[a-zA-Z0-9_.]{1,20}$" title="El nombre de usuario debe tener una longitud entre 5 y 20 caracteres sin espacios en blanco, como separador se permiten guiones bajos y puntos." required/>
-            <label>E-mail</label>
-            <input type="email" id="registro_email" name="registro_email" class="email" placeholder="E-mail" pattern="^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}$" title="La dirección de correo electrónico debe ser válida y terminar en .com o .es." required/>
-            <label>Contraseña</label>
-            <input type="password" id="registro_password" name="registro_password" class="password" placeholder="Contraseña" autocomplete="off" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&_-])[A-Za-z\d$@$!%*?&_-]{8,25}$" title="La contraseña debe tener entre 8 y 25 caracteres, incluir al menos una letra mayúscula, una letra minúscula, un número y un carácter especial." required/>
-            <label>Repetir contraseña</label>
-            <input type="password" id="registro_repetir_password" name="registro_repetir_password" class="password" placeholder="Repetir contraseña" autocomplete="off" required/>
-            <div id="registro_ver_password">Ver contraseña</div>
-        </div>
+        <label>Nombre</label>
+        <input type="text" id="registro_nombre" name="registro_nombre" class="nombre" placeholder="Nombre" required/>
+        <label>Nombre de usuario</label>
+        <input type="text" id="registro_username" name="registro_username" class="username" placeholder="Nombre de usuario" pattern="^[a-zA-Z0-9_.]{1,20}$" title="El nombre de usuario debe tener una longitud entre 5 y 20 caracteres sin espacios en blanco, como separador se permiten guiones bajos y puntos." required/>
+        <label>E-mail</label>
+        <input type="email" id="registro_email" name="registro_email" class="email" placeholder="E-mail" pattern="^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}$" title="La dirección de correo electrónico debe ser válida y terminar en .com o .es." required/>
+        <label>Contraseña</label>
+        <input type="password" id="registro_password" name="registro_password" class="password" placeholder="Contraseña" autocomplete="off" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&_-])[A-Za-z\d$@$!%*?&_-]{8,25}$" title="La contraseña debe tener entre 8 y 25 caracteres, incluir al menos una letra mayúscula, una letra minúscula, un número y un carácter especial." required/>
+        <label>Repetir contraseña</label>
+        <input type="password" id="registro_repetir_password" name="registro_repetir_password" class="password" placeholder="Repetir contraseña" autocomplete="off" required/>
         
-        <button id="boton_registro" name="boton_registro" class="boton_enviar">Regístrame</button>
+        <div class="registro_botones">
+            <div id="registro_ver_password">Ver contraseña</div>
+            <button id="boton_registro" name="boton_registro" class="boton_enviar">Regístrame</button>
+        </div>
     </form>
 </div>

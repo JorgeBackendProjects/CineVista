@@ -563,7 +563,7 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
 
     <script>
         // Esta función es la que usa todas las demás, tanto para crear el DOM como para inicializar los listener cuando el documento esté cargado y listo.
-        function create_DOM() {
+        function inicializar_listeners() {
             var contenedor_modal = jQuery("#contenedor_modal");
             var modal = jQuery("#modal");
 
@@ -816,7 +816,7 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
             jQuery("#contenedor_modal").css("display", "block");
         }
 
-        create_DOM();
+        inicializar_listeners();
     </script>
 </body>
 

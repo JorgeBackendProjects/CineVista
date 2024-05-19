@@ -9,8 +9,12 @@
 body {
     font-family: "Inria Sans", sans-serif;
     font-size: 1.1rem;
-    background-color: rgb(2, 16, 29, 93%);
+    background-color: #021B30;
     color: white;
+}
+
+main {
+    min-height: 110vh;
 }
 
 /*Cabecera*/
@@ -19,7 +23,7 @@ header {
     width: 100%;
     top: 0;
     z-index: 1;
-    background-color: rgb(2, 27, 48);
+    background-color: #011727;
 }
 
 nav {
@@ -47,7 +51,7 @@ nav {
 .header_left .icon {
     width: 3.5rem;
     height: 3rem;
-    background-image: url("Assets/Images/icon.png");
+    background-image: url("../Images/icon.png");
     background-size: 100% 100%;
 }
 
@@ -96,7 +100,7 @@ nav {
     display: flex;
     flex-direction: column;
     width: 30rem;
-    height: 70vh;
+    height: 75vh;
     margin: 1% auto auto auto;
     background-color: rgba(0, 0, 0, 50%);
     border-radius: 30px;
@@ -125,7 +129,7 @@ nav {
 .perfil .imagen {
     width: 11rem;
     height: 10.5rem;
-    background-image: url("Assets/Images/usuario_por_defecto.png");
+    background-image: url("../Images/usuario_por_defecto.png");
     background-size: 100% 100%;
     border-radius: 50%;
 }
@@ -135,7 +139,7 @@ nav {
     display: flex;
     flex-direction: column;
     width: 30rem;
-    margin: 2% auto auto auto;
+    margin: 1% auto auto auto;
 }
 
 .atras {
@@ -173,35 +177,24 @@ nav {
     border: 1px solid;
 }
 
-.perfil form {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.perfil form label {
-    margin: 1rem auto 1vh 3.5rem;
-}
-
-.perfil form input {
-    width: 80%;
-    height: 3rem;
-    padding-left: 5%;
-    border: 2px solid black;
-    border-radius: 10px;
-}
-
-.perfil form .botones {
+#editar_ver_password {
     display: flex;
-    justify-content: space-around;
-    width: 100%;
-    margin-top: 5vh;
+    justify-content: center;
+    align-items: center;
+    width: 10rem;
+    height: 2.3rem;
+    margin: 3% 0 0 11%;
+    font-size: 1.1rem;
+    background-color: #043962;
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
 }
 
 .boton_cancelar {
     width: 30%;
-    height: 2.5rem;
+    height: 2.3rem;
     font-size: 1.25rem;
     background-color: rgb(255, 188, 50);
     color: white;
@@ -212,13 +205,40 @@ nav {
 
 .boton_enviar {
     width: 30%;
-    height: 2.5rem;
+    height: 2.3rem;
     font-size: 1.25rem;
     background-color: rgb(255, 50, 50);
     color: white;
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+}
+
+.perfil form {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.perfil form label {
+    margin: 1rem auto 1vh 3.5rem;
+}
+
+.perfil form input {
+    width: 80%;
+    height: 3rem;
+    margin-left: 10%;
+    padding-left: 5%;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.perfil form .botones {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 5vh;
 }
 
 .input_imagen {
@@ -318,7 +338,7 @@ nav {
     width: 100%;
     bottom: 0;
     z-index: 1;
-    background-color: rgb(2, 27, 48);
+    background-color: #011727;
     display: flex;
     justify-content: space-around;
     align-items: center;

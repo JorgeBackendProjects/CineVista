@@ -1,4 +1,7 @@
 <?php
+session_start();
+$sesion_iniciada = isset($_SESSION["username"]);
+
 if (isset($_GET["accion"])) {
     $accion = $_GET["accion"] == "iniciar_sesion" ? "Iniciar sesion" : "Registro";
 }
@@ -117,13 +120,23 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
         }
 
         /*Botón Volver*/
+        .container_boton_atras {
+            display: flex;
+            flex-direction: column;
+            width: 30rem;
+            margin: 1% auto auto auto;
+        }
+
+        /*Variación para registro*/
+        .registro_container_boton_atras {
+            margin: 1% auto auto 25vw;
+        }
+
         .atras {
-            width: 7rem;
-            height: 2.5rem;
+            width: 6rem;
+            height: 2.7rem;
+            margin: 0 0 0 0;
             font-size: 1.25rem;
-            position: absolute;
-            top: 6.8rem;
-            left: 3rem;
             background-color: rgb(255, 188, 50);
             color: white;
             border-radius: 15px;
@@ -146,7 +159,7 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             align-items: center;
             width: 12rem;
             height: 2.3rem;
-            margin: 1% 0 1rem 6%;
+            margin: 1% 0 1rem 0.5%;
             font-size: 1.1rem;
             background-color: #043962;
             color: white;
@@ -161,7 +174,7 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             flex-direction: column;
             width: 30rem;
             height: 65vh;
-            margin: 6% auto auto auto;
+            margin: 1% auto auto auto;
             background-color: rgba(0, 0, 0, 50%);
             border-radius: 30px;
         }
@@ -204,29 +217,26 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             flex-direction: column;
             width: 50vw;
             height: 120vh;
-            margin: 0 auto auto auto;
+            margin: 1% auto auto auto;
             background-color: rgba(0, 0, 0, 50%);
             border-radius: 30px;
         }
 
-        #registro_principal form{
+        #registro_principal form {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
             width: 100%;
+            margin: 1% auto auto 20%;
         } 
 
-        #registro_principal form input{
+        #registro_principal form input {
             width: 30vw;
             height: 3rem;
             padding-left: 5%;
-            margin: 1rem 1rem 1rem 2rem;
+            margin: 1rem 1rem 1rem 0rem;            
             border: 2px solid black;
             border-radius: 10px;
-        } 
-
-        #registro_principal form label{
-            margin-left: 5%;
         } 
 
         #registro_inputs {
@@ -234,10 +244,15 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             flex-direction: column;
         }
         
+        #registro_principal .registro_botones {
+            display: flex;
+            justify-content: space-between;
+            width: 60%;
+        }
+
         #registro_principal form .boton_enviar{
             width: 10rem;
             height: 2.5rem;
-            margin: 0 12rem 0 65%;
             font-size: 1.25rem;
             background-color: rgb(255, 188, 50);
             color: white;
@@ -377,7 +392,13 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
                 <a href="../index.php"><h1 class="title">CineVista</h1></a>
             </div>
             <div class="header_right">
-                <?php include_once ("Assets/Templates/view_no_sesion_header.html"); ?>
+                <?php 
+                if ($sesion_iniciada) {
+                    include_once ("Assets/Templates/view_sesion_header.html"); 
+                } else { 
+                    include_once ("Assets/Templates/view_no_sesion_header.html"); 
+                }
+                ?>
             </div>
         </nav>
     </header>
@@ -440,8 +461,11 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
 
                             // Si se ha devuelto OK, redirige al usuario a la página anterior.
                             if (respuesta.status == "OK") {
-                                let redirect_url = respuesta.redirect_url;
-                                window.location = redirect_url || "../index.php";
+                                mostrar_modal("Se ha iniciado sesión con éxito.");
+
+                                setTimeout(() => {
+                                    history.back();
+                                }, 2000);
                             } else {
                                 mostrar_modal(respuesta.mensaje);
                             }
