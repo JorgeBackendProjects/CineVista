@@ -30,7 +30,7 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
         body {
             font-family: "Inria Sans", sans-serif;
             font-size: 1.1rem;
-            background-color: rgb(2, 16, 29, 93%);
+            background-color: #021B30;
             color: white;
         }
 
@@ -44,7 +44,7 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             width: 100%;
             top: 0;
             z-index: 1;
-            background-color: rgb(2, 27, 48);
+            background-color: #011727;
         }
 
         nav {
@@ -67,6 +67,11 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
 
         .header_right {
             margin-right: 30px;
+        }
+
+        .header_left a {
+            text-decoration: none;
+            color: white;
         }
 
         .header_left .icon {
@@ -132,7 +137,7 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
         }
 
         .principal p {
-            margin: 0 3vw 2rem 2.5vw;
+            margin: 0 auto 1rem 3rem;
         }
 
         #registro_ver_password {
@@ -141,9 +146,9 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             align-items: center;
             width: 12rem;
             height: 2.3rem;
-            margin: 0rem 0 1rem 6%;
+            margin: 1% 0 1rem 6%;
             font-size: 1.1rem;
-            background-color: blue;
+            background-color: #043962;
             color: white;
             border-radius: 15px;
             cursor: pointer;
@@ -156,7 +161,7 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             flex-direction: column;
             width: 30rem;
             height: 65vh;
-            margin: 5% auto auto auto;
+            margin: 6% auto auto auto;
             background-color: rgba(0, 0, 0, 50%);
             border-radius: 30px;
         }
@@ -168,11 +173,15 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             width: 100%;
         }
 
+        #iniciar_principal form label {
+            margin: 2rem auto auto 3rem;
+        }
+
         #iniciar_principal form input {
             width: 80%;
             height: 3rem;
             padding-left: 5%;
-            margin: 2rem auto auto 3rem;
+            margin: 0 auto auto 3rem;
             border: 2px solid black;
             border-radius: 10px;
         }
@@ -195,19 +204,16 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             flex-direction: column;
             width: 50vw;
             height: 120vh;
-            margin: 3% auto auto auto;
+            margin: 0 auto auto auto;
             background-color: rgba(0, 0, 0, 50%);
             border-radius: 30px;
         }
 
         #registro_principal form{
             display: flex;
-            flex-wrap: wrap;
             flex-direction: column;
-            justify-content: center;
-            align-content: flex-end;
-            align-items: flex-end;
-            width: 82.5%;
+            align-items: center;
+            width: 100%;
         } 
 
         #registro_principal form input{
@@ -231,7 +237,7 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
         #registro_principal form .boton_enviar{
             width: 10rem;
             height: 2.5rem;
-            margin: 2rem 2% 0 0;
+            margin: 0 12rem 0 65%;
             font-size: 1.25rem;
             background-color: rgb(255, 188, 50);
             color: white;
@@ -254,8 +260,10 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
         }
 
         .modal {
-            width: 25%;
-            height: 20%;
+            display: flex;
+            flex-direction: row-reverse;
+            width: 35rem;
+            height: 15rem;
             margin: 18% auto;
             padding: 20px;
             background-color: white;
@@ -263,10 +271,17 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             border: 1px solid black;
         }
 
+        .columna_modal {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
         .mensaje_modal {
             display: flex;
             justify-content: center;
-            margin-top: 6vh;
             text-align: center;
             font-size: 1.1rem;
             color: black;
@@ -292,7 +307,7 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
             width: 100%;
             bottom: 0;
             z-index: 1;
-            background-color: rgb(2, 27, 48);
+            background-color: #011727;
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -331,6 +346,26 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
                 height: 200vh;
             }
         }
+
+        @media only screen and (max-width: 1000px) { 
+            #iniciar_principal {
+                width: 25rem;
+                margin-top: 10vh;
+            }
+        }
+
+        @media only screen and (max-width: 1000px) { 
+            #iniciar_principal {
+                margin-top: 10vh;
+            }
+        }
+
+        /*AÑADIR FOOTER, HEADER y MENOS ANCHURA AL CONTAINER */
+        @media only screen and (max-width: 760px) { 
+            #iniciar_principal {
+                width: 27rem;
+            }
+        }
     </style>
 </head>
 
@@ -338,8 +373,8 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
     <header>
         <nav>
             <div class="header_left">
-                <div class="icon"></div>
-                <h1 class="title">CineVista</h1>
+                <a href="../index.php"><div class="icon"></div></a>
+                <a href="../index.php"><h1 class="title">CineVista</h1></a>
             </div>
             <div class="header_right">
                 <?php include_once ("Assets/Templates/view_no_sesion_header.html"); ?>
@@ -360,7 +395,9 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
     <div id="contenedor_modal" class="contenedor_modal">
         <div id="modal" class="modal">
             <span id="cerrar_modal" class="cerrar_modal">&times;</span>
-            <p id="mensaje_modal" class="mensaje_modal"></p>
+            <div class="columna_modal">
+                <p id="mensaje_modal" class="mensaje_modal"></p>
+            </div>
         </div>
     </div>
 

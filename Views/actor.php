@@ -25,8 +25,8 @@ $pelicula_url = isset($_GET["pelicula_url"]) ? $_GET["pelicula_url"] : '../index
     <header>
         <nav>
             <div class="header_left">
-                <div class="icon"></div>
-                <h1 class="title">CineVista</h1>
+                <a href="../index.php"><div class="icon"></div></a>
+                <a href="../index.php"><h1 class="title">CineVista</h1></a>
             </div>
             <div class="header_right">
                 <?php

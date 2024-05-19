@@ -6,13 +6,15 @@ class Lista {
     private int $id;
     private string $titulo;
     private string $fecha_creacion;
+    private string $visibilidad;
     private int $id_usuario;
     private array $peliculas;
 
-    public function __construct(string $titulo, string $fecha_creacion, int $id_usuario, array $peliculas = array(), int $id = 0)
+    public function __construct(string $titulo, string $fecha_creacion, string $visibilidad, int $id_usuario, array $peliculas = array(), int $id = 0)
     {
         $this->titulo = $titulo;
         $this->fecha_creacion = $fecha_creacion;
+        $this->visibilidad = $visibilidad;
         $this->id_usuario = $id_usuario;
         $this->peliculas = $peliculas;
         $this->id = $id;
@@ -31,9 +33,9 @@ class Lista {
 
     public static function insert_lista($nombre, $fecha_creacion, $id_usuario) {
         $pdo = Conexion::connection_database();
-        $stmt = $pdo->prepare("INSERT INTO lista (nombre, fecha_creacion, id_usuario) VALUES (?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO lista (nombre, fecha_creacion, id_usuario, visibilidad) VALUES (?, ?, ?, ?)");
 
-        if ($stmt->execute([$nombre, $fecha_creacion, $id_usuario])) {
+        if ($stmt->execute([$nombre, $fecha_creacion, $id_usuario, "Privada"])) {
             return "OK";
         } else {
             return "No se ha podido crear la lista en estos momentos.";

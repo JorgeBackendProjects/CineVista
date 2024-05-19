@@ -46,10 +46,42 @@ if (isset($_POST["nombre"]) && isset($_POST["username"]) && isset($_POST["email"
     }
 }
 
+// Condición para obtener la imagen del perfil del usuario y cargarla en perfil.php.
+if (isset($_POST["key"]) && $_POST["key"] == "get_imagen" && isset($_POST["id_usuario"])) {
+    $id = $_POST["id_usuario"];
+
+    $imagen = Usuario::get_imagen_by_id($id);
+
+    if ($imagen != false) {
+        echo json_encode($imagen);
+    } else {
+        echo json_encode("");
+    }
+}
+
+// Condición para editar la imagen del perfil.
+if (isset($_POST["key"]) && $_POST["key"] == "editar_imagen" && isset($_POST["id_usuario"]) && isset($_POST["imagen"])) {
+    $id = $_POST["id_usuario"];
+    $imagen = $_POST["imagen"];
+
+    $actualizado = Usuario::update_imagen($id, $imagen);
+
+    echo json_encode($actualizado);
+}
+
 if (isset($_POST["key"]) && $_POST["key"] == "editar_usuario") {
     
 }
 
-if (isset($_POST["key"]) && $_POST["key"] == "eliminar_usuario") {
+// Condición para eliminar la cuenta de usuario y cerrar su sesión.
+if (isset($_POST["key"]) && $_POST["key"] == "eliminar_usuario" && isset($_POST["id_usuario"])) {
+    $id = $_POST["id_usuario"];
+
+    $delete = Usuario::delete_usuario($id); 
     
+    if ($delete == "OK") {
+        echo json_encode(["status" => "OK"]);
+    } else {
+        echo json_encode(["status" => "error", "mensaje" => $delete]);
+    }
 }

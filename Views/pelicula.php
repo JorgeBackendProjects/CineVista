@@ -76,6 +76,11 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
             background-size: 100% 100%;
         }
 
+        .header_left a {
+            text-decoration: none;
+            color: white;
+        }
+
         .header_left .title {
             font-family: "Montserrat", sans-serif;
             font-weight: normal;
@@ -163,8 +168,10 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
         }
 
         .modal {
-            width: 25%;
-            height: 20%;
+            display: flex;
+            flex-direction: row-reverse;
+            width: 35rem;
+            height: 15rem;
             margin: 18% auto;
             padding: 20px;
             background-color: white;
@@ -172,10 +179,17 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
             border: 1px solid black;
         }
 
+        .columna_modal {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
         .mensaje_modal {
             display: flex;
             justify-content: center;
-            margin-top: 6vh;
             text-align: center;
             font-size: 1.1rem;
             color: black;
@@ -418,6 +432,14 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
         }
 
         @media only screen and (max-width: 1600px) {
+            .fondo {
+                height: 100vh;
+            }
+
+            .pelicula {
+                height: 100vh;
+            }
+
             .info_principal {
                 width: 30%;
             }
@@ -447,8 +469,8 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
     <header>
         <nav>
             <div class="header_left">
-                <div class="icon"></div>
-                <h1 class="title">CineVista</h1>
+                <a href="../index.php"><div class="icon"></div></a>
+                <a href="../index.php"><h1 class="title">CineVista</h1></a>
             </div>
             <div class="header_right">
                 <?php
@@ -530,7 +552,9 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
         <div id="contenedor_modal" class="contenedor_modal">
             <div id="modal" class="modal">
                 <span id="cerrar_modal" class="cerrar_modal">&times;</span>
-                <p id="mensaje_modal" class="mensaje_modal"></p>
+                <div class="columna_modal">
+                    <p id="mensaje_modal" class="mensaje_modal"></p>
+                </div>
             </div>
         </div>
     </main>

@@ -24,8 +24,8 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
     <header>
         <nav>
             <div class="header_left">
-                <div class="icon"></div>
-                <h1 class="title">CineVista</h1>
+                <a href="#"><div class="icon"></div></a>
+                <a href="#"><h1 class="title">CineVista</h1></a>
             </div>
             <div class="header_right">
                 <?php

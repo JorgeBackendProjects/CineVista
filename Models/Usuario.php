@@ -63,25 +63,54 @@ class Usuario {
         }
     }
 
-    public static function update_usuario($id, $username, $email, $password, $ciudad, $imagen) {
-        // OBTENER EL USUARIO POR ID Y REEMPLAZAR EL RESTO.
-    }
-
-    //FALTA: HACER EN LISTAS DELETE LISTAS USUARIO. // Se eliminan todos los comentarios del usuario y el usuario.
-    public static function delete_usuario($id) {
+    // Actualiza la imagen del perfil del usuario.
+    public static function update_imagen($id, $imagen) {
         $pdo = Conexion::connection_database();
-        $stmt = $pdo->prepare("DELETE FROM comentario WHERE id_usuario = ?");
-        $stmt->execute([$id]);
 
-        $stmt = $pdo->prepare("DELETE FROM usuario WHERE id = ?");
-        if ($stmt->execute([$id])) {
-            echo json_encode("OK");
+        $stmt = $pdo->prepare("UPDATE usuario SET imagen = :imagen WHERE id = :id");
+        $stmt->bindParam(':imagen', $imagen, PDO::PARAM_LOB);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+        // Si se ha actualizado devuelve OK, en caso contrario un mensaje informativo.
+        if ($stmt->execute()) {
+            return "OK";
         } else {
-            echo json_encode("No se ha podido eliminar el perfil. Prueba de nuevo más tarde.");
+            return "No se ha podido editar la imagen. Inténtalo de nuevo más tarde.";
         }
     }
 
-    // Inicia sesión con // AÑADIR PASSWORD VERIFY.
+    // Actualiza la información del usuario.
+    public static function update_usuario($id, $username, $email, $password) {
+        $pdo = Conexion::connection_database();
+
+        $stmt = $pdo->prepare("UPDATE FROM usuario SET username = ?, email = ?, password = ? WHERE id = ?");
+        // Si se ha actualizado devuelve OK, en caso contrario un mensaje informativo.
+        if ($stmt->execute([$username, $email, $password, $id])) {
+            return "OK";
+        } else {
+            return "No se ha podido editar la información. Inténtalo de nuevo más tarde.";
+        }
+    }
+
+    // Elimina el registro de usuario y todas sus listas. 
+    public static function delete_usuario($id) {
+        $pdo = Conexion::connection_database();
+
+        $stmt = $pdo->prepare("DELETE FROM usuario WHERE id = ?");
+        // Si se ha eliminado, se destruye la sesión y se devuelve un OK.
+        if ($stmt->execute([$id])) {
+            session_start();        
+            $_SESSION = array();
+            session_destroy();
+            session_abort();
+    
+            return "OK";
+        } else {
+            return "No se ha podido eliminar el perfil. Inténtalo de nuevo más tarde.";
+        }
+    }
+
+    // Inicia sesión con id, username, email y rol.
     public static function iniciar_sesion($username, $password) {
         $pdo = Conexion::connection_database();
         $usuario_existente = false;
@@ -132,16 +161,23 @@ class Usuario {
         session_start();
         
         $_SESSION = array();
-
         session_destroy();
         session_abort();
     }
     
-    // Obtiene el id del usuario mediante su username.
+    // Obtiene el id del usuario mediante su username. Se usa para el CRUD de las listas.
     public static function get_id_usuario($username) {
         $pdo = Conexion::connection_database();
         $stmt = $pdo->prepare("SELECT id FROM usuario WHERE username = ?");
         $stmt->execute([$username]);
+
+        return $stmt->fetchColumn();
+    }
+
+    public static function get_imagen_by_id($id) {
+        $pdo = Conexion::connection_database();
+        $stmt = $pdo->prepare("SELECT imagen FROM usuario WHERE id = ?");
+        $stmt->execute([$id]);
 
         return $stmt->fetchColumn();
     }
