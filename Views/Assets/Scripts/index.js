@@ -34,6 +34,10 @@ function get_peliculas(pagina) {
 function buscar_peliculas() {
     let busqueda = jQuery("#buscador").val();
 
+    if (busqueda == "") {
+        busqueda = jQuery("#busqueda_acutal").val();
+    }
+
     jQuery.ajax({
         url: 'Controllers/pelicula_controller.php',
         method: 'POST',
@@ -187,10 +191,16 @@ function set_paginacion(total_paginas, pagina_actual, total_peliculas) {
 // Inicia los listeners para el index.php
 function inicializar_DOM() {
     var pagina_actual = jQuery("#pagina_actual").val();
+    //Se llama a la función de búsqueda por si, se ha buscado y se ha entrado a pelicula.php. Al volver al index seguirá donde se encontraba con la búsqueda.
+    jQuery("#buscador").val(jQuery("#busqueda_actual").val());
 
-    // Cuando el documento está listo, se hace una llamada para obtener las primeras 20 películas.
+    // Cuando el documento está listo, se hace una llamada para obtener las primeras 20 películas si el buscador está vacío, en caso contrario se realiza la búsqueda que ya había.
     jQuery(document).ready(function() {
-        get_peliculas(pagina_actual); 
+        if (jQuery("#buscador").val() == "") {
+            get_peliculas(pagina_actual); 
+        } else {
+            buscar_peliculas();
+        }        
     });
 
     jQuery(document).on("input", "#buscador", function(){
@@ -211,9 +221,10 @@ function inicializar_DOM() {
         // Recoge el id del input hidden y el título.
         let id_pelicula = jQuery(this).find(".id_pelicula").val();
         let titulo = jQuery(this).find(".titulo").text();
+        let busqueda = jQuery("#buscador").val();
     
         // Redirige a la página de detalles de película con el id y título en la URL
-        window.location = `Views/pelicula.php?id=${id_pelicula}&titulo=${titulo}&pagina=${pagina_actual}`;
+        window.location = `Views/pelicula.php?id=${id_pelicula}&titulo=${titulo}&pagina=${pagina_actual}&busqueda=${busqueda}`;
     });
 
     // Listener onclick que, al pulsar un botón de paginación obtiene el número de la página del texto del botón y vuelve a solicitar al servidor las películas de la página actual. 

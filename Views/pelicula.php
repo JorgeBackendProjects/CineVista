@@ -1,11 +1,13 @@
 <?php
 session_start();
 $sesion_iniciada = isset($_SESSION["username"]);
+// Se usa para saber si se puede guardar la película en una lista o no.
+$comp_sesion = $sesion_iniciada == true ? "Si" : "No";
 
 $id_pelicula = isset($_GET["id"]) ? $_GET["id"] : null;
 $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película";
 $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
-$comp_sesion = $sesion_iniciada == true ? "Si" : "No";
+$busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
 ?>
 
 <!DOCTYPE html>
@@ -466,8 +468,9 @@ $comp_sesion = $sesion_iniciada == true ? "Si" : "No";
 
     <main>
         <div class="principal">
-            <input type="hidden" id="pagina_actual" name="pagina_actual" value="<?php echo $pagina_actual; ?>" />
             <input type="hidden" id="comp_sesion" name="comp_sesion" value="<?php echo $comp_sesion; ?>" />
+            <input type="hidden" id="pagina_actual" name="pagina_actual" value="<?php echo $pagina_actual; ?>" />
+            <input type="hidden" id="busqueda_actual" name="busqueda_actual" value="<?php echo $busqueda_actual; ?>" />
             <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
 
             <button id="atras" class="atras">Volver</button>
@@ -499,7 +502,6 @@ $comp_sesion = $sesion_iniciada == true ? "Si" : "No";
                         <h3 id="fecha" class="fecha"></h3>
                         <h3 id="presupuesto" class="presupuesto"></h3>
                         <h3 id="ganancias" class="ganancias"></h3>
-                        <h3 id="adulto" class="adulto"></h3>
                         <h3 id="web" class="web"></h3>
                         <h3 id="total_votos" class="total_votos"></h3>
                     </span>
@@ -569,7 +571,6 @@ $comp_sesion = $sesion_iniciada == true ? "Si" : "No";
                 jQuery("#aniadir_a_lista").on("click", function() {
                     // Si la sesión no está iniciada se muestra un modal, en caso contrario FALTA SELECCION DE LISTAS.
                     if (jQuery("#comp_sesion").val() == "No") {
-                        alert("CLICK");
                         mostrar_modal("Para guardar películas en listas debes iniciar sesión.");
                     } else {
                         
@@ -579,7 +580,6 @@ $comp_sesion = $sesion_iniciada == true ? "Si" : "No";
                 jQuery("#aniadir_a_favoritos").on("click", function() {
                     // Si la sesión no está iniciada se muestra un modal, en caso contrario FALTA SELECCION DE LISTAS.
                     if (jQuery("#comp_sesion").val() == "No") {
-                        alert("CLICK");
                         mostrar_modal("Para guardar películas en listas debes iniciar sesión.");
                     } else {
                         
@@ -589,7 +589,8 @@ $comp_sesion = $sesion_iniciada == true ? "Si" : "No";
                 // Listener para que, al pulsar el botón vuelve atrás hasta la última coordenada clickada en el index. 
                 jQuery("#atras").on("click", function () {
                     let pagina_actual = jQuery("#pagina_actual").val();
-                    window.location.href = `../index.php?pagina=${pagina_actual}`;
+                    let busqueda = jQuery("#busqueda_actual").val();
+                    window.location.href = `../index.php?pagina=${pagina_actual}&busqueda=${busqueda}`;
                 });
 
                 // Prevenimos el comportamiento por defecto del elemento <a> para hacer una petición al controller de usuario que cierra la sesión y recargar la página.
@@ -657,7 +658,6 @@ $comp_sesion = $sesion_iniciada == true ? "Si" : "No";
             let presupuesto = pelicula["presupuesto"] > 0 ? pelicula["presupuesto"].toLocaleString() + " $" : "No disponible";
             let ganancias = pelicula["ganancias"] > 0 ? pelicula["ganancias"].toLocaleString() + " $" : "No disponible";
             let popularidad = pelicula["popularidad"] > 0 ? pelicula["popularidad"] : "No disponible";
-            let para_adultos = pelicula["adulto"] == true ? "+18" : "Para todas las edades";
 
             if (pelicula["valoracion"] > 0 && pelicula["valoracion"] <= 4) {
                 jQuery(".valoracion_container").css("background", "linear-gradient(90deg, rgba(207, 37, 9, 1) 0%, rgba(230, 133, 50, 1) 100%)");
@@ -680,10 +680,9 @@ $comp_sesion = $sesion_iniciada == true ? "Si" : "No";
             jQuery("#presupuesto").text(`Presupuesto: `).append(`<span>${presupuesto}</span>`);
             jQuery("#ganancias").text(`Ganancias: `).append(`<span>${ganancias}</span>`);
             jQuery("#popularidad").text(`Popularidad: `).append(`<span>${popularidad}</span>`);
-            jQuery("#adulto").text(`Categoría: `).append(`<span>${para_adultos}</span>`);
             // Si se obtiene la url de la web se añade, si no se escribe "No disponible".
             pelicula["web"] != "" ? jQuery("#web").text(`Web: `).append(`<a href = '${pelicula["web"]}'>${pelicula["web"]}</a>`) : jQuery("#web").text("Web: ").append(`<span>No disponible</span>`);
-            jQuery("#total_votos").text(`Total de votos: `).append(`<span>${pelicula["total_votos"]}</span>`);
+            jQuery("#total_votos").text(`Votaciones: `).append(`<span>${pelicula["total_votos"]}</span>`);
         }
 
         // Función que hace una llamada a actor_controller.php para obtener un array con los actores de la película. Se envía la key para saber la acción y el id_pelicula.

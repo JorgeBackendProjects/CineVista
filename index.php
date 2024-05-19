@@ -3,6 +3,7 @@ session_start();
 $sesion_iniciada = isset($_SESSION["username"]);
 
 $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
+$busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +45,8 @@ $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
 
     <main>
         <input type="hidden" id="pagina_actual" name="pagina_actual" value="<?php echo $pagina_actual; ?>"/>
+        <input type="hidden" id="busqueda_actual" name="busqueda_actual" value="<?php echo $busqueda_actual; ?>"/>
+
         <div id="container_buscador" class="container_buscador">
             <input type="search" id="buscador" class="buscador" placeholder="Busca películas por título o fecha" autocomplete="off">
         </div>
