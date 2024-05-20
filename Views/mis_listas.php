@@ -251,7 +251,29 @@ $sesion_iniciada = isset($_SESSION["username"]);
             color: black;
         }
 
-        .eliminar_modal {
+        .nuevo_nombre_lista {
+            display: none;
+            width: 50%;
+            height: 2.5rem;
+            margin-top: 0.5rem;
+            padding-left: 5%;
+            border: 2px solid black;
+            border-radius: 10px;
+        }
+
+        .editar_lista_modal {
+            display: none;
+            width: 50%;
+            height: 2.5rem;
+            margin-top: 3vh;
+            font-size: 1.2rem;
+            background-color: rgb(255, 188, 50);
+            color: white;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .eliminar_lista_modal {
             display: none;
             width: 50%;
             height: 2.5rem;
@@ -364,8 +386,6 @@ $sesion_iniciada = isset($_SESSION["username"]);
         }
 
 
-
-
         .tabla_listas {
             width: 80%;
             margin: 1rem auto;
@@ -467,7 +487,10 @@ $sesion_iniciada = isset($_SESSION["username"]);
             <span id="cerrar_modal" class="cerrar_modal">&times;</span>
             <div class="columna_modal">
                 <p id="mensaje_modal" class="mensaje_modal"></p>
-                <button id="eliminar_lista_modal" class="eliminar_lista_modal">Si, elimina mi cuenta</button>
+                <input type="hidden" class="id_lista_modal" />
+                <input type="text" class="nuevo_nombre_lista" />
+                <button id="editar_lista_modal" class="editar_lista_modal">Editar</button>
+                <button id="eliminar_lista_modal" class="eliminar_lista_modal">Si, elimina la lista</button>
             </div>
         </div>
     </div>
@@ -476,7 +499,10 @@ $sesion_iniciada = isset($_SESSION["username"]);
 
     <script>
         jQuery(document).ready(function() {
-            console.log("DOCUMENTO LISTO");
+            var contenedor_modal = jQuery("#contenedor_modal");
+            var modal = jQuery("#modal");
+            
+            // FUNCION CARGAR LISTAS
             jQuery.ajax({
                 url: '../Controllers/lista_controller.php',
                 method: 'POST',
@@ -491,11 +517,100 @@ $sesion_iniciada = isset($_SESSION["username"]);
                         create_DOM_listas(listas);
                     } else {
                         // MOSTRAR MODAL - NO HAY LISTAS
+                        jQuery("#eliminar_lista_modal").hide();
+                        jQuery("#editar_lista_modal").hide();
+                        mostrar_modal("No se han encontrado listas creadas");
                     }                
                 },
                 error: function (xhr, status, error) {
-
+                    console.error("Ha ocurrido un error: " . error);
                 }
+            });
+
+            // FUNCION EDITAR NOMBRE LISTA
+            jQuery("#editar_lista_modal").on("click", function() {
+                let id_lista = jQuery(this).siblings(".id_lista_modal").val();
+                let nombre = jQuery(".nuevo_nombre_lista").val();
+
+                jQuery.ajax({
+                    url: '../Controllers/lista_controller.php',
+                    method: 'POST',
+                    data: {
+                        id_lista: id_lista,
+                        nombre: nombre,
+                        key: "edit_lista"
+                    },
+                    success: function (data) {
+                        let resultado = JSON.parse(data);
+
+                        jQuery("#eliminar_lista_modal").hide();
+                        jQuery("#editar_lista_modal").hide();
+                        jQuery(".nuevo_nombre_lista").hide();
+
+                        if (resultado == "OK") {
+                            mostrar_modal("Se ha renombrado correctamente");
+
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            mostrar_modal(resultado);
+                        }                
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Ha ocurrido un error: " . error);
+                    }
+                });
+            });
+
+            // FUNCION ELIMINAR LISTA
+            jQuery("#eliminar_lista_modal").on("click", function() {
+                let id_lista = jQuery(this).siblings(".id_lista_modal").val();
+
+                jQuery.ajax({
+                    url: '../Controllers/lista_controller.php',
+                    method: 'POST',
+                    data: {
+                        id_lista: id_lista,
+                        key: "delete_lista"
+                    },
+                    success: function (data) {
+                        let resultado = JSON.parse(data);
+                            
+                        jQuery("#eliminar_lista_modal").hide();
+                        jQuery("#editar_lista_modal").hide();
+                        jQuery(".nuevo_nombre_lista").hide();
+
+                        if (resultado == "OK") {
+                            mostrar_modal("Se ha eliminado la lista correctamente");
+
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            mostrar_modal(resultado);
+                        }                
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Ha ocurrido un error: " . error);
+                    }
+                });
+            });
+
+            // Eventos click para cerrar el modal tanto en la cruz como fuera del modal.
+            jQuery("#cerrar_modal").on("click", function() {
+                contenedor_modal.css("display", "none");
+            });
+
+            jQuery(window).on("click", function(event) {
+                if (event.target == contenedor_modal[0]) {
+                    contenedor_modal.css("display", "none");
+                }
+            });
+
+            // Listener para que, al pulsar el botón vuelve atrás hasta la página anterior. 
+            jQuery("#atras").on("click", function () {
+                history.back();
             });
         });
         
@@ -519,12 +634,12 @@ $sesion_iniciada = isset($_SESSION["username"]);
 
                 let columna_nombre = jQuery("<td>").text(nombre);
                 let columna_fecha = jQuery("<td>").text(fecha);
-                let columna_ver = jQuery("<td>").append(id_lista).append(`<button class="ver_button">Ver</button>`);               
-                let columna_editar = jQuery("<td>").append(id_lista).append(`<button class="editar_button">Editar</button>`);
-                let columna_eliminar = jQuery("<td>").append(id_lista).append(`<button class="eliminar_button">Eliminar</button>`);
+                let columna_ver = jQuery("<td>").append(`<button class="ver_button">Ver</button>`);               
+                let columna_editar = jQuery("<td>").append(`<button class="editar_button">Editar</button>`);
+                let columna_eliminar = jQuery("<td>").append(`<button class="eliminar_button">Eliminar</button>`);
 
                 // Agregamos los elementos a la tabla de listas.
-                nueva_lista.append(columna_nombre, columna_fecha, columna_ver, columna_editar, columna_eliminar);
+                nueva_lista.append(id_lista, columna_nombre, columna_fecha, columna_ver, columna_editar, columna_eliminar);
 
                 // Se agrega el div del lista al contenedor de actores.
                 jQuery("#tabla_listas tbody").append(nueva_lista);
@@ -532,20 +647,41 @@ $sesion_iniciada = isset($_SESSION["username"]);
 
             // Después de agregar los elementos le asignamos el evento click para ver su información, editar y borrar.
             jQuery(".ver_button").on("click", function () {
-                let id_lista = jQuery(this).siblings(".id_lista").val();
+                let id_lista = jQuery(this).closest("tr").find(".id_lista").val();
                 window.location = `lista.php?id=${id_lista}`;
             });
 
             jQuery(".editar_button").on("click", function () {
-                let id_lista = jQuery(this).siblings(".id_lista").val();
-                // MOSTRAR MODAL
+                // Asignamos el id de la lista a un input hidden dentro del modal.
+                let id_lista = jQuery(this).closest("tr").find(".id_lista").val();
+                jQuery(".id_lista_modal").val(id_lista);
+
+                jQuery("#eliminar_lista_modal").hide();
+                jQuery("#editar_lista_modal").show();
+                jQuery(".nuevo_nombre_lista").show();
+
+                mostrar_modal("Elige un nuevo nombre para la lista");
             });
 
-            jQuery(".editar_button").on("click", function () {
-                let id_lista = jQuery(this).siblings(".id_lista").val();
-                // MOSTRAR MODAL
+            // Se le pasa el id de lista al modal para poder hacer la petición ajax y se muestra el modal con el botón de eliminar.
+            jQuery(".eliminar_button").on("click", function () {
+                // Asignamos el id de la lista a un input hidden dentro del modal.
+                let id_lista = jQuery(this).closest("tr").find(".id_lista").val();
+                jQuery(".id_lista_modal").val(id_lista);
+
+                jQuery("#eliminar_lista_modal").show();
+                jQuery("#editar_lista_modal").hide();
+                jQuery(".nuevo_nombre_lista").hide();
+                mostrar_modal("¿Estás seguro de que quieres eliminar esta lista?");
             });
         }
+
+        // Función para mostrar el modal con el mensaje determinado.
+        function mostrar_modal(mensaje) {
+            jQuery("#mensaje_modal").text(mensaje);
+            jQuery("#contenedor_modal").css("display", "block");
+        }
+
     </script>
 </body>
 

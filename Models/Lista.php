@@ -50,25 +50,25 @@ class Lista {
         }
     }
 
-    public static function update_lista($nombre) {
+    public static function update_lista($id_lista, $nombre) {
         $pdo = Conexion::connection_database();
-        $stmt = $pdo->prepare("UPDATE lista SET nombre = ?");
+        $stmt = $pdo->prepare("UPDATE lista SET nombre = ? WHERE id = ?");
 
-        if ($stmt->execute([$nombre])) {
+        if ($stmt->execute([$nombre, $id_lista])) {
             return "OK";
         } else {
             return "No se ha cambiar el nombre de la lista en estos momentos.";
         }
     }
     
-    public static function delete_lista($id_usuario, $nombre) {
+    public static function delete_lista($id_lista) {
         $pdo = Conexion::connection_database();
-        $stmt = $pdo->prepare("DELETE lista WHERE id_usuario = ? AND nombre = ?");
+        $stmt = $pdo->prepare("DELETE FROM lista WHERE id = ?");
 
-        if ($stmt->execute([$id_usuario, $nombre])) {
+        if ($stmt->execute([$id_lista])) {
             return "OK";
         } else {
-            return "No se ha podido eliminar la lista en estos momentos.";
+            return "No se ha podido eliminar la lista.";
         }
     }
 
