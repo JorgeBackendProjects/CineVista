@@ -494,6 +494,7 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
             <input type="hidden" id="pagina_actual" name="pagina_actual" value="<?php echo $pagina_actual; ?>" />
             <input type="hidden" id="busqueda_actual" name="busqueda_actual" value="<?php echo $busqueda_actual; ?>" />
             <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
+            <input type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION["id"]; ?>" />
 
             <button id="atras" class="atras">Volver</button>
 
@@ -807,6 +808,37 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
                 }, 5);
             }).on("mouseup mouseleave", function() {
                 clearInterval(intervalo);
+            });
+        }
+
+        // FALTA - REVISAR SI LE PASO EL ID LISTA O EL NOMBRE (POSIBILIDAD DE HACER SUBCONSULTA¿?).
+        function guardar_en_lista($nombre_lista) {
+            let id_pelicula = jQuery("#id_pelicula").val();
+            let id_usuario = jQuery("#id_usuario").val();
+
+            jQuery.ajax({
+                url: '../Controllers/lista_controller.php',
+                method: 'POST',
+                data: {
+                    id_usuario: id_usuario,
+                    id_pelicula: id_pelicula,
+                    key: "add_pelicula_lista"
+                },
+                success: function (data) {
+                    // Obtengo el objeto película
+                    let pelicula = JSON.parse(data).pelicula;
+
+                    // Se carga la película en el DOM.
+                    create_DOM_pelicula(pelicula);
+                },
+                error: function(xhr, status, error) {
+                    // En caso de error, se agrega un mensaje al contenedor principal y se oculta el resto de elementos.
+                    jQuery("#principal").append("<h2>No se han podido cargar las películas. Vuelve a intentarlo más tarde.</h2>");
+
+                    jQuery("#pelicula").hide();
+                    jQuery("#secundario").hide();
+                    jQuery("#pantalla_carga").hide();
+                }
             });
         }
 

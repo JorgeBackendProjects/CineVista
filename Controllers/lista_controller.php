@@ -24,8 +24,14 @@ if (isset($_POST["id_usuario"]) && isset($_POST["key"]) && $_POST["key"] == "get
     }
 }
 
-if (isset($_POST["key"]) && $_POST["key"] == "crear_lista") {
-    
+// Crea una lista nueva para el usuario.
+if (isset($_POST["id_usuario"]) && isset($_POST["nombre"]) && isset($_POST["key"]) && $_POST["key"] == "create_lista") {
+    $id_usuario = $_POST["id_usuario"];
+    $nombre = $_POST["nombre"];
+
+    $creada = Lista::insert_lista($nombre, date("Y-m-d", strtotime("now")), $id_usuario);
+
+    echo json_encode($creada);
 }
 
 //EDITA EL NOMBRE DE UNA LISTA
@@ -45,4 +51,9 @@ if (isset($_POST["id_lista"]) && isset($_POST["key"]) && $_POST["key"] == "delet
     $resultado = Lista::delete_lista($id_lista);
 
     echo json_encode($resultado);
+}
+
+// FALTA
+if (isset($_POST["id_pelicula"]) && isset($_POST["id_usuario"]) && isset($_POST["id_lista"]) && isset($_POST["key"]) && $_POST["key"] == "add_pelicula_lista") {
+
 }

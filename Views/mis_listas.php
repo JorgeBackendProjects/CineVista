@@ -122,7 +122,7 @@ $sesion_iniciada = isset($_SESSION["username"]);
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 60rem;
+            width: 50vw;
             height: 40rem;
             margin: 1% auto auto auto;
             background-color: rgba(0, 0, 0, 50%);
@@ -133,14 +133,53 @@ $sesion_iniciada = isset($_SESSION["username"]);
             margin: 2rem auto 1rem 3rem;
         }
 
-        .tabla_listas {}
+        .tabla_listas {
+            width: 80%;
+            margin: 1rem auto;
+            border-collapse: separate;
+            border-spacing: 0 0.1rem;
+            cursor: default;
+        }
+
+        .tabla_listas thead tr {
+            background-color: #021B30;
+            color: white;
+            font-weight: bold;
+        }
+
+        .tabla_listas th,
+        .tabla_listas td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #dddddd;
+        }
+
+        .tabla_listas tbody tr {
+            background-color: white;
+        }
+
+        .tabla_listas .encabezado td:first-child,
+        .tabla_listas .lista td:first-child,
+        .primer_td {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        .tabla_listas .encabezado td:last-child,
+        .tabla_listas .lista td:last-child {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .tabla_listas .lista {
+            color: black;
+        }
 
         /*Botones*/
         .container_boton_atras {
             display: flex;
             flex-direction: column;
-            width: 60rem;
-            margin: 1% auto auto auto;
+            margin: 1% auto auto 25vw;
         }
 
         .atras {
@@ -199,11 +238,17 @@ $sesion_iniciada = isset($_SESSION["username"]);
             border: 1px solid;
         }
 
-        .boton_enviar {
-            width: 30%;
+        .nueva_lista_container {
+            display: flex;
+            flex-direction: row-reverse;
+            width: 80%;
+        }
+
+        .nueva_lista_button {
+            width: 20%;
             height: 2.3rem;
             font-size: 1.25rem;
-            background-color: rgb(255, 50, 50);
+            background-color: rgb(255, 188, 50);
             color: white;
             border-radius: 15px;
             cursor: pointer;
@@ -259,6 +304,18 @@ $sesion_iniciada = isset($_SESSION["username"]);
             padding-left: 5%;
             border: 2px solid black;
             border-radius: 10px;
+        }
+
+        .crear_lista_modal {
+            display: none;
+            width: 50%;
+            height: 2.5rem;
+            margin-top: 3vh;
+            font-size: 1.2rem;
+            background-color: rgb(255, 188, 50);
+            color: white;
+            border-radius: 15px;
+            cursor: pointer;
         }
 
         .editar_lista_modal {
@@ -384,48 +441,6 @@ $sesion_iniciada = isset($_SESSION["username"]);
                 margin-right: 0;
             }
         }
-
-
-        .tabla_listas {
-            width: 80%;
-            margin: 1rem auto;
-            border-collapse: separate;
-            border-spacing: 0 0.1rem;
-            cursor: default;
-        }
-
-        .tabla_listas thead tr {
-            background-color: #021B30;
-            color: white;
-            font-weight: bold;
-        }
-
-        .tabla_listas th,
-        .tabla_listas td {
-            padding: 12px 15px;
-            text-align: center;
-            border: 1px solid #dddddd;
-        }
-
-        .tabla_listas tbody tr {
-            background-color: white;
-        }
-
-        .tabla_listas .encabezado td:first-child,
-        .tabla_listas .lista td:first-child {
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-        }
-
-        .tabla_listas .encabezado td:last-child,
-        .tabla_listas .lista td:last-child {
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
-        }
-
-        .tabla_listas .lista {
-            color: black;
-        }
     </style>
 </head>
 
@@ -479,6 +494,10 @@ $sesion_iniciada = isset($_SESSION["username"]);
 
                 </tbody>
             </table>
+
+            <div class="nueva_lista_container">
+                <button id="nueva_lista_button" class="nueva_lista_button">Nueva lista</button>
+            </div>
         </div>
     </main>
 
@@ -488,7 +507,8 @@ $sesion_iniciada = isset($_SESSION["username"]);
             <div class="columna_modal">
                 <p id="mensaje_modal" class="mensaje_modal"></p>
                 <input type="hidden" class="id_lista_modal" />
-                <input type="text" class="nuevo_nombre_lista" />
+                <input type="text" class="nuevo_nombre_lista" placeholder="Nombre para la lista"/>
+                <button id="crear_lista_modal" class="crear_lista_modal">Crear</button>
                 <button id="editar_lista_modal" class="editar_lista_modal">Editar</button>
                 <button id="eliminar_lista_modal" class="eliminar_lista_modal">Si, elimina la lista</button>
             </div>
@@ -527,6 +547,38 @@ $sesion_iniciada = isset($_SESSION["username"]);
                 }
             });
 
+            // FUNCION CREAR LISTA
+            jQuery("#crear_lista_modal").on("click", function() {
+                let id_usuario = jQuery("#id_usuario").val();
+                let nombre = jQuery(".nuevo_nombre_lista").val();
+
+                jQuery.ajax({
+                    url: '../Controllers/lista_controller.php',
+                    method: 'POST',
+                    data: {
+                        id_usuario: id_usuario, 
+                        nombre: nombre,
+                        key: "create_lista"
+                    },
+                    success: function (data) {
+                        let resultado = JSON.parse(data);
+
+                        if (resultado == "OK") {
+                            mostrar_modal("Lista creada correctamente");
+
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            mostrar_modal(resultado);
+                        }                
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Ha ocurrido un error: " . error);
+                    }
+                });
+            });
+
             // FUNCION EDITAR NOMBRE LISTA
             jQuery("#editar_lista_modal").on("click", function() {
                 let id_lista = jQuery(this).siblings(".id_lista_modal").val();
@@ -542,10 +594,6 @@ $sesion_iniciada = isset($_SESSION["username"]);
                     },
                     success: function (data) {
                         let resultado = JSON.parse(data);
-
-                        jQuery("#eliminar_lista_modal").hide();
-                        jQuery("#editar_lista_modal").hide();
-                        jQuery(".nuevo_nombre_lista").hide();
 
                         if (resultado == "OK") {
                             mostrar_modal("Se ha renombrado correctamente");
@@ -576,10 +624,6 @@ $sesion_iniciada = isset($_SESSION["username"]);
                     },
                     success: function (data) {
                         let resultado = JSON.parse(data);
-                            
-                        jQuery("#eliminar_lista_modal").hide();
-                        jQuery("#editar_lista_modal").hide();
-                        jQuery(".nuevo_nombre_lista").hide();
 
                         if (resultado == "OK") {
                             mostrar_modal("Se ha eliminado la lista correctamente");
@@ -608,13 +652,35 @@ $sesion_iniciada = isset($_SESSION["username"]);
                 }
             });
 
+            // Prevenimos el comportamiento por defecto del elemento <a> para hacer una petición al controller de usuario que cierra la sesión y recargar la página.
+            jQuery("#redirect_cerrar_sesion").on("click", function (event) {
+                event.preventDefault();
+
+                jQuery.ajax({
+                    url: '../Controllers/usuario_controller.php',
+                    method: 'POST',
+                    data: {
+                        key: "cerrar_sesion"
+                    },
+                    success: function (data) {
+                        let resultado = JSON.parse(data);
+
+                        if (resultado == "OK") {
+                            window.location = "../index.php";
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error al cerrar sesión: " + error);
+                    }
+                });
+            });
+
             // Listener para que, al pulsar el botón vuelve atrás hasta la página anterior. 
             jQuery("#atras").on("click", function () {
                 history.back();
             });
         });
         
-
         function create_DOM_listas(listas) {
             listas.forEach(lista => {
                 // Obtenemos los datos de la lista.
@@ -632,7 +698,7 @@ $sesion_iniciada = isset($_SESSION["username"]);
                     value: id
                 });
 
-                let columna_nombre = jQuery("<td>").text(nombre);
+                let columna_nombre = jQuery("<td class='primer_td'>").text(nombre);
                 let columna_fecha = jQuery("<td>").text(fecha);
                 let columna_ver = jQuery("<td>").append(`<button class="ver_button">Ver</button>`);               
                 let columna_editar = jQuery("<td>").append(`<button class="editar_button">Editar</button>`);
@@ -651,16 +717,15 @@ $sesion_iniciada = isset($_SESSION["username"]);
                 window.location = `lista.php?id=${id_lista}`;
             });
 
+            // Se le pasa el id de lista al modal para poder hacer la petición ajax y se muestra el modal con un input para el nombre y el botón de editar.
             jQuery(".editar_button").on("click", function () {
                 // Asignamos el id de la lista a un input hidden dentro del modal.
                 let id_lista = jQuery(this).closest("tr").find(".id_lista").val();
                 jQuery(".id_lista_modal").val(id_lista);
 
-                jQuery("#eliminar_lista_modal").hide();
+                mostrar_modal("Elige un nuevo nombre para la lista");
                 jQuery("#editar_lista_modal").show();
                 jQuery(".nuevo_nombre_lista").show();
-
-                mostrar_modal("Elige un nuevo nombre para la lista");
             });
 
             // Se le pasa el id de lista al modal para poder hacer la petición ajax y se muestra el modal con el botón de eliminar.
@@ -669,10 +734,15 @@ $sesion_iniciada = isset($_SESSION["username"]);
                 let id_lista = jQuery(this).closest("tr").find(".id_lista").val();
                 jQuery(".id_lista_modal").val(id_lista);
 
-                jQuery("#eliminar_lista_modal").show();
-                jQuery("#editar_lista_modal").hide();
-                jQuery(".nuevo_nombre_lista").hide();
                 mostrar_modal("¿Estás seguro de que quieres eliminar esta lista?");
+                jQuery("#eliminar_lista_modal").show();
+            });
+
+            // Evento para abrir el modal con el objetivo de crear una lista.
+            jQuery("#nueva_lista_button").on("click", function() {
+                mostrar_modal("Asigna un nombre para la nueva lista");
+                jQuery("#crear_lista_modal").show();
+                jQuery(".nuevo_nombre_lista").show();
             });
         }
 
@@ -680,6 +750,11 @@ $sesion_iniciada = isset($_SESSION["username"]);
         function mostrar_modal(mensaje) {
             jQuery("#mensaje_modal").text(mensaje);
             jQuery("#contenedor_modal").css("display", "block");
+
+            jQuery("#eliminar_lista_modal").hide();
+            jQuery("#crear_lista_modal").hide();
+            jQuery("#editar_lista_modal").hide();
+            jQuery(".nuevo_nombre_lista").hide();
         }
 
     </script>

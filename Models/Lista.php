@@ -41,9 +41,9 @@ class Lista {
 
     public static function insert_lista($nombre, $fecha_creacion, $id_usuario) {
         $pdo = Conexion::connection_database();
-        $stmt = $pdo->prepare("INSERT INTO lista (nombre, fecha_creacion, id_usuario, visibilidad) VALUES (?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO lista (nombre, fecha_creacion, visibilidad, id_usuario) VALUES (?, ?, ?, ?)");
 
-        if ($stmt->execute([$nombre, $fecha_creacion, $id_usuario, "Privada"])) {
+        if ($stmt->execute([$nombre, $fecha_creacion, "Privada", $id_usuario])) {
             return "OK";
         } else {
             return "No se ha podido crear la lista en estos momentos.";
