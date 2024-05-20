@@ -109,34 +109,96 @@ class Usuario {
     // Actualiza la información del usuario.
     public static function update_con_password($id, $username, $email, $password) {
         $pdo = Conexion::connection_database();
+        $username_existente = false;
+        $email_existente = false;
 
-        $stmt = $pdo->prepare("UPDATE usuario SET username = ?, email = ?, password = ? WHERE id = ?");
-        // Si se ha actualizado devuelve OK, en caso contrario un mensaje informativo.
-        if ($stmt->execute([$username, $email, password_hash($password, PASSWORD_ARGON2I), $id])) {
-            session_start();
-            $_SESSION["username"] = $username;
-            $_SESSION["email"] = $email;
+        // Se obtienen todos los usuarios de la base de datos para evitar que se repita el username o email.
+        $stmt = $pdo->prepare("SELECT username, email, rol, password FROM usuario");
+        if ($stmt->execute()) {
+            $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            return "OK";
-        } else {
-            return "No se ha podido editar la información. Inténtalo de nuevo más tarde.";
+            // Si hay usuarios se recorre el array en busca de la coincidencia de username o email.
+            if (count($usuarios) > 0) {
+                foreach ($usuarios as $usuario) {
+                    // Si el username o email coinciden con el de otro usuario que no es el suyo, se setea a true la variable.
+                    if ($usuario["username"] == $username && $usuario["id"] != $id) {
+                        $username_existente = true;
+                    }
+
+                    if ($usuario["email"] == $email && $usuario["id"] != $id) {
+                        $email_existente = true;                    
+                    }
+                }
+
+                // Si el username y email no están registrados se editan.
+                if ($username_existente == false && $email_existente == false) {
+                    $stmt = $pdo->prepare("UPDATE usuario SET username = ?, email = ?, password = ? WHERE id = ?");
+                    // Si se ha actualizado devuelve OK, en caso contrario un mensaje informativo.
+                    if ($stmt->execute([$username, $email, password_hash($password, PASSWORD_ARGON2I), $id])) {
+                        session_start();
+                        $_SESSION["username"] = $username;
+                        $_SESSION["email"] = $email;
+        
+                        return "OK";
+                    } else {
+                        return "No se ha podido editar la información. Inténtalo de nuevo más tarde.";
+                    }
+                } else if ($username_existente == true && $email_existente == false){
+                    return "Ya existe un usuario con el mismo username.";
+                } else if ($username_existente == false && $email_existente == true) {
+                    return "Ya existe un usuario con el mismo email.";
+                } else if ($username_existente == true && $email_existente == true) {
+                    return "Ya existe un usuario con el mismo username y email.";
+                }
+            }
         }
     }
 
     // Actualiza la información del usuario menos la contraseña.
     public static function update_sin_password($id, $username, $email) {
         $pdo = Conexion::connection_database();
+        $username_existente = false;
+        $email_existente = false;
 
-        $stmt = $pdo->prepare("UPDATE usuario SET username = ?, email = ? WHERE id = ?");
-        // Si se ha actualizado devuelve OK, en caso contrario un mensaje informativo.
-        if ($stmt->execute([$username, $email, $id])) {
-            session_start();
-            $_SESSION["username"] = $username;
-            $_SESSION["email"] = $email;
+        // Se obtienen todos los usuarios de la base de datos para evitar que se repita el username o email.
+        $stmt = $pdo->prepare("SELECT id, username, email, rol, password FROM usuario");
+        if ($stmt->execute()) {
+            $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            return "OK";
-        } else {
-            return "No se ha podido editar la información. Inténtalo de nuevo más tarde.";
+            // Si hay usuarios se recorre el array en busca de la coincidencia de username o email.
+            if (count($usuarios) > 0) {
+                foreach ($usuarios as $usuario) {
+                    // Si el username o email coinciden con el de otro usuario que no es el suyo, se setea a true la variable.
+                    if ($usuario["username"] == $username && $usuario["id"] != $id) {
+                        $username_existente = true;
+                    }
+
+                    if ($usuario["email"] == $email && $usuario["id"] != $id) {
+                        $email_existente = true;                    
+                    }
+                }
+
+                // Si el username y email no están registrados se editan.
+                if ($username_existente == false && $email_existente == false) {
+                    $stmt = $pdo->prepare("UPDATE usuario SET username = ?, email = ? WHERE id = ?");
+                    // Si se ha actualizado devuelve OK, en caso contrario un mensaje informativo.
+                    if ($stmt->execute([$username, $email, $id])) {
+                        session_start();
+                        $_SESSION["username"] = $username;
+                        $_SESSION["email"] = $email;
+        
+                        return "OK";
+                    } else {
+                        return "No se ha podido editar la información. Inténtalo de nuevo más tarde.";
+                    }
+                } else if ($username_existente == true && $email_existente == false){
+                    return "Ya existe un usuario con el mismo username.";
+                } else if ($username_existente == false && $email_existente == true) {
+                    return "Ya existe un usuario con el mismo email.";
+                } else if ($username_existente == true && $email_existente == true) {
+                    return "Ya existe un usuario con el mismo username y email.";
+                }
+            }
         }
     }
 
