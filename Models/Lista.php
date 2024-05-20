@@ -4,15 +4,15 @@ require_once ("Pelicula.php");
 
 class Lista {
     private int $id;
-    private string $titulo;
+    private string $nombre;
     private string $fecha_creacion;
     private string $visibilidad;
     private int $id_usuario;
     private array $peliculas;
 
-    public function __construct(string $titulo, string $fecha_creacion, string $visibilidad, int $id_usuario, array $peliculas = array(), int $id = 0)
+    public function __construct(int $id, string $nombre, string $fecha_creacion, string $visibilidad, int $id_usuario = 0, array $peliculas = array())
     {
-        $this->titulo = $titulo;
+        $this->nombre = $nombre;
         $this->fecha_creacion = $fecha_creacion;
         $this->visibilidad = $visibilidad;
         $this->id_usuario = $id_usuario;
@@ -20,14 +20,22 @@ class Lista {
         $this->id = $id;
     }
 
-    public static function select_listas_by_user($id_usuario) {
+    public static function get_listas_usuario($id_usuario) {
         $pdo = Conexion::connection_database();
-        $stmt = $pdo->prepare("SELECT nombre FROM lista WHERE id_usuario = ?");
+        $stmt = $pdo->prepare("SELECT * FROM lista WHERE id_usuario = ?");
 
         if ($stmt->execute([$id_usuario])) {
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $array_objetos = array();
+            foreach ($listas as $lista) {
+                $lista_object = new Lista($lista["id"], $lista["nombre"], $lista["fecha_creacion"], $lista["visibilidad"], $lista["id_usuario"]);
+                array_push($array_objetos, $lista_object);
+            }
+            
+            return $array_objetos;
         } else {
-            return "No se han encontrado listas creadas por el usuario.";
+            return "No se han encontrado listas para este usuario.";
         }
     }
 
@@ -70,9 +78,9 @@ class Lista {
         return $this->id;
     }
 
-    public function get_titulo(): string
+    public function get_nombre(): string
     {
-        return $this->titulo;
+        return $this->nombre;
     }
 
     public function get_fecha_creacion(): string
@@ -96,9 +104,9 @@ class Lista {
         $this->id = $id;
     }
 
-    public function set_titulo(string $titulo): void
+    public function set_nombre(string $nombre): void
     {
-        $this->titulo = $titulo;
+        $this->nombre = $nombre;
     }
 
     public function set_fecha_creacion(string $fecha_creacion): void

@@ -49,7 +49,7 @@ $redirect_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "..
         </div>
 
         <div id="perfil" class="perfil">
-            <h1 id="titulo" class="titulo">Tu perfil</h1>
+            <h1 id="titulo" class="titulo">Mi perfil</h1>
             <p id="info_editar" class="info_editar">Puedes editar sin modificar la contraseña</p>
 
             <div id="info_perfil" class="info_perfil">
