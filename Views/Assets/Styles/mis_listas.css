@@ -1,0 +1,421 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Inria Sans", sans-serif;
+    font-size: 1.1rem;
+    background-color: #021B30;
+    color: white;
+}
+
+main {
+    min-height: 110vh;
+}
+
+/*Cabecera*/
+header {
+    position: sticky;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+    background-color: #011727;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5rem;
+    padding: 10px 20px;
+}
+
+.header_left,
+.header_right {
+    display: flex;
+    align-items: center;
+}
+
+.header_left {
+    margin-left: 30px;
+}
+
+.header_right {
+    margin-right: 30px;
+}
+
+.header_left .icon {
+    width: 3.5rem;
+    height: 3rem;
+    background-image: url("../Images/icon.png");
+    background-size: 100% 100%;
+}
+
+.header_left a {
+    text-decoration: none;
+    color: white;
+}
+
+.header_left .title {
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+    font-size: 1.9rem;
+    margin: 0 20px;
+}
+
+.header_right ul {
+    display: flex;
+    margin: 0;
+    list-style-type: none;
+}
+
+.header_right ul p {
+    margin: 0.5rem 10px 0 0;
+}
+
+.header_right ul li {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.header_right ul li a {
+    text-decoration: none;
+    color: white;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 0.4rem;
+}
+
+.header_right ul li a i {
+    margin-right: 0.3rem;
+}
+
+/*Div principal de la vista*/
+.tabla_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50vw;
+    height: 40rem;
+    margin: 1% auto auto auto;
+    background-color: rgba(0, 0, 0, 50%);
+    border-radius: 30px;
+}
+
+.tabla_container h1 {
+    margin: 2rem auto 1rem 3rem;
+}
+
+.tabla_listas {
+    width: 80%;
+    margin: 1rem auto;
+    border-collapse: separate;
+    border-spacing: 0 0.1rem;
+    cursor: default;
+}
+
+.tabla_listas thead tr {
+    background-color: #021B30;
+    color: white;
+    font-weight: bold;
+}
+
+.tabla_listas th,
+.tabla_listas td {
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #dddddd;
+}
+
+.tabla_listas tbody tr {
+    background-color: white;
+}
+
+.tabla_listas .encabezado td:first-child,
+.tabla_listas .lista td:first-child,
+.primer_td {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.tabla_listas .encabezado td:last-child,
+.tabla_listas .lista td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.tabla_listas .lista {
+    color: black;
+}
+
+/*Botones*/
+.container_boton_atras {
+    display: flex;
+    flex-direction: column;
+    margin: 1% auto auto 25vw;
+}
+
+.atras {
+    width: 6rem;
+    height: 2.7rem;
+    margin: 0 0 0 0;
+    font-size: 1.25rem;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.ver_button {
+    width: 100%;
+    height: 2.5rem;
+    font-size: 0.9rem;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.editar_button {
+    width: 100%;
+    height: 2.5rem;
+    font-size: 0.9rem;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.eliminar_button {
+    width: 100%;
+    height: 2.5rem;
+    font-size: 0.9rem;
+    background-color: rgb(255, 50, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.boton_cancelar {
+    width: 30%;
+    height: 2.3rem;
+    font-size: 1.25rem;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.nueva_lista_container {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 80%;
+}
+
+.nueva_lista_button {
+    width: 20%;
+    height: 2.3rem;
+    font-size: 1.25rem;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+/*Modal de confirmación para eliminar perfil*/
+.contenedor_modal {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 35rem;
+    height: 15rem;
+    margin: 18% auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 35px;
+    border: 1px solid black;
+}
+
+.columna_modal {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.mensaje_modal {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.1rem;
+    color: black;
+}
+
+.nuevo_nombre_lista {
+    display: none;
+    width: 50%;
+    height: 2.5rem;
+    margin-top: 0.5rem;
+    padding-left: 5%;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.crear_lista_modal {
+    display: none;
+    width: 50%;
+    height: 2.5rem;
+    margin-top: 3vh;
+    font-size: 1.2rem;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.editar_lista_modal {
+    display: none;
+    width: 50%;
+    height: 2.5rem;
+    margin-top: 3vh;
+    font-size: 1.2rem;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.eliminar_lista_modal {
+    display: none;
+    width: 50%;
+    height: 2.5rem;
+    margin-top: 3vh;
+    font-size: 1.2rem;
+    background-color: rgb(255, 50, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.cerrar_modal {
+    color: grey;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.cerrar_modal:hover,
+.cerrar_modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*Footer*/
+.footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 1;
+    background-color: #011727;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 5rem;
+    padding: 10px 20px;
+}
+
+.privacidad {
+    display: flex;
+    justify-content: space-between;
+}
+
+.privacidad p {
+    margin-right: 2rem;
+    cursor: pointer;
+}
+
+.social_media a {
+    text-decoration: none;
+    color: white;
+    border-radius: 10px;
+    padding: 0.4rem;
+}
+
+.social_media a i {
+    margin-right: 0.3rem;
+    font-size: 2rem;
+}
+
+@media only screen and (max-width: 1600px) {
+    main {
+        min-height: 150vh;
+    }
+}
+
+@media only screen and (max-width: 1020px) {
+    .header_left {
+        margin-left: 0;
+    }
+
+    .header_left .icon {
+        width: 3rem;
+        height: 2.8rem;
+    }
+
+    .header_left .title {
+        font-size: 2.5vw;
+        margin: 0 10px;
+    }
+
+    .header_right {
+        margin-right: 0;
+    }
+
+    .header_right ul li a {
+        font-size: 1.7vw;
+    }
+
+    #perfil {
+        width: 25rem;
+        margin: 3% auto auto auto;
+    }
+
+    .container_boton_atras {
+        width: 25rem;
+        margin: 3% auto auto auto;
+    }
+
+    .privacidad p {
+        font-size: 0.7rem;
+        margin-right: 1rem;
+    }
+
+    .social_media a i {
+        font-size: 1.5rem;
+        margin-right: 0;
+    }
+}

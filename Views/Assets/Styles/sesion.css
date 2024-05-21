@@ -1,20 +1,359 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-h1 {
-    text-align: center;
+body {
+    font-family: "Inria Sans", sans-serif;
+    font-size: 1.1rem;
+    background-color: #021B30;
+    color: white;
 }
 
-form {
+main {
+    min-height: 150vh;
+}
+
+/*Cabecera*/
+header {
+    position: sticky;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+    background-color: #011727;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5rem;
+    padding: 10px 20px;
+}
+
+.header_left,
+.header_right {
+    display: flex;
+    align-items: center;
+}
+
+.header_left {
+    margin-left: 30px;
+}
+
+.header_right {
+    margin-right: 30px;
+}
+
+.header_left a {
+    text-decoration: none;
+    color: white;
+}
+
+.header_left .icon {
+    width: 3.5rem;
+    height: 3rem;
+    background-image: url("../Images/icon.png");
+    background-size: 100% 100%;
+}
+
+.header_left .title {
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+    font-size: 1.9rem;
+    margin: 0 20px;
+}
+
+.header_right ul {
+    display: flex;
+    margin: 0;
+    list-style-type: none;
+}
+
+.header_right ul p {
+    margin: 0.5rem 10px 0 0;
+}
+
+.header_right ul li {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.header_right ul li a {
+    text-decoration: none;
+    color: white;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 0.4rem;
+}
+
+.header_right ul li a i {
+    margin-right: 0.3rem;
+}
+
+/*Botón Volver*/
+.container_boton_atras {
     display: flex;
     flex-direction: column;
-    width: 70vw;
-    margin: 0 auto;
+    width: 30rem;
+    margin: 1% auto auto auto;
 }
 
-input {
+/*Variación para registro*/
+.registro_container_boton_atras {
+    margin: 1% auto auto 25vw;
+}
 
+.atras {
+    width: 6rem;
+    height: 2.7rem;
+    margin: 0 0 0 0;
+    font-size: 1.25rem;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+/*Texto*/
+.principal h1 {
+    margin: 3rem auto 1rem 3rem;
+}
+
+.principal p {
+    margin: 0 auto 1rem 3rem;
+}
+
+#registro_ver_password {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 12rem;
+    height: 2.3rem;
+    margin: 1% 0 1rem 0.5%;
+    font-size: 1.1rem;
+    background-color: #043962;
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+/*Variación para la clase principal de inicio*/
+#iniciar_principal {
+    display: flex;
+    flex-direction: column;
+    width: 30rem;
+    height: 65vh;
+    margin: 1% auto auto auto;
+    background-color: rgba(0, 0, 0, 50%);
+    border-radius: 30px;
+}
+
+#iniciar_principal form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#iniciar_principal form label {
+    margin: 2rem auto auto 3rem;
+}
+
+#iniciar_principal form input {
+    width: 80%;
+    height: 3rem;
+    padding-left: 5%;
+    margin: 0 auto auto 3rem;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+#iniciar_principal form .boton_enviar {
+    width: 10rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+    margin: 3rem 0 3rem 45%;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+/*Variación para la clase principal de registro*/
+#registro_principal {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    height: 120vh;
+    margin: 1% auto auto auto;
+    background-color: rgba(0, 0, 0, 50%);
+    border-radius: 30px;
+}
+
+#registro_principal form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin: 1% auto auto 20%;
+}
+
+#registro_principal form input {
+    width: 30vw;
+    height: 3rem;
+    padding-left: 5%;
+    margin: 1rem 1rem 1rem 0rem;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+#registro_inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+#registro_principal .registro_botones {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}
+
+#registro_principal form .boton_enviar {
+    width: 10rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+/*Modal de información sobre el envío*/
+.contenedor_modal {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 35rem;
+    height: 15rem;
+    margin: 18% auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 35px;
+    border: 1px solid black;
+}
+
+.columna_modal {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.mensaje_modal {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.1rem;
+    color: black;
+}
+
+.cerrar_modal {
+    color: grey;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.cerrar_modal:hover,
+.cerrar_modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*Footer*/
+.footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 1;
+    background-color: #011727;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 5rem;
+    padding: 10px 20px;
+}
+
+.privacidad {
+    display: flex;
+    justify-content: space-between;
+}
+
+.privacidad p {
+    margin-right: 2rem;
+    cursor: pointer;
+}
+
+.social_media a {
+    text-decoration: none;
+    color: white;
+    border-radius: 10px;
+    padding: 0.4rem;
+}
+
+.social_media a i {
+    margin-right: 0.3rem;
+    font-size: 2rem;
+}
+
+@media only screen and (max-width: 1600px) {
+    main {
+        min-height: 150vh;
+    }
+
+    #registro_principal {
+        height: 200vh;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    #iniciar_principal {
+        width: 25rem;
+        margin-top: 10vh;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    #iniciar_principal {
+        margin-top: 10vh;
+    }
+}
+
+/*AÑADIR FOOTER, HEADER y MENOS ANCHURA AL CONTAINER */
+@media only screen and (max-width: 760px) {
+    #iniciar_principal {
+        width: 27rem;
+    }
 }
