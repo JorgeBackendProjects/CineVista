@@ -1,0 +1,469 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Inria Sans", sans-serif;
+    font-size: 1.1rem;
+    background-color: #021B30;
+    color: white;
+}
+
+/*Cabecera*/
+header {
+    position: sticky;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+    background-color: #011727;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5rem;
+    padding: 10px 20px;
+}
+
+.header_left,
+.header_right {
+    display: flex;
+    align-items: center;
+}
+
+.header_left {
+    margin-left: 30px;
+}
+
+.header_right {
+    margin-right: 30px;
+}
+
+.header_left .icon {
+    width: 3.5rem;
+    height: 3rem;
+    background-image: url("../Images/icon.png");
+    background-size: 100% 100%;
+}
+
+.header_left a {
+    text-decoration: none;
+    color: white;
+}
+
+.header_left .title {
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+    font-size: 1.9rem;
+    margin: 0 20px;
+}
+
+.header_right ul {
+    display: flex;
+    margin: 0;
+    list-style-type: none;
+}
+
+.header_right ul p {
+    margin: 0.5rem 10px 0 0;
+}
+
+.header_right ul li {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.header_right ul li a {
+    text-decoration: none;
+    color: white;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 0.4rem;
+}
+
+.header_right ul li a i {
+    margin-right: 0.3rem;
+}
+
+/*Botón Volver*/
+.atras {
+    width: 8rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+    position: absolute;
+    top: 7.4rem;
+    left: 12.5vw;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+/*Pantalla de carga*/
+.pantalla_carga {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 200px;
+    margin: 10rem auto 10rem auto;
+    overflow-x: auto;
+    z-index: 10;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.pantalla_carga img {
+    width: 50px;
+    height: 50px;
+}
+
+.pantalla_carga h2 {
+    margin-left: 1rem;
+}
+
+/*Modal información*/
+.contenedor_modal {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 35rem;
+    height: auto;
+    margin: 18% auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 35px;
+    border: 1px solid black;
+}
+
+.columna_modal {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.mensaje_modal {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.1rem;
+    color: black;
+}
+
+.listas_modal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 100%;
+    height: auto;
+    margin-left: 15%;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+}
+
+.lista {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 8rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+    margin: 1rem 0.5rem 0 0.5rem;
+    background-color: rgb(255, 188, 50);
+    border-radius: 30px;
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+.lista p {
+    width: 75%;
+    text-align: center;
+}
+
+.cerrar_modal {
+    color: grey;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.cerrar_modal:hover,
+.cerrar_modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*Vista película*/
+.principal {
+    display: flex;
+    flex-direction: column;
+}
+
+.fondo {
+    position: absolute;
+    width: 75%;
+    height: 75.5vh;
+    top: 12rem;
+    left: 12.5%;
+    opacity: 0.7;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+}
+
+.pelicula {
+    position: relative;
+    display: flex;
+    width: 75%;
+    height: 75.5vh;
+    padding: 3rem 3.5rem;
+    margin: 0 auto;
+    top: 7rem;
+    background-color: rgba(0, 0, 0, 65%);
+    border-radius: 15px;
+}
+
+.poster {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 80%;
+    margin-bottom: 5%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+}
+
+.valoracion_container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.2rem;
+    height: 3rem;
+    top: 2%;
+    right: 2%;
+    border-radius: 50%;
+    background-color: grey;
+}
+
+.valoracion {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.info_principal {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    height: 100%;
+}
+
+.info_detallada {
+    width: 75%;
+    padding: 0 0 1rem 1vw;
+    border-radius: 20px;
+}
+
+.info_detallada span h3 {
+    padding: 0.5rem 0 0.5rem 1.5vw;
+    font-size: 1.2rem;
+    text-align: justify;
+}
+
+.info_detallada span h3 span {
+    font-weight: 200;
+}
+
+#web a {
+    color: orange;
+}
+
+.titulo {
+    font-size: 1.7rem;
+    text-align: center;
+}
+
+.sinopsis {
+    line-height: 1.7rem;
+}
+
+.aniadir_pelicula {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.aniadir_pelicula .aniadir_a_lista {
+    width: 75%;
+    height: 2.5rem;
+    margin: 2rem auto 0 auto;
+    font-size: 1.25rem;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.aniadir_pelicula .aniadir_a_favoritos {
+    width: 20%;
+    height: 2.5rem;
+    margin: 2rem auto 0 auto;
+    font-size: 1.25rem;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.secundario {
+    display: flex;
+    flex-direction: column;
+    margin: 10rem auto;
+    width: 70%;
+}
+
+.secundario h1 {
+    display: none;
+    margin: 0 0 2rem 0;
+}
+
+/*Actores*/
+.actores {
+    display: flex;
+    justify-content: flex-start;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.actor {
+    height: 100%;
+    margin: 0 3.1% 0 0;
+    cursor: pointer;
+}
+
+.info_actor {
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+.imagen_actor {
+    width: 150px;
+    height: 220px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+}
+
+.personaje {
+    margin: 5% auto 10% auto;
+}
+
+.botones_carousel {
+    display: none;
+    justify-content: center;
+}
+
+.boton_carousel {
+    width: 7rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+    margin: 1rem 3rem 0 3rem;
+    background-color: rgb(255, 188, 50);
+    color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+/*Footer*/
+.footer {
+    position: sticky;
+    width: 100%;
+    bottom: 0;
+    z-index: 1;
+    background-color: #011727;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 5rem;
+    padding: 10px 20px;
+}
+
+.privacidad {
+    display: flex;
+    justify-content: space-between;
+}
+
+.privacidad p {
+    margin-right: 2rem;
+    cursor: pointer;
+}
+
+.social_media a {
+    text-decoration: none;
+    color: white;
+    border-radius: 10px;
+    padding: 0.4rem;
+}
+
+.social_media a i {
+    margin-right: 0.3rem;
+    font-size: 2rem;
+}
+
+@media only screen and (max-width: 1600px) {
+    .fondo {
+        height: 85vh;
+    }
+
+    .pelicula {
+        height: 85vh;
+    }
+
+    .info_principal {
+        width: 30%;
+    }
+
+    .info_detallada {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 1450px) {
+    .info_principal {
+        width: 35%;
+    }
+
+    .info_detallada {
+        width: 65%;
+    }
+
+    .info_detallada span h3 {
+        font-size: 1.1rem;
+    }
+}

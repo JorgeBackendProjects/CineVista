@@ -54,12 +54,32 @@ if (isset($_POST["id_lista"]) && isset($_POST["key"]) && $_POST["key"] == "delet
     echo json_encode($resultado);
 }
 
-// FALTA
+// Comprueba si una película ya está en una lista
+if (isset($_POST["id_pelicula"]) && isset($_POST["id_lista"]) && isset($_POST["key"]) && $_POST["key"] == "comprobar_pelicula_lista") {
+    $id_pelicula = $_POST["id_pelicula"];
+    $id_lista = $_POST["id_lista"];
+
+    $resultado = Pelicula::comp_pelicula_en_lista($id_pelicula, $id_lista);
+
+    echo json_encode($resultado);
+}
+
+// Añade una película a una lista
 if (isset($_POST["id_pelicula"]) && isset($_POST["id_lista"]) && isset($_POST["key"]) && $_POST["key"] == "add_pelicula_lista") {
     $id_pelicula = $_POST["id_pelicula"];
     $id_lista = $_POST["id_lista"];
 
     $resultado = Pelicula::add_movie_to_list($id_pelicula, $id_lista);
+
+    echo json_encode($resultado);
+}
+
+// Elimina una película de una lista
+if (isset($_POST["id_pelicula"]) && isset($_POST["id_lista"]) && isset($_POST["key"]) && $_POST["key"] == "delete_pelicula_lista") {
+    $id_pelicula = $_POST["id_pelicula"];
+    $id_lista = $_POST["id_lista"];
+
+    $resultado = Pelicula::delete_movie_to_list($id_pelicula, $id_lista);
 
     echo json_encode($resultado);
 }

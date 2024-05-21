@@ -394,6 +394,23 @@ class Pelicula
         $pdo = null;
     }
     
+    // Comprueba si una película se encuentra en una lista.
+    public static function comp_pelicula_en_lista($id_pelicula, $id_lista) {
+        $pdo = Conexion::connection_database();
+
+        $stmt = $pdo->prepare("SELECT * FROM lista_pelicula WHERE id_pelicula = ? AND id_lista = ?");
+        if($stmt->execute([$id_pelicula, $id_lista])) {
+            if($stmt->rowCount() > 0) {
+                return "true";
+            } else {
+                return "false";
+            }
+            
+        } else {
+            return "false";
+        }
+    }
+
     // Guarda la película en una lista mediante una tabla intermedia con el id de la película y el id de la lista.
     public static function add_movie_to_list($id_pelicula, $id_lista) {
         $pdo = Conexion::connection_database();
@@ -404,6 +421,18 @@ class Pelicula
             return "OK";
         } else {
             return "No se ha podido añadir en estos momentos, inténtalo de nuevo.";
+        }
+    }
+
+    public static function delete_movie_to_list($id_pelicula, $id_lista) {
+        $pdo = Conexion::connection_database();
+
+        // Insertamos el id_pelicula en la tabla intermedia junto al id_lista.
+        $stmt = $pdo->prepare("DELETE FROM lista_pelicula WHERE id_pelicula = ? AND id_lista = ?");
+        if($stmt->execute([$id_pelicula, $id_lista])) {
+            return "OK";
+        } else {
+            return "No se ha podido eliminar en estos momentos, inténtalo de nuevo.";
         }
     }
 
