@@ -394,6 +394,19 @@ class Pelicula
         $pdo = null;
     }
     
+    // Guarda la película en una lista mediante una tabla intermedia con el id de la película y el id de la lista.
+    public static function add_movie_to_list($id_pelicula, $id_lista) {
+        $pdo = Conexion::connection_database();
+
+        // Insertamos el id_pelicula en la tabla intermedia junto al id_lista.
+        $stmt = $pdo->prepare("INSERT IGNORE INTO lista_pelicula (id_pelicula, id_lista) VALUES (?, ?)");
+        if($stmt->execute([$id_pelicula, $id_lista])) {
+            return "OK";
+        } else {
+            return "No se ha podido añadir en estos momentos, inténtalo de nuevo.";
+        }
+    }
+
     // Función toString() que devuelve el estado actual del objeto.
     public function toString(): string {
         $properties = get_object_vars($this);

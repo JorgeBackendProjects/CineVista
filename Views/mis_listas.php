@@ -700,9 +700,15 @@ $sesion_iniciada = isset($_SESSION["username"]);
 
                 let columna_nombre = jQuery("<td class='primer_td'>").text(nombre);
                 let columna_fecha = jQuery("<td>").text(fecha);
-                let columna_ver = jQuery("<td>").append(`<button class="ver_button">Ver</button>`);               
-                let columna_editar = jQuery("<td>").append(`<button class="editar_button">Editar</button>`);
-                let columna_eliminar = jQuery("<td>").append(`<button class="eliminar_button">Eliminar</button>`);
+                let columna_ver = jQuery("<td>").append(`<button class="ver_button">Ver</button>`);         
+                let columna_editar = jQuery("<td>");
+                let columna_eliminar = jQuery("<td>");
+
+                // Si es la lista de favoritos no se podrá editar ni borrar.
+                if (nombre != "Favoritos") {
+                    columna_editar.append(`<button class="editar_button">Editar</button>`);
+                    columna_eliminar.append(`<button class="eliminar_button">Eliminar</button>`);
+                }
 
                 // Agregamos los elementos a la tabla de listas.
                 nueva_lista.append(id_lista, columna_nombre, columna_fecha, columna_ver, columna_editar, columna_eliminar);

@@ -2,7 +2,7 @@
 session_start();
 $sesion_iniciada = isset($_SESSION["username"]);
 // Se usa para saber si se puede guardar la película en una lista o no.
-$comp_sesion = $sesion_iniciada == true ? "Si" : "No";
+$comp_sesion = $sesion_iniciada == true ? $_SESSION["id"] : 0;
 
 $id_pelicula = isset($_GET["id"]) ? $_GET["id"] : null;
 $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película";
@@ -171,7 +171,7 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
             display: flex;
             flex-direction: row-reverse;
             width: 35rem;
-            height: 15rem;
+            height: 20rem;
             margin: 18% auto;
             padding: 20px;
             background-color: white;
@@ -193,6 +193,29 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
             text-align: center;
             font-size: 1.1rem;
             color: black;
+        }
+
+        .listas_modal {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 80%;
+            height: 21vh;
+            padding-top: 2rem;
+        }
+
+        .lista {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 7rem;
+            height: 2.5rem;
+            font-size: 1.25rem;
+            margin: 0rem 0.5rem 0 0.5rem;
+            background-color: rgb(255, 188, 50);
+            border-radius: 30px;
+            cursor: pointer;
+            border: 1px solid black;
         }
 
         .cerrar_modal {
@@ -462,6 +485,8 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
                 font-size: 1.1rem;
             }
         }
+
+        
     </style>
 </head>
 
@@ -494,7 +519,7 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
             <input type="hidden" id="pagina_actual" name="pagina_actual" value="<?php echo $pagina_actual; ?>" />
             <input type="hidden" id="busqueda_actual" name="busqueda_actual" value="<?php echo $busqueda_actual; ?>" />
             <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
-            <input type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION["id"]; ?>" />
+            <input type="hidden" id="id_favoritos" name="id_favoritos" />
 
             <button id="atras" class="atras">Volver</button>
 
@@ -565,11 +590,12 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
     <script>
         // Esta función es la que usa todas las demás, tanto para crear el DOM como para inicializar los listener cuando el documento esté cargado y listo.
         function inicializar_listeners() {
+            let id_usuario = jQuery("#comp_sesion").val();
+            let id_pelicula = jQuery("#id_pelicula").val();
             var contenedor_modal = jQuery("#contenedor_modal");
             var modal = jQuery("#modal");
 
-            // Obtengo el id del input hidden.
-            let id_pelicula = jQuery("#id_pelicula").val();
+            console.log(id_usuario);
 
             // Se carga la película en el DOM.
             cargar_pelicula(id_pelicula);
@@ -580,6 +606,11 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
 
                 // Inicializa los eventos click de los botones para el scroll de los botones
                 scroll_actores();
+
+                // Condición para cargar las listas del usuario en el modal.
+                if (id_usuario > 0) {
+                    cargar_listas(id_usuario);
+                }
 
                 // Eventos click para cerrar el modal tanto en la cruz como fuera del modal.
                 jQuery("#cerrar_modal").on("click", function() {
@@ -592,22 +623,32 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
                     }
                 });
 
-                // Eventos click Añadir a lista y Favoritos
+                // Eventos click Añadir a lista y Favoritos que abre el modal.
                 jQuery("#aniadir_a_lista").on("click", function() {
                     // Si la sesión no está iniciada se muestra un modal, en caso contrario FALTA SELECCION DE LISTAS.
-                    if (jQuery("#comp_sesion").val() == "No") {
+                    if (id_usuario == 0) {
                         mostrar_modal("Para guardar películas en listas debes iniciar sesión.");
                     } else {
+                        // OBTENER NOMBRES DE LISTAS Y AÑADIRLAS A .columna_modal
                         
+                        mostrar_modal("Selecciona una lista para guardar la película.");
+                        jQuery(".listas_modal").show();
                     }
                 });
 
                 jQuery("#aniadir_a_favoritos").on("click", function() {
                     // Si la sesión no está iniciada se muestra un modal, en caso contrario FALTA SELECCION DE LISTAS.
-                    if (jQuery("#comp_sesion").val() == "No") {
+                    if (id_usuario == 0) {
                         mostrar_modal("Para guardar películas en listas debes iniciar sesión.");
                     } else {
+
+                        /*if () {
+                            mostrar_modal("Eliminada de favoritos");
+                        } else {
+                            mostrar_modal("Añadida a favoritos");
+                        }*/
                         
+                        // CAMBIAR ICONO SI LA PELICULA ESTÁ EN FAVORITOS... SI ESTA SE ELIMINA, SI NO SE AÑADE.
                     }
                 });
 
@@ -811,33 +852,97 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
             });
         }
 
-        // FALTA - REVISAR SI LE PASO EL ID LISTA O EL NOMBRE (POSIBILIDAD DE HACER SUBCONSULTA¿?).
-        function guardar_en_lista($nombre_lista) {
-            let id_pelicula = jQuery("#id_pelicula").val();
-            let id_usuario = jQuery("#id_usuario").val();
-
+        // Función para cargar las listas del usuario.
+        function cargar_listas(id_usuario) {
             jQuery.ajax({
                 url: '../Controllers/lista_controller.php',
                 method: 'POST',
                 data: {
                     id_usuario: id_usuario,
+                    key: "get_listas_usuario"
+                },
+                success: function (data) {
+                    let listas = JSON.parse(data);
+
+                    // Se cargan las listas en el modal.
+                    create_DOM_listas(listas);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Ha ocurrido un error: " + error);
+                }
+            });
+        }
+        
+        // MODIFICAR PARA AÑADIR CHECK O NO. - Función para crear botones con los nombres e id de las listas en el modal.
+        function create_DOM_listas(listas) {
+            let listas_container = jQuery("<div>").addClass("listas_modal");
+
+            listas.forEach(lista => {
+                // Obtenemos los datos de la lista.
+                let id = lista["id"];
+                let nombre = lista["nombre"];
+
+                // Creamos los elementos por separado para el lista.
+                let nueva_lista = jQuery("<div>").addClass("lista");
+
+                let id_lista = jQuery("<input>").attr({
+                    type: "hidden",
+                    name: "id_lista",
+                    class: "id_lista",
+                    value: id
+                });
+
+                let nombre_lista_p = jQuery("<p>").addClass("nombre_lista").text(nombre);
+
+                // Agregamos los elementos a la tabla de listas.
+                nueva_lista.append(id_lista, nombre_lista_p);
+
+                // Se agrega el div de lista al contenedor de listas.
+                jQuery(listas_container).append(nueva_lista);
+
+                // Si la lista actual es favoritos, se guarda su id en un input hidden.
+                if (nombre == "Favoritos") {
+                    jQuery("#id_favoritos").val(id);
+                }
+
+                // Evento para añadir película a lista.
+                jQuery(nueva_lista).on("click", function() {
+                    let id_lista = jQuery(this).find(".id_lista").val();
+                    guardar_en_lista(id_lista);
+                });
+            });
+
+            // Se agrega el div contenedor de listas al modal.
+            jQuery(".columna_modal").append(listas_container);
+        }
+
+        // Añade una película a una lista.
+        function guardar_en_lista(id_lista) {
+            let id_pelicula = jQuery("#id_pelicula").val();
+
+            jQuery.ajax({
+                url: '../Controllers/lista_controller.php',
+                method: 'POST',
+                data: {
                     id_pelicula: id_pelicula,
+                    id_lista: id_lista,
                     key: "add_pelicula_lista"
                 },
                 success: function (data) {
-                    // Obtengo el objeto película
-                    let pelicula = JSON.parse(data).pelicula;
+                    let resultado = JSON.parse(data);
 
-                    // Se carga la película en el DOM.
-                    create_DOM_pelicula(pelicula);
+                    if (resultado == "OK") {
+                        mostrar_modal("Se ha añadido con éxito a la lista");
+
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                    } else {
+                        mostrar_modal(resultado);
+                    }
                 },
                 error: function(xhr, status, error) {
-                    // En caso de error, se agrega un mensaje al contenedor principal y se oculta el resto de elementos.
-                    jQuery("#principal").append("<h2>No se han podido cargar las películas. Vuelve a intentarlo más tarde.</h2>");
-
-                    jQuery("#pelicula").hide();
-                    jQuery("#secundario").hide();
-                    jQuery("#pantalla_carga").hide();
+                    console.error("Ha ocurrido un error: " + error);
                 }
             });
         }
@@ -846,6 +951,7 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
         function mostrar_modal(mensaje) {
             jQuery("#mensaje_modal").text(mensaje);
             jQuery("#contenedor_modal").css("display", "block");
+            jQuery(".listas_modal").hide();
         }
 
         inicializar_listeners();

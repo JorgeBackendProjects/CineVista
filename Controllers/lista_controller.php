@@ -2,6 +2,7 @@
 require_once("../Models/Conexion.php");
 require_once("../Models/Usuario.php");
 require_once("../Models/Lista.php");
+require_once("../Models/Pelicula.php");
 
 // Obtiene las listas de un usuario y las devuelve si las hay.
 if (isset($_POST["id_usuario"]) && isset($_POST["key"]) && $_POST["key"] == "get_listas_usuario") {
@@ -54,6 +55,11 @@ if (isset($_POST["id_lista"]) && isset($_POST["key"]) && $_POST["key"] == "delet
 }
 
 // FALTA
-if (isset($_POST["id_pelicula"]) && isset($_POST["id_usuario"]) && isset($_POST["id_lista"]) && isset($_POST["key"]) && $_POST["key"] == "add_pelicula_lista") {
+if (isset($_POST["id_pelicula"]) && isset($_POST["id_lista"]) && isset($_POST["key"]) && $_POST["key"] == "add_pelicula_lista") {
+    $id_pelicula = $_POST["id_pelicula"];
+    $id_lista = $_POST["id_lista"];
 
+    $resultado = Pelicula::add_movie_to_list($id_pelicula, $id_lista);
+
+    echo json_encode($resultado);
 }
