@@ -12,8 +12,7 @@ class Actor
     private float $popularidad;
     private string $imagen;
 
-    function __construct($id, $nombre, $biografia, $lugar_nacimiento, $birthday, $deathday, $genero, $popularidad, $imagen, $personaje="")
-    {
+    function __construct($id, $nombre, $biografia, $lugar_nacimiento, $birthday, $deathday, $genero, $popularidad, $imagen, $personaje="") {
         $this->id = $id;
         $this->nombre = $nombre;
         $this->personaje = $personaje;
@@ -27,8 +26,7 @@ class Actor
     }
 
     // Obtiene los datos necesarios para mostrar el actor con su participación en una película
-    public static function get_actores_by_movie($id_pelicula)
-    {
+    public static function get_actores_by_movie($id_pelicula) {
         $casting_data = array();
         $datos_actor = array();
 
@@ -116,8 +114,7 @@ class Actor
     }
 
     // Se obtiene toda la información del actor de la base de datos.
-    public static function get_actor($id_actor) 
-    {
+    public static function get_actor($id_actor) {
         // Se busca el actor en la base de datos.
         $pdo = Conexion::connection_database();
         $stmt = $pdo->prepare("SELECT * FROM actor WHERE id = ?");
@@ -132,34 +129,44 @@ class Actor
     }
 
     // Inserta el actor en la tabla y el personaje que interpreta en la película en la tabla intermedia con su id, personaje e id de película. 
-    public static function insert_actor($actor, $id_pelicula) 
-    {
-        $pdo = Conexion::connection_database();
-        $stmt = $pdo->prepare("SELECT * FROM actor WHERE id = ?");
-        $id_actor = $actor->get_id();
+    public static function insert_actor($actor, $id_pelicula) {
+        try {
+            $pdo = Conexion::connection_database();
+            $stmt = $pdo->prepare("SELECT * FROM actor WHERE id = ?");
+            $id_actor = $actor->get_id();
 
-        // Si el actor no está en la base de datos se inserta.
-        if (!$stmt->execute([$id_actor]) || $stmt->rowCount() == 0) {
-            $nombre = $actor->get_nombre();
-            $personaje = $actor->get_personaje();
-            $biografia = $actor->get_biografia();
-            $lugar_nacimiento = $actor->get_lugar_nacimiento();
-            $birthday = $actor->get_birthday();
-            $deathday = $actor->get_deathday();
-            $genero = $actor->get_genero();
-            $popularidad = $actor->get_popularidad();
-            $imagen = $actor->get_imagen();
-    
-            // Insertamos la el actor a la tabla.
-            $stmt = $pdo->prepare("INSERT IGNORE INTO actor (id, nombre, biografia, lugar_nacimiento, birthday, deathday, genero, popularidad, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            if($stmt->execute([$id_actor, $nombre, $biografia, $lugar_nacimiento, $birthday, $deathday, $genero, $popularidad, $imagen])) {
-                // Si se ha insertado correctamente, insertamos en la tabla intermedia su personaje con el id_actor e id_pelicula.
-                $stmt = $pdo->prepare("INSERT IGNORE INTO pelicula_actor (personaje, id_pelicula, id_actor) VALUES (?, ?, ?)");
-                $stmt->execute([$personaje, $id_pelicula, $id_actor]);
+            // Si el actor no está en la base de datos se inserta.
+            if (!$stmt->execute([$id_actor]) || $stmt->rowCount() == 0) {
+                $nombre = $actor->get_nombre();
+                $personaje = $actor->get_personaje();
+                $biografia = $actor->get_biografia();
+                $lugar_nacimiento = $actor->get_lugar_nacimiento();
+                $birthday = $actor->get_birthday();
+                $deathday = $actor->get_deathday();
+                $genero = $actor->get_genero();
+                $popularidad = $actor->get_popularidad();
+                $imagen = $actor->get_imagen();
+        
+                // Insertamos la el actor a la tabla.
+                $stmt = $pdo->prepare("INSERT IGNORE INTO actor (id, nombre, biografia, lugar_nacimiento, birthday, deathday, genero, popularidad, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                if($stmt->execute([$id_actor, $nombre, $biografia, $lugar_nacimiento, $birthday, $deathday, $genero, $popularidad, $imagen])) {
+                    // Si se ha insertado correctamente, insertamos en la tabla intermedia su personaje con el id_actor e id_pelicula.
+                    $stmt = $pdo->prepare("INSERT IGNORE INTO pelicula_actor (personaje, id_pelicula, id_actor) VALUES (?, ?, ?)");
+                    $stmt->execute([$personaje, $id_pelicula, $id_actor]);
+                }
             }
-        }
 
-        $pdo = null;
+        } catch (Exception $e) {
+            // Si hay un error con la operación se hace un rollBack para revertir los cambios.
+            if ($pdo) {
+                $pdo->rollBack(); 
+            }
+
+            error_log("Error al insertar el actor: " . $e->getMessage()); 
+
+        } finally {
+            $pdo = null;
+        }
     }
 
     // Getters

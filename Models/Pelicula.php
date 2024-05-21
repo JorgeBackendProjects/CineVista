@@ -165,123 +165,183 @@ class Pelicula
 
     // Obtiene el id, titulo y póster de las películas según la página para mostrarlas en el index.php
     public static function select_previews_all_movies($pagina, $limite) {
-        $pdo = Conexion::connection_database();
-
         $peliculas = array();
+        
+        try {
+            $pdo = Conexion::connection_database();
 
-        // Solo obtiene 20 películas, de 20 en 20 según el número de la página actual del cliente que se usa como iterador.
-        $stmt = $pdo->prepare("SELECT id, titulo, poster, valoracion FROM pelicula LIMIT :pagina, :limite");
-        $stmt->bindParam(':pagina', $pagina, PDO::PARAM_INT);
-        $stmt->bindParam(':limite', $limite, PDO::PARAM_INT);
-        $stmt->execute();
+            // Solo obtiene 20 películas, de 20 en 20 según el número de la página actual del cliente que se usa como iterador.
+            $stmt = $pdo->prepare("SELECT id, titulo, poster, valoracion FROM pelicula LIMIT :pagina, :limite");
+            $stmt->bindParam(':pagina', $pagina, PDO::PARAM_INT);
+            $stmt->bindParam(':limite', $limite, PDO::PARAM_INT);
+            $stmt->execute();
 
-        if ($stmt->rowCount() > 0) {
-            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($stmt->rowCount() > 0) {
+                $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            foreach ($resultado as $pelicula) {
-                $pelicula_object = new Pelicula();
-                $pelicula_object->set_id($pelicula["id"]);
-                $pelicula_object->set_titulo($pelicula["titulo"]);
-                $pelicula_object->set_poster($pelicula["poster"]);
-                $pelicula_object->set_valoracion($pelicula["valoracion"]);
-                
-                array_push($peliculas, $pelicula_object);
+                foreach ($resultado as $pelicula) {
+                    $pelicula_object = new Pelicula();
+                    $pelicula_object->set_id($pelicula["id"]);
+                    $pelicula_object->set_titulo($pelicula["titulo"]);
+                    $pelicula_object->set_poster($pelicula["poster"]);
+                    $pelicula_object->set_valoracion($pelicula["valoracion"]);
+                    
+                    array_push($peliculas, $pelicula_object);
+                }
             }
-        }
 
-        $pdo = null;
+        } catch (Exception $e) {
+            // Si hay un error con la operación se hace un rollBack para revertir los cambios.
+            if ($pdo) {
+                $pdo->rollBack(); 
+            }
+
+            error_log("No se han podido obtener las películas: " . $e->getMessage()); 
+
+        } finally {
+            $pdo = null;
+        }
 
         return $peliculas;
     }
 
     // Obtiene el id, titulo y póster de las películas de una lista para mostrarlas en lista.php
     public static function select_peliculas_lista($id_lista) {
-        $pdo = Conexion::connection_database();
         $peliculas = array();
+        
+        try {
+            $pdo = Conexion::connection_database();
+            
 
-        // Usamos una subconsulta para obtener los detalles de las películas a partir de su id obtenido por cada registro de la tabla intermedia.
-        $stmt = $pdo->prepare("SELECT p.id, p.titulo, p.poster, p.valoracion FROM pelicula p WHERE p.id IN (SELECT lp.id_pelicula FROM lista_pelicula lp WHERE lp.id_lista = ?)");
-        $stmt->execute([$id_lista]);
+            // Usamos una subconsulta para obtener los detalles de las películas a partir de su id obtenido por cada registro de la tabla intermedia.
+            $stmt = $pdo->prepare("SELECT p.id, p.titulo, p.poster, p.valoracion FROM pelicula p WHERE p.id IN (SELECT lp.id_pelicula FROM lista_pelicula lp WHERE lp.id_lista = ?)");
+            $stmt->execute([$id_lista]);
 
-        if ($stmt->rowCount() > 0) {
-            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($stmt->rowCount() > 0) {
+                $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            foreach ($resultado as $pelicula) {
-                $pelicula_object = new Pelicula();
-                $pelicula_object->set_id($pelicula["id"]);
-                $pelicula_object->set_titulo($pelicula["titulo"]);
-                $pelicula_object->set_poster($pelicula["poster"]);
-                $pelicula_object->set_valoracion($pelicula["valoracion"]);
+                foreach ($resultado as $pelicula) {
+                    $pelicula_object = new Pelicula();
+                    $pelicula_object->set_id($pelicula["id"]);
+                    $pelicula_object->set_titulo($pelicula["titulo"]);
+                    $pelicula_object->set_poster($pelicula["poster"]);
+                    $pelicula_object->set_valoracion($pelicula["valoracion"]);
 
-                array_push($peliculas, $pelicula_object);
+                    array_push($peliculas, $pelicula_object);
+                }
             }
-        }
 
-        $pdo = null;
+        } catch (Exception $e) {
+            // Si hay un error con la operación se hace un rollBack para revertir los cambios.
+            if ($pdo) {
+                $pdo->rollBack(); 
+            }
+
+            error_log("No se han podido obtener las películas: " . $e->getMessage()); 
+            
+        } finally {
+            $pdo = null;
+        }
 
         return $peliculas;
     }
 
     // Busca películas por título o fecha.
     public static function search_movies($busqueda) {
-        $pdo = Conexion::connection_database();
-    
         $peliculas = array();
-    
-        // Prepara la consulta SQL para buscar películas cuyo título y fecha_estreno contengan la cadena $busqueda.
-        $stmt = $pdo->prepare("SELECT id, titulo, poster, valoracion FROM pelicula WHERE titulo LIKE CONCAT('%', :busqueda, '%') OR fecha_estreno LIKE CONCAT('%', :busqueda, '%')");
-        $stmt->bindParam(':busqueda', $busqueda, PDO::PARAM_STR);
+        
+        try {
+            $pdo = Conexion::connection_database();
 
-        $stmt->execute();
-    
-        if ($stmt->rowCount() > 0) {
-            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-            foreach ($resultado as $pelicula) {
-                $pelicula_object = new Pelicula();
-                $pelicula_object->set_id($pelicula["id"]);
-                $pelicula_object->set_titulo($pelicula["titulo"]);
-                $pelicula_object->set_poster($pelicula["poster"]);
-                $pelicula_object->set_valoracion($pelicula["valoracion"]);
-                
-                array_push($peliculas, $pelicula_object);
+            // Prepara la consulta SQL para buscar películas cuyo título y fecha_estreno contengan la cadena $busqueda.
+            $stmt = $pdo->prepare("SELECT id, titulo, poster, valoracion FROM pelicula WHERE titulo LIKE CONCAT('%', :busqueda, '%') OR fecha_estreno LIKE CONCAT('%', :busqueda, '%')");
+            $stmt->bindParam(':busqueda', $busqueda, PDO::PARAM_STR);
+
+            $stmt->execute();
+        
+            if ($stmt->rowCount() > 0) {
+                $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+                foreach ($resultado as $pelicula) {
+                    $pelicula_object = new Pelicula();
+                    $pelicula_object->set_id($pelicula["id"]);
+                    $pelicula_object->set_titulo($pelicula["titulo"]);
+                    $pelicula_object->set_poster($pelicula["poster"]);
+                    $pelicula_object->set_valoracion($pelicula["valoracion"]);
+                    
+                    array_push($peliculas, $pelicula_object);
+                }
             }
+
+        } catch (Exception $e) {
+            // Si hay un error con la operación se hace un rollBack para revertir los cambios.
+            if ($pdo) {
+                $pdo->rollBack(); 
+            }
+
+            error_log("No se han podido buscar las películas: " . $e->getMessage()); 
+            
+        } finally {
+            $pdo = null;
         }
-    
-        $pdo = null;
     
         return $peliculas;
     }
     
     // Obtiene el número de registros de la tabla película.
     public static function get_num_peliculas() {
-        $pdo = Conexion::connection_database();
+        try {
+            $pdo = Conexion::connection_database();
 
-        $stmt = $pdo->prepare("SELECT COUNT(*) as num_peliculas FROM pelicula");
-        $stmt->execute();
+            $stmt = $pdo->prepare("SELECT COUNT(*) as num_peliculas FROM pelicula");
+            $stmt->execute();
 
-        if ($stmt->rowCount() > 0) {
-            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-         
+            if ($stmt->rowCount() > 0) {
+                $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+                $pdo = null;
+                return $resultado['num_peliculas'];
+            }
+        } catch (Exception $e) {
+            // Si hay un error con la operación se hace un rollBack para revertir los cambios.
+            if ($pdo) {
+                $pdo->rollBack(); 
+            }
+
+            error_log("No se ha podido obtener el número de películas: " . $e->getMessage()); 
+            
+        } finally {
             $pdo = null;
-            return $resultado['num_peliculas'];
         }
     }
 
     // Obtiene el número de registros de la tabla película que contengan algún caracter de la cadena proporcionada en la columna titulo y fecha_estreno.
     public static function get_num_peliculas_by_search($busqueda) {
-        $pdo = Conexion::connection_database();
-    
-        // Obtiene el número de películas únicas que coinciden con el título o la fecha de estreno
-        $stmt = $pdo->prepare("SELECT COUNT(DISTINCT id) FROM pelicula WHERE titulo LIKE :busqueda OR fecha_estreno LIKE :busqueda");
-        $stmt->bindValue(":busqueda", "%$busqueda%", PDO::PARAM_STR);
-        $stmt->execute();
-    
-        $num_peliculas = $stmt->fetchColumn();
-    
-        $pdo = null;
-    
-        return $num_peliculas;
+        try {
+            $pdo = Conexion::connection_database();
+        
+            // Obtiene el número de películas únicas que coinciden con el título o la fecha de estreno
+            $stmt = $pdo->prepare("SELECT COUNT(DISTINCT id) FROM pelicula WHERE titulo LIKE :busqueda OR fecha_estreno LIKE :busqueda");
+            $stmt->bindValue(":busqueda", "%$busqueda%", PDO::PARAM_STR);
+            $stmt->execute();
+        
+            $num_peliculas = $stmt->fetchColumn();
+        
+            $pdo = null;
+        
+            return $num_peliculas;
+
+        } catch (Exception $e) {
+            // Si hay un error con la operación se hace un rollBack para revertir los cambios.
+            if ($pdo) {
+                $pdo->rollBack(); 
+            }
+
+            error_log("No se ha podido obtener el número de películas de la búsqueda: " . $e->getMessage()); 
+            
+        } finally {
+            $pdo = null;
+        }
     }
     
     // Obtiene la información de una película. Si no la encuentra en la base de datos la obtiene de la API y la inserta.

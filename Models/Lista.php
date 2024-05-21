@@ -21,54 +21,106 @@ class Lista {
     }
 
     public static function get_listas_usuario($id_usuario) {
-        $pdo = Conexion::connection_database();
-        $stmt = $pdo->prepare("SELECT * FROM lista WHERE id_usuario = ?");
+        try {
+            $pdo = Conexion::connection_database();
+            $stmt = $pdo->prepare("SELECT * FROM lista WHERE id_usuario = ?");
 
-        if ($stmt->execute([$id_usuario])) {
-            $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($stmt->execute([$id_usuario])) {
+                $listas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $array_objetos = array();
-            foreach ($listas as $lista) {
-                $lista_object = new Lista($lista["id"], $lista["nombre"], $lista["fecha_creacion"], $lista["visibilidad"], $lista["id_usuario"]);
-                array_push($array_objetos, $lista_object);
+                $array_objetos = array();
+                foreach ($listas as $lista) {
+                    $lista_object = new Lista($lista["id"], $lista["nombre"], $lista["fecha_creacion"], $lista["visibilidad"], $lista["id_usuario"]);
+                    array_push($array_objetos, $lista_object);
+                }
+                
+                return $array_objetos;
+            } else {
+                return "No se han encontrado listas para este usuario.";
             }
-            
-            return $array_objetos;
-        } else {
+        } catch (Exception $e) {
+            // Si hay un error con la operación se hace un rollBack para revertir los cambios.
+            if ($pdo) {
+                $pdo->rollBack(); 
+            }
+
+            error_log("Error al obtener las listas: " . $e->getMessage()); 
             return "No se han encontrado listas para este usuario.";
+
+        } finally {
+            $pdo = null;
         }
     }
 
     public static function insert_lista($nombre, $fecha_creacion, $id_usuario) {
-        $pdo = Conexion::connection_database();
-        $stmt = $pdo->prepare("INSERT INTO lista (nombre, fecha_creacion, visibilidad, id_usuario) VALUES (?, ?, ?, ?)");
+        try {
+            $pdo = Conexion::connection_database();
+            $stmt = $pdo->prepare("INSERT INTO lista (nombre, fecha_creacion, visibilidad, id_usuario) VALUES (?, ?, ?, ?)");
 
-        if ($stmt->execute([$nombre, $fecha_creacion, "Privada", $id_usuario])) {
-            return "OK";
-        } else {
+            if ($stmt->execute([$nombre, $fecha_creacion, "Privada", $id_usuario])) {
+                return "OK";
+            } else {
+                return "No se ha podido crear la lista en estos momentos.";
+            }
+        } catch (Exception $e) {
+            // Si hay un error con la operación se hace un rollBack para revertir los cambios.
+            if ($pdo) {
+                $pdo->rollBack(); 
+            }
+
+            error_log("Error al insertar la lista: " . $e->getMessage()); 
             return "No se ha podido crear la lista en estos momentos.";
+
+        } finally {
+            $pdo = null;
         }
     }
 
     public static function update_lista($id_lista, $nombre) {
-        $pdo = Conexion::connection_database();
-        $stmt = $pdo->prepare("UPDATE lista SET nombre = ? WHERE id = ?");
+        try {
+            $pdo = Conexion::connection_database();
+            $stmt = $pdo->prepare("UPDATE lista SET nombre = ? WHERE id = ?");
 
-        if ($stmt->execute([$nombre, $id_lista])) {
-            return "OK";
-        } else {
+            if ($stmt->execute([$nombre, $id_lista])) {
+                return "OK";
+            } else {
+                return "No se ha cambiar el nombre de la lista en estos momentos.";
+            }
+        } catch (Exception $e) {
+            // Si hay un error con la operación se hace un rollBack para revertir los cambios.
+            if ($pdo) {
+                $pdo->rollBack(); 
+            }
+
+            error_log("Error al actualizar el nombre de la lista: " . $e->getMessage()); 
             return "No se ha cambiar el nombre de la lista en estos momentos.";
+
+        } finally {
+            $pdo = null;
         }
     }
     
     public static function delete_lista($id_lista) {
-        $pdo = Conexion::connection_database();
-        $stmt = $pdo->prepare("DELETE FROM lista WHERE id = ?");
+        try {
+            $pdo = Conexion::connection_database();
+            $stmt = $pdo->prepare("DELETE FROM lista WHERE id = ?");
 
-        if ($stmt->execute([$id_lista])) {
-            return "OK";
-        } else {
+            if ($stmt->execute([$id_lista])) {
+                return "OK";
+            } else {
+                return "No se ha podido eliminar la lista.";
+            }
+        } catch (Exception $e) {
+            // Si hay un error con la operación se hace un rollBack para revertir los cambios.
+            if ($pdo) {
+                $pdo->rollBack(); 
+            }
+
+            error_log("Error al eliminar la lista: " . $e->getMessage()); 
             return "No se ha podido eliminar la lista.";
+
+        } finally {
+            $pdo = null;
         }
     }
 
