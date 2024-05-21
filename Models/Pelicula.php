@@ -41,11 +41,11 @@ class Pelicula
     }
 
     // Función que permite obtener e insertar 200 películas de la lista populares. // Las siguientes por insertar están listas. Guardar en el SESSION del administrador la última página insertada.
-    public static function insert_100_movies_database() {
+    public static function insert_100_movies_database($pagina) {
         $pdo = Conexion::connection_database();
         $array_peliculas = array();
 
-        for ($i = 61; $i <= 70; $i++) {
+        for ($i = $pagina; $i <= ($pagina+9); $i++) {
             // Inicializa la sesión cURL para la solicitud.
             $get_popular_movies = curl_init();
             // Solicitud a la api para recoger los resultados de la página.
@@ -152,7 +152,12 @@ class Pelicula
         }
     
         $pdo = null;
-        echo "<h1>Se han insertado $contador_inserciones_peliculas películas, $contador_inserciones_generos géneros y $contador_inserciones_intermedias registros intermedios.</h1>";
+
+        if ($contador_inserciones_peliculas > 0) {
+            return "OK";
+        } else {
+            return "No se han podido añadir películas";
+        }
     }
 
     
@@ -180,6 +185,34 @@ class Pelicula
                 $pelicula_object->set_poster($pelicula["poster"]);
                 $pelicula_object->set_valoracion($pelicula["valoracion"]);
                 
+                array_push($peliculas, $pelicula_object);
+            }
+        }
+
+        $pdo = null;
+
+        return $peliculas;
+    }
+
+    // Obtiene el id, titulo y póster de las películas de una lista para mostrarlas en lista.php
+    public static function select_peliculas_lista($id_lista) {
+        $pdo = Conexion::connection_database();
+        $peliculas = array();
+
+        // Usamos una subconsulta para obtener los detalles de las películas a partir de su id obtenido por cada registro de la tabla intermedia.
+        $stmt = $pdo->prepare("SELECT p.id, p.titulo, p.poster, p.valoracion FROM pelicula p WHERE p.id IN (SELECT lp.id_pelicula FROM lista_pelicula lp WHERE lp.id_lista = ?)");
+        $stmt->execute([$id_lista]);
+
+        if ($stmt->rowCount() > 0) {
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($resultado as $pelicula) {
+                $pelicula_object = new Pelicula();
+                $pelicula_object->set_id($pelicula["id"]);
+                $pelicula_object->set_titulo($pelicula["titulo"]);
+                $pelicula_object->set_poster($pelicula["poster"]);
+                $pelicula_object->set_valoracion($pelicula["valoracion"]);
+
                 array_push($peliculas, $pelicula_object);
             }
         }
@@ -220,7 +253,6 @@ class Pelicula
         return $peliculas;
     }
     
-
     // Obtiene el número de registros de la tabla película.
     public static function get_num_peliculas() {
         $pdo = Conexion::connection_database();
@@ -252,7 +284,6 @@ class Pelicula
         return $num_peliculas;
     }
     
-
     // Obtiene la información de una película. Si no la encuentra en la base de datos la obtiene de la API y la inserta.
     public static function get_movie($id_pelicula) {
         $pdo = Conexion::connection_database();

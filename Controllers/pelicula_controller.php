@@ -3,12 +3,10 @@ require_once("../Models/Conexion.php");
 require_once("../Models/Pelicula.php");
 require_once("../Models/Actor.php");
 
-//Pelicula::insert_100_movies_database();
-//Petición que recoge las películas más populares de 5 páginas de la API y las inserta en la base de datos.
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["key"]) && $_POST["key"] == "insert_most_popular_movies") {
-    Pelicula::insert_100_movies_database();
-    //Setear el valor del SESSION ["ultima_pagina"] para añadir más con el administrador. (LA ULTIMA PAGINA ES LA 500) Añadir dos parámetros a la función 
-    //header("Location: ../index.html");
+//Petición que recoge las películas más populares de 10 páginas de la API y las inserta en la base de datos.
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["pagina"]) && isset($_POST["key"]) && $_POST["key"] == "insert_peliculas") {
+    $resultado = Pelicula::insert_100_movies_database($_POST["pagina"]); // 61
+    echo json_encode($resultado);
 }
 
 // Se obtienen 20 películas para mostrar en el index junto al número total de páginas para paginación.
@@ -107,4 +105,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id_pelicula"]) && isse
     );
 
     echo json_encode(array("pelicula" => $array_pelicula));
+}
+
+// Obtiene las películas de una lista.
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id_lista"]) && isset($_POST["key"]) && $_POST["key"] == "get_peliculas_lista") {
+    $id_lista = $_POST["id_lista"];
+
+    $array_peliculas = Pelicula::select_peliculas_lista($id_lista);
+    
+    if (count($array_peliculas) > 0) {
+        $resultado = array(); 
+        foreach ($array_peliculas as $pelicula) {
+            $resultado[] = array(
+                "id" => $pelicula->get_id(),
+                "poster" => $pelicula->get_poster(),
+                "titulo" => $pelicula->get_titulo(),
+                "valoracion" => $pelicula->get_valoracion(),
+            );
+        }
+
+        echo json_encode($resultado);
+    } else {
+        echo json_encode("false");
+    }
+    
 }

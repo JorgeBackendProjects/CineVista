@@ -8,6 +8,8 @@ $id_pelicula = isset($_GET["id"]) ? $_GET["id"] : 0;
 $titulo = isset($_GET["titulo"]) ? "Película: " . $_GET["titulo"] : "Película";
 $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
 $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
+$id_lista = isset($_GET["id_lista"]) ? $_GET["id_lista"] : 0;
+$nombre_lista = isset($_GET["nombre_lista"]) ? $_GET["nombre_lista"] : "";
 ?>
 
 <!DOCTYPE html>
@@ -55,6 +57,8 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
             <input type="hidden" id="comp_sesion" name="comp_sesion" value="<?php echo $comp_sesion; ?>" />
             <input type="hidden" id="pagina_actual" name="pagina_actual" value="<?php echo $pagina_actual; ?>" />
             <input type="hidden" id="busqueda_actual" name="busqueda_actual" value="<?php echo $busqueda_actual; ?>" />
+            <input type="hidden" id="id_lista" name="id_lista" value="<?php echo $id_lista; ?>" />
+            <input type="hidden" id="nombre_lista" name="nombre_lista" value="<?php echo $nombre_lista; ?>" />
             <input type="hidden" id="id_pelicula" name="id_pelicula" value="<?php echo $id_pelicula; ?>" />
             <input type="hidden" id="id_favoritos" name="id_favoritos" />
 

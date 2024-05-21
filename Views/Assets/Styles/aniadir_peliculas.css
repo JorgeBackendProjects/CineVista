@@ -13,10 +13,6 @@ body {
     color: white;
 }
 
-main {
-    min-height: 150vh;
-}
-
 /*Cabecera*/
 header {
     position: sticky;
@@ -48,16 +44,16 @@ nav {
     margin-right: 30px;
 }
 
-.header_left a {
-    text-decoration: none;
-    color: white;
-}
-
 .header_left .icon {
     width: 3.5rem;
     height: 3rem;
     background-image: url("../Images/icon.png");
     background-size: 100% 100%;
+}
+
+.header_left a {
+    text-decoration: none;
+    color: white;
 }
 
 .header_left .title {
@@ -96,90 +92,13 @@ nav {
 }
 
 /*Botón Volver*/
-.container_boton_atras {
-    display: flex;
-    flex-direction: column;
-    width: 30rem;
-    margin: 1% auto auto auto;
-}
-
-/*Variación para registro*/
-.registro_container_boton_atras {
-    margin: 1% auto auto 25vw;
-}
-
 .atras {
-    width: 6rem;
-    height: 2.7rem;
-    margin: 0 0 0 0;
-    font-size: 1.25rem;
-    background-color: rgb(255, 188, 50);
-    color: white;
-    border-radius: 15px;
-    cursor: pointer;
-    border: 1px solid;
-}
-
-/*Texto*/
-.principal h1 {
-    margin: 3rem auto 1rem 3rem;
-}
-
-.principal p {
-    margin: 0 auto 1rem 3rem;
-}
-
-#registro_ver_password {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 12rem;
-    height: 2.3rem;
-    margin: 1% 0 1rem 0.5%;
-    font-size: 1.1rem;
-    background-color: #043962;
-    color: white;
-    border-radius: 15px;
-    cursor: pointer;
-    border: 1px solid;
-}
-
-/*Variación para la clase principal de inicio*/
-#iniciar_principal {
-    display: flex;
-    flex-direction: column;
-    width: 30rem;
-    height: 65vh;
-    margin: 1% auto auto auto;
-    background-color: rgba(0, 0, 0, 50%);
-    border-radius: 30px;
-}
-
-#iniciar_principal form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-#iniciar_principal form label {
-    margin: 2rem auto auto 3rem;
-}
-
-#iniciar_principal form input {
-    width: 80%;
-    height: 3rem;
-    padding-left: 5%;
-    margin: 0 auto auto 3rem;
-    border: 2px solid black;
-    border-radius: 10px;
-}
-
-#iniciar_principal form .boton_enviar {
-    width: 10rem;
+    width: 8rem;
     height: 2.5rem;
     font-size: 1.25rem;
-    margin: 3rem 0 3rem 45%;
+    position: absolute;
+    top: 7.4rem;
+    left: 18vw;
     background-color: rgb(255, 188, 50);
     color: white;
     border-radius: 15px;
@@ -187,48 +106,40 @@ nav {
     border: 1px solid;
 }
 
-/*Variación para la clase principal de registro*/
-#registro_principal {
+/*Vista principal*/
+.principal {
     display: flex;
     flex-direction: column;
-    width: 50vw;
-    height: 120vh;
-    margin: 1% auto auto auto;
-    background-color: rgba(0, 0, 0, 50%);
-    border-radius: 30px;
+    width: 80%;
+    margin: 4rem auto auto auto;
 }
 
-#registro_principal form {
+.principal h1 {
+    margin-bottom: 5rem;
+}
+
+.ultima_pagina {
+    margin-bottom: 2rem;
+}
+
+.insercion_form {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 100%;
-    margin: 1% auto auto 20%;
 }
 
-#registro_principal form input {
-    width: 30vw;
+.num_pagina {
+    width: 50%;
     height: 3rem;
     padding-left: 5%;
-    margin: 1rem 1rem 1rem 0rem;
     border: 2px solid black;
     border-radius: 10px;
 }
 
-#registro_inputs {
-    display: flex;
-    flex-direction: column;
-}
-
-#registro_principal .registro_botones {
-    display: flex;
-    justify-content: space-between;
-    width: 60%;
-}
-
-#registro_principal form .boton_enviar {
+.insertar_button {
     width: 10rem;
     height: 2.5rem;
+    margin-top: 2rem;
     font-size: 1.25rem;
     background-color: rgb(255, 188, 50);
     color: white;
@@ -237,7 +148,30 @@ nav {
     border: 1px solid;
 }
 
-/*Modal de información sobre el envío*/
+/*Pantalla de carga*/
+.pantalla_carga {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 65%;
+    height: 200px;
+    margin: 5rem auto 10rem auto;
+    overflow-x: auto;
+    z-index: 10;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.pantalla_carga img {
+    width: 50px;
+    height: 50px;
+}
+
+.pantalla_carga h2 {
+    margin-left: 1rem;
+}
+
+/*Modal información*/
 .contenedor_modal {
     display: none;
     position: fixed;
@@ -254,7 +188,7 @@ nav {
     display: flex;
     flex-direction: row-reverse;
     width: 35rem;
-    height: 15rem;
+    height: auto;
     margin: 18% auto;
     padding: 20px;
     background-color: white;
@@ -294,7 +228,7 @@ nav {
 
 /*Footer*/
 .footer {
-    position: sticky;
+    position: fixed;
     width: 100%;
     bottom: 0;
     z-index: 1;
@@ -329,31 +263,33 @@ nav {
 }
 
 @media only screen and (max-width: 1600px) {
-    main {
-        min-height: 150vh;
+    .fondo {
+        height: 85vh;
     }
 
-    #registro_principal {
-        height: 200vh;
+    .pelicula {
+        height: 85vh;
     }
-}
 
-@media only screen and (max-width: 1000px) {
-    #iniciar_principal {
-        width: 25rem;
-        margin-top: 10vh;
+    .info_principal {
+        width: 30%;
     }
-}
 
-@media only screen and (max-width: 1000px) {
-    #iniciar_principal {
-        margin-top: 10vh;
+    .info_detallada {
+        width: 70%;
     }
 }
 
-/*AÑADIR FOOTER, HEADER y MENOS ANCHURA AL CONTAINER */
-@media only screen and (max-width: 760px) {
-    #iniciar_principal {
-        width: 27rem;
+@media only screen and (max-width: 1450px) {
+    .info_principal {
+        width: 35%;
+    }
+
+    .info_detallada {
+        width: 65%;
+    }
+
+    .info_detallada span h3 {
+        font-size: 1.1rem;
     }
 }

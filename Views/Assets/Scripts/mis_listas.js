@@ -6,9 +6,16 @@ function iniciar_listeners() {
         // Se cargan las listas del usuario.
         cargar_listas();
 
-        // Listener para crear una nueva lista.
+        // Listener para crear una nueva lista mediante AJAX.
         jQuery("#crear_lista_modal").on("click", function() {
             crear_lista();
+        });
+
+        // Evento para abrir el modal con el objetivo de crear una lista.
+        jQuery("#nueva_lista_button").on("click", function() {
+            mostrar_modal("Asigna un nombre para la nueva lista");
+            jQuery("#crear_lista_modal").show();
+            jQuery(".nuevo_nombre_lista").show();
         });
 
         // Listener para editar el nombre de una lista.
@@ -59,7 +66,7 @@ function iniciar_listeners() {
 
         // Listener para que, al pulsar el botón vuelve atrás hasta la página anterior. 
         jQuery("#atras").on("click", function () {
-            history.back();
+            window.location.href = "../index.php";
         });
     });
 }
@@ -104,7 +111,8 @@ function create_DOM_listas(listas) {
     // Después de agregar los elementos le asignamos el evento click para ver su información, editar y borrar.
     jQuery(".ver_button").on("click", function () {
         let id_lista = jQuery(this).closest("tr").find(".id_lista").val();
-        window.location = `lista.php?id=${id_lista}`;
+        let nombre = jQuery(this).closest("tr").find(".primer_td").text();
+        window.location = `lista.php?id=${id_lista}&nombre=${nombre}`;
     });
 
     // Se le pasa el id de lista al modal para poder hacer la petición ajax y se muestra el modal con un input para el nombre y el botón de editar.
@@ -127,13 +135,6 @@ function create_DOM_listas(listas) {
         mostrar_modal("¿Estás seguro de que quieres eliminar esta lista?");
         jQuery("#eliminar_lista_modal").show();
     });
-
-    // Evento para abrir el modal con el objetivo de crear una lista.
-    jQuery("#nueva_lista_button").on("click", function() {
-        mostrar_modal("Asigna un nombre para la nueva lista");
-        jQuery("#crear_lista_modal").show();
-        jQuery(".nuevo_nombre_lista").show();
-    });
 }
 
 // Función para cargar las listas del usuario.
@@ -146,12 +147,10 @@ function cargar_listas() {
             key: "get_listas_usuario"
         },
         success: function (data) {
-            console.log("SE HA HECHO LA LLAMADA");
             if (JSON.parse(data) != "false") {
                 let listas = JSON.parse(data);
                 create_DOM_listas(listas);
             } else {
-                // MOSTRAR MODAL - NO HAY LISTAS
                 jQuery("#eliminar_lista_modal").hide();
                 jQuery("#editar_lista_modal").hide();
                 mostrar_modal("No se han encontrado listas creadas");
@@ -180,11 +179,7 @@ function crear_lista() {
             let resultado = JSON.parse(data);
 
             if (resultado == "OK") {
-                mostrar_modal("Lista creada correctamente");
-
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000);
+                window.location.reload();
             } else {
                 mostrar_modal(resultado);
             }                
@@ -211,11 +206,7 @@ function editar_lista(id_lista) {
             let resultado = JSON.parse(data);
 
             if (resultado == "OK") {
-                mostrar_modal("Se ha renombrado correctamente");
-
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000);
+                window.location.reload();
             } else {
                 mostrar_modal(resultado);
             }                
@@ -239,11 +230,7 @@ function eliminar_lista(id_lista) {
             let resultado = JSON.parse(data);
 
             if (resultado == "OK") {
-                mostrar_modal("Se ha eliminado la lista correctamente");
-
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000);
+                window.location.reload();
             } else {
                 mostrar_modal(resultado);
             }                

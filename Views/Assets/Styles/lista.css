@@ -95,51 +95,64 @@ nav {
     margin-right: 0.3rem;
 }
 
-/*Div principal del perfil*/
-.perfil {
+/*Div principal de la vista*/
+.nombre_lista {
+    margin: 3rem 0 3rem 0;
+}
+
+.peliculas {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 95vw;
+    margin: 0 auto 10rem auto;
+}
+
+.pelicula {
     display: flex;
     flex-direction: column;
-    width: 30rem;
-    height: 40rem;
-    margin: 2% auto 10rem auto;
-    background-color: rgba(0, 0, 0, 50%);
-    border-radius: 30px;
+    width: 200px;
+    margin: 0 3% 3rem 3%;
+    cursor: pointer;
 }
 
-.perfil h1 {
-    margin: 2rem auto 1rem 3rem;
-}
-
-.perfil p {
-    margin: 1vw 3vw 2rem 2.5vw;
-}
-
-.perfil .info_editar {
-    display: none;
-    margin: 0rem auto 1rem 3rem;
-}
-
-.perfil .info_perfil {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-}
-
-.perfil .imagen {
-    width: 11rem;
-    height: 10.5rem;
-    background-image: url("../Images/usuario_por_defecto.png");
+.poster {
+    width: 200px;
+    height: 300px;
     background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+}
+
+.valoracion_container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.8rem;
+    height: 2.7rem;
+    top: 2%;
     border-radius: 50%;
+    background-color: grey;
+    left: 75%;
+}
+
+.valoracion {
+    text-align: center;
+    font-weight: bold;
+}
+
+.titulo {
+    font-size: 1.2rem;
+    text-align: center;
+    padding-top: 5%;
 }
 
 /*Botones*/
 .container_boton_atras {
     display: flex;
     flex-direction: column;
-    width: 30rem;
-    margin: 2% auto auto auto;
+    margin: 3% auto auto 12vw;
 }
 
 .atras {
@@ -154,22 +167,10 @@ nav {
     border: 1px solid;
 }
 
-.perfil .editar_perfil_button {
-    width: 12rem;
+.eliminar_button {
+    width: 100%;
     height: 2.5rem;
-    font-size: 1.25rem;
-    background-color: rgb(255, 188, 50);
-    color: white;
-    border-radius: 15px;
-    cursor: pointer;
-    border: 1px solid;
-}
-
-.perfil .eliminar_perfil_button {
-    width: 12rem;
-    height: 2.5rem;
-    margin-top: 20vh;
-    font-size: 1.25rem;
+    font-size: 0.9rem;
     background-color: rgb(255, 50, 50);
     color: white;
     border-radius: 15px;
@@ -177,95 +178,7 @@ nav {
     border: 1px solid;
 }
 
-#editar_ver_password {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 10rem;
-    height: 2.3rem;
-    margin: 3% 0 0 11%;
-    font-size: 1.1rem;
-    background-color: #043962;
-    color: white;
-    border-radius: 15px;
-    cursor: pointer;
-    border: 1px solid;
-}
-
-.boton_cancelar {
-    width: 30%;
-    height: 2.3rem;
-    font-size: 1.25rem;
-    background-color: rgb(255, 188, 50);
-    color: white;
-    border-radius: 15px;
-    cursor: pointer;
-    border: 1px solid;
-}
-
-.boton_enviar {
-    width: 30%;
-    height: 2.3rem;
-    font-size: 1.25rem;
-    background-color: rgb(255, 50, 50);
-    color: white;
-    border-radius: 15px;
-    cursor: pointer;
-    border: 1px solid;
-}
-
-.perfil form {
-    display: none;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-}
-
-.perfil form label {
-    margin: 1rem auto 1vh 3.5rem;
-}
-
-.perfil form input {
-    width: 80%;
-    height: 3rem;
-    margin-left: 10%;
-    padding-left: 5%;
-    border: 2px solid black;
-    border-radius: 10px;
-}
-
-.perfil form .botones {
-    display: flex;
-    justify-content: space-evenly;
-    width: 100%;
-    margin-top: 5vh;
-}
-
-.input_imagen {
-    display: none;
-}
-
-.imagen_label {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    margin-left: 75%;
-    margin-top: 60%;
-    border-radius: 50%;
-    background-color: #043962;
-    color: white;
-    text-align: center;
-    line-height: 50px;
-    cursor: pointer;
-    font-size: 24px;
-    transition: background-color 0.3s ease;
-}
-
-.imagen_label:hover {
-    background-color: #0056b3;
-}
-
-/*Modal de confirmación para eliminar perfil*/
+/*Modal*/
 .contenedor_modal {
     display: none;
     position: fixed;
@@ -306,7 +219,7 @@ nav {
     color: black;
 }
 
-.eliminar_cuenta_modal {
+.eliminar_pelicula_modal {
     display: none;
     width: 50%;
     height: 2.5rem;
@@ -334,7 +247,7 @@ nav {
 
 /*Footer*/
 .footer {
-    position: sticky;
+    position: fixed;
     width: 100%;
     bottom: 0;
     z-index: 1;
@@ -368,6 +281,12 @@ nav {
     font-size: 2rem;
 }
 
+@media only screen and (max-width: 1600px) {
+    main {
+        min-height: 150vh;
+    }
+}
+
 @media only screen and (max-width: 1020px) {
     .header_left {
         margin-left: 0;
@@ -393,24 +312,12 @@ nav {
 
     #perfil {
         width: 25rem;
-        height: 35rem;
-        margin: 2% auto 10rem auto;
+        margin: 3% auto auto auto;
     }
-
-    .perfil .imagen {
-        width: 10rem;
-        height: 9.5rem;
-    }
-
-    .perfil .eliminar_perfil_button {
-        margin-top: 15vh;
-    }
-
-    
 
     .container_boton_atras {
         width: 25rem;
-        margin: 2% auto auto auto;
+        margin: 3% auto auto auto;
     }
 
     .privacidad p {

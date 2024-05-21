@@ -1,9 +1,6 @@
 <?php
 session_start();
 $sesion_iniciada = isset($_SESSION["username"]);
-
-// Se almacena la última url para devolver al usuario a la misma página al iniciar o registrarse.
-$redirect_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "..index.php";
 ?>
 
 <!DOCTYPE html>

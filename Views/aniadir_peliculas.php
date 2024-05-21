@@ -1,9 +1,6 @@
 <?php
 session_start();
 $sesion_iniciada = isset($_SESSION["username"]);
-
-$id_lista = $_GET["id"] ? $_GET["id"] : 0;
-$nombre = $_GET["nombre"] ? $_GET["nombre"] : "";
 ?>
 
 <!DOCTYPE html>
@@ -14,34 +11,29 @@ $nombre = $_GET["nombre"] ? $_GET["nombre"] : "";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="icon" href="Assets/Images/icon.png" sizes="156x156" type="image/png">
-    <link rel="stylesheet" href="Assets/Styles/lista.css">
+    <link rel="stylesheet" href="Assets/Styles/aniadir_peliculas.css">
 
     <script src="https://kit.fontawesome.com/001ac9542b.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <script src="Assets/Scripts/lista.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="Assets/Scripts/aniadir_peliculas.js"></script>
 
-    <title><?php echo $nombre; ?></title>
+    <title>Añadir películas</title>
 </head>
 
 <body>
     <header>
         <nav>
             <div class="header_left">
-                <a href="../index.php">
-                    <div class="icon"></div>
-                </a>
-                <a href="../index.php">
-                    <h1 class="title">CineVista</h1>
-                </a>
+                <a href="../index.php"><div class="icon"></div></a>
+                <a href="../index.php"><h1 class="title">CineVista</h1></a>
             </div>
             <div class="header_right">
                 <?php
                 if ($sesion_iniciada) {
-                    if ($_SESSION["rol"] == "Administrador") {
-                        include_once ("Assets/Templates/view_admin_header.html");
-                    } else {
-                        include_once ("Assets/Templates/view_sesion_header.html");
-                    }
+                    include_once ("Assets/Templates/view_admin_header.html");
+                } else {
+                    include_once ("Assets/Templates/view_no_sesion_header.html");
                 }
                 ?>
             </div>
@@ -49,14 +41,25 @@ $nombre = $_GET["nombre"] ? $_GET["nombre"] : "";
     </header>
 
     <main>
-        <input type="hidden" id="id_lista" name="id_lista" value="<?php echo $id_lista; ?>" />
-
-        <div class="container_boton_atras">
+        <div class="principal">
             <button id="atras" class="atras">Volver</button>
-            <h1 id="nombre_lista" class="nombre_lista"><?php echo $nombre; ?></h1>
+
+            <div id="principal" class="principal">
+                <h1>Añadir películas</h1>
+                <p id="ultima_pagina" class="ultima_pagina"></p>
+                <p>Insertar a partir de la página siguiente:</p>
+
+                <div class="insercion_form">
+                    <input type="text" id="num_pagina" class="num_pagina" />
+                    <button id="insertar_button" class="insertar_button">Añadir</button>
+                </div>
+            </div>
         </div>
 
-        <div id="peliculas" class="peliculas"></div>
+        <div id="pantalla_carga" class="pantalla_carga">
+            <img src="Assets/Images/cargando.gif" alt="Cargando">
+            <h2>Espera mientras se insertan las nuevas películas...</h2>
+        </div>
 
         <div id="contenedor_modal" class="contenedor_modal">
             <div id="modal" class="modal">

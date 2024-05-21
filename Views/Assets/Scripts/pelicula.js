@@ -72,7 +72,16 @@ function inicializar_listeners() {
         jQuery("#atras").on("click", function () {
             let pagina_actual = jQuery("#pagina_actual").val();
             let busqueda = jQuery("#busqueda_actual").val();
-            window.location.href = `../index.php?pagina=${pagina_actual}&busqueda=${busqueda}`;
+            let id_lista = jQuery("#id_lista").val();
+            let nombre_lista = jQuery("#nombre_lista").val();
+
+            // Redirige a lista.php o al index.
+            if (id_lista > 0) {
+                console.log(id_lista + " : " + nombre_lista);
+                window.location.href = `lista.php?id=${id_lista}&nombre=${nombre_lista}`;
+            } else {
+                window.location.href = `../index.php?pagina=${pagina_actual}&busqueda=${busqueda}`;
+            }
         });
 
         // Prevenimos el comportamiento por defecto del elemento <a> para hacer una petición al controller de usuario que cierra la sesión y recargar la página.
