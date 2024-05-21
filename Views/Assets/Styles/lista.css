@@ -105,14 +105,14 @@ nav {
     justify-content: center;
     flex-wrap: wrap;
     width: 95vw;
-    margin: 0 auto 10rem auto;
+    margin: 0 auto 5rem auto;
 }
 
 .pelicula {
     display: flex;
     flex-direction: column;
     width: 200px;
-    margin: 0 3% 3rem 3%;
+    margin: 0 3% 5rem 3%;
     cursor: pointer;
 }
 
@@ -281,11 +281,6 @@ nav {
     font-size: 2rem;
 }
 
-@media only screen and (max-width: 1600px) {
-    main {
-        min-height: 150vh;
-    }
-}
 
 @media only screen and (max-width: 1020px) {
     .header_left {
