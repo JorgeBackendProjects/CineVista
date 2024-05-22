@@ -62,7 +62,9 @@ $nombre = $_GET["nombre"] ? $_GET["nombre"] : "";
             <div id="modal" class="modal">
                 <span id="cerrar_modal" class="cerrar_modal">&times;</span>
                 <div class="columna_modal">
+                    <input type="hidden" id="eliminar_id_modal" />
                     <p id="mensaje_modal" class="mensaje_modal"></p>
+                    <button id="eliminar_pelicula_modal" class="eliminar_pelicula_modal">Eliminar película</button>
                 </div>
             </div>
         </div>

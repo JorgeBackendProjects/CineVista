@@ -111,6 +111,7 @@ nav {
 .pelicula {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 200px;
     margin: 0 3% 5rem 3%;
     cursor: pointer;
@@ -168,9 +169,13 @@ nav {
 }
 
 .eliminar_button {
-    width: 100%;
-    height: 2.5rem;
-    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 2rem;
+    margin-top: 1rem;
+    font-size: 1.1rem;
     background-color: rgb(255, 50, 50);
     color: white;
     border-radius: 15px;
@@ -220,7 +225,6 @@ nav {
 }
 
 .eliminar_pelicula_modal {
-    display: none;
     width: 50%;
     height: 2.5rem;
     margin-top: 3vh;

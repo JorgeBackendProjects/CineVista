@@ -10,7 +10,8 @@ function iniciar_listeners() {
 
         // Listener para eliminar una lista
         jQuery("#eliminar_pelicula_modal").on("click", function () {
-            eliminar_lista(id_lista);
+            let id_pelicula = jQuery("#eliminar_id_modal").val();
+            eliminar_pelicula(id_lista, id_pelicula);
         });
 
         // Listener onclick que, cuando carga el documento se aplica a todos los div con clase "pelicula"
@@ -85,7 +86,7 @@ function cargar_peliculas(id_lista) {
             }
         },
         error: function (xhr, status, error) {
-            console.error("Ha ocurrido un error: ".error);
+            console.error("Ha ocurrido un error: " + error);
         }
     });
 }
@@ -115,9 +116,10 @@ function create_DOM_lista(peliculas) {
         let valoracion_p = jQuery("<p>").addClass("valoracion").text((pelicula.valoracion).toFixed(1));
         valoracion_container.append(valoracion_p);
         poster_container.append(valoracion_container);
+        let boton_eliminar = jQuery("<div>").addClass("eliminar_button").text("Eliminar");
 
         // Agregamos los elementos creados con sus datos al div de la película.
-        pelicula_container.append(input_hidden_id_pelicula, poster_container, titulo_p);
+        pelicula_container.append(input_hidden_id_pelicula, poster_container, titulo_p, boton_eliminar);
 
         // Agregamos el div película al contenedor principal películas.
         jQuery("#peliculas").append(pelicula_container);
@@ -129,6 +131,44 @@ function create_DOM_lista(peliculas) {
             valoracion_container.css("background", "linear-gradient(90deg, rgba(219, 206, 0, 1) 0%, rgba(255, 188, 0, 1) 100%)");
         } else if (pelicula.valoracion > 7 && pelicula.valoracion <= 10) {
             valoracion_container.css("background", "linear-gradient(90deg, rgba(144, 219, 0, 1) 0%, rgba(0, 207, 107, 1) 100%)");
+        }
+
+        // Evento para abrir el modal de eliminar película
+        boton_eliminar.on("click", function(event) {
+            // Evitamos que se use el evento click de .pelicula
+            event.stopPropagation();
+
+            let id_pelicula = jQuery(this).siblings(".id_pelicula").val();
+            jQuery("#eliminar_id_modal").val(id_pelicula);
+
+            mostrar_modal("¿Seguro que quieres eliminar la película?");
+        });
+    });
+}
+
+// Función para eliminar una película de la lista
+function eliminar_pelicula(id_lista, id_pelicula) {
+    jQuery.ajax({
+        url: '../Controllers/lista_controller.php',
+        method: 'POST',
+        data: {
+            id_lista: id_lista,
+            id_pelicula: id_pelicula,
+            key: "delete_pelicula_lista"
+        },
+        success: function (data) {
+            let resultado = JSON.parse(data);
+
+            // Si se ha eliminado correctamente se elimina el div del DOM y se oculta el modal, para hacerlo dinámico.
+            if (resultado == "OK") {
+                jQuery(`.pelicula:has(input.id_pelicula[value='${id_pelicula}'])`).remove();
+                jQuery("#contenedor_modal").hide();
+            } else {
+                mostrar_modal(resultado);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Ha ocurrido un error: " + error);
         }
     });
 }
