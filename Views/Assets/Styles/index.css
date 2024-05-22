@@ -101,7 +101,7 @@ nav {
 }
 
 .buscador {
-    width: 30%;
+    width: 30rem;
     height: 3rem;
     padding-left: 2%;
     background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
@@ -114,9 +114,9 @@ nav {
 }
 
 .buscador:focus {
-	background-color: #fff;
-	border-color: #66CC75;
-	box-shadow: 0 0 5px rgba(109, 207, 246, 0.5);
+    background-color: #fff;
+    border-color: #66CC75;
+    box-shadow: 0 0 5px rgba(109, 207, 246, 0.5);
 }
 
 /*Texto principal*/
@@ -127,7 +127,7 @@ nav {
     margin: 4rem auto 0 auto;
 }
 
-.texto_principal_container h2{
+.texto_principal_container h2 {
     font-size: 1.5rem;
 }
 
@@ -151,7 +151,7 @@ nav {
 
 .poster {
     width: 200px;
-    height: 300px;            
+    height: 300px;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     border-radius: 15px;
@@ -203,7 +203,8 @@ nav {
     cursor: pointer;
 }
 
-#anterior, #siguiente {
+#anterior,
+#siguiente {
     width: 6rem;
 }
 
@@ -223,7 +224,7 @@ nav {
     z-index: 1;
     background-color: #011727;
     display: flex;
-    justify-content: space-around;    
+    justify-content: space-around;
     align-items: center;
     height: 5rem;
     padding: 10px 20px;
@@ -252,14 +253,14 @@ nav {
 }
 
 /*Responsive para pantallas más pequeñas*/
-@media only screen and (max-width: 1670px) { 
+@media only screen and (max-width: 1670px) {
     .buscador {
         padding-left: 3%;
     }
 }
 
 /*Responsive para pantallas más pequeñas*/
-@media only screen and (max-width: 950px) { 
+@media only screen and (max-width: 950px) {
     .buscador {
         width: 50%;
         padding-left: 4%;
@@ -271,19 +272,20 @@ nav {
         width: 60%;
     }
 
-    #anterior, #siguiente {
+    #anterior,
+    #siguiente {
         display: none;
     }
 
-    .container_paginacion .paginacion .pagina { 
+    .container_paginacion .paginacion .pagina {
         margin-bottom: 4%;
     }
 }
 
 /*Responsive para pantallas más pequeñas*/
-@media only screen and (max-width: 725px) { 
+@media only screen and (max-width: 725px) {
     .buscador {
-        width: 65%;
+
         padding-left: 5%;
     }
 
@@ -300,14 +302,14 @@ nav {
         margin-right: 1rem;
     }
 
-    .social_media a i{
+    .social_media a i {
         font-size: 4vw;
         margin-right: 0;
     }
 }
 
 /*Responsive para pantallas más pequeñas*/
-@media only screen and (max-width: 670px) { 
+@media only screen and (max-width: 670px) {
     .buscador {
         width: 70%;
         padding-left: 7%;
@@ -341,6 +343,271 @@ nav {
     .paginacion {
         display: flex;
         justify-content: space-around;
+        width: 95%;
+    }
+}
+
+/*RESPONSIVE MOBILE*/
+@media only screen and (max-width: 430px) {
+    body {
+        font-family: "Inria Sans", sans-serif;
+        font-size: 1rem;
+        background-color: #021B30;
+        color: white;
+    }
+
+    /*Cabecera*/
+    header {
+        position: sticky;
+        width: 100%;
+        top: 0;
+        z-index: 1;
+        background-color: #011727;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        padding: 10px;
+    }
+
+    .header_left,
+    .header_right {
+        display: flex;
+        align-items: center;
+        margin: 5px 0;
+    }
+
+    .header_left .icon {
+        width: 3.5rem;
+        height: 3rem;
+        background-image: url("../Images/icon.png");
+        background-size: 100% 100%;
+    }
+
+    .header_left a {
+        text-decoration: none;
+        color: white;
+    }
+
+    .header_left .title {
+        font-family: "Montserrat", sans-serif;
+        font-weight: normal;
+        font-size: 1.5rem;
+        margin: 0 10px;
+    }
+
+    .header_right ul {
+        display: flex;
+        margin: 0;
+        list-style-type: none;
+    }
+
+    .header_right ul p {
+        margin: 0.5rem 0;
+    }
+
+    .header_right ul li {
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .header_right ul li a {
+        margin: 0 0.2rem;
+        padding: 0.3rem;
+        font-size: 3.4vw;
+        text-decoration: none;
+        color: white;
+        border: 1px solid;
+        border-radius: 10px;
+    }
+
+    .header_right ul li a i {
+        margin-right: 0.3rem;
+    }
+
+    /*Contenido body*/
+
+    /*Buscador*/
+    .container_buscador {
+        display: flex;
+        justify-content: center;
+        margin: 2rem 0;
+    }
+
+    .buscador {
         width: 80%;
+        height: 2.5rem;
+        padding-left: 10%;
+        font-size: 0.9rem;
+        background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
+        border: solid 1px #ccc;
+        border-radius: 10em;
+        transition: all .5s;
+        font-family: inherit;
+        outline: none;
+    }
+
+    .buscador:focus {
+        background-color: #fff;
+        border-color: #66CC75;
+        box-shadow: 0 0 5px rgba(109, 207, 246, 0.5);
+    }
+
+    /*Texto principal*/
+    .texto_principal_container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 90%;
+        margin: 2rem auto;
+    }
+
+    .texto_principal_container h2 {
+        font-size: 1.1rem;
+        text-align: center;
+    }
+
+    /* Div principal de películas */
+    .peliculas {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .pelicula {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 calc(50% - 2rem);
+        margin: 1rem;
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+
+    /* Mantiene la proporción de la imagen con aspect-ratio */
+    .poster {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 2/3;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border-radius: 15px;
+    }
+
+    .valoracion_container {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        background-color: grey;
+    }
+
+    .valoracion {
+        text-align: center;
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    .titulo {
+        font-size: 1rem;
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    /*Paginación*/
+    .container_paginacion {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 1rem auto;
+        width: 90%;
+    }
+
+    .paginacion {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .container_paginacion .paginacion .pagina {
+        width: 8.5vw;
+        height: 2rem;
+        margin: 0.2rem;
+        font-size: 1rem;
+        font-weight: bold;
+        background-color: rgb(2, 27, 48);
+        color: white;
+        border: 1px solid white;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    #anterior,
+    #siguiente {
+        display: none;
+    }
+
+    .container_paginacion .paginacion .pagina_actual {
+        color: rgb(255, 188, 0);
+    }
+
+    .container_paginacion .numero_paginas {
+        margin-top: 1rem;
+    }
+
+    /*Footer*/
+    .footer {
+        position: sticky;
+        width: 100%;
+        bottom: 0;
+        z-index: 1;
+        background-color: #011727;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        padding: 10px 20px;
+    }
+
+    .privacidad {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .privacidad p {
+        margin: 5px 0;
+        font-size: 0.8rem;
+        cursor: pointer;
+    }
+
+    .social_media {
+        margin: 1rem auto 0.5rem auto;
+    }
+
+    .social_media a {
+        text-decoration: none;
+        color: white;
+        border-radius: 10px;
+        padding: 0.4rem;
+    }
+
+    .social_media a i {
+        margin-right: 0.3rem;
+        font-size: 1.5rem;
     }
 }
