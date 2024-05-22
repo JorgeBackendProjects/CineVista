@@ -438,11 +438,11 @@ nav {
 
 @media only screen and (max-width: 1600px) {
     .fondo {
-        height: 85vh;
+        height: 100vh;
     }
 
     .pelicula {
-        height: 85vh;
+        height: 100vh;
     }
 
     .info_principal {
