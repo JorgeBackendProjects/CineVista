@@ -373,7 +373,7 @@ nav {
 }
 
 /*Responsive para pantallas más pequeñas*/
-@media only screen and (max-width: 725px) {
+@media only screen and (max-width: 760px) {
     .buscador {
         padding-left: 5%;
     }
@@ -384,6 +384,10 @@ nav {
 
     .header_right {
         margin-right: 0;
+    }
+
+    .peliculas {
+        justify-content: space-evenly;
     }
 
     .privacidad p {
@@ -548,7 +552,7 @@ nav {
         flex-direction: column;
         flex: 1 1 calc(50% - 2rem);
         margin: 1rem;
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
         cursor: pointer;
         box-sizing: border-box;
         transform: scale(1);
@@ -671,9 +675,13 @@ nav {
     }
 }
 
-@media only screen and (max-width: 430px) { 
+@media only screen and (max-width: 480px) { 
     .header_right ul li a {
         font-size: 3.4vw;
+    }
+
+    .pelicula {
+        transform: scale(1.07);
     }
 
     .valoracion_container {
@@ -681,6 +689,8 @@ nav {
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 2.5rem;
+        height: 2.4rem;
         transform: scale(0.9);
         top: 2%;
         margin-left: 0;
