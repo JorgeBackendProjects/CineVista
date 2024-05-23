@@ -147,9 +147,12 @@ nav {
     width: 200px;
     margin: 5rem 3% 20px 3%;
     cursor: pointer;
+    transform: scale(1.1);
 }
 
 .poster {
+    display: flex;
+    flex-direction: row-reverse;
     width: 200px;
     height: 300px;
     background-size: 100% 100%;
@@ -165,9 +168,9 @@ nav {
     width: 2.8rem;
     height: 2.7rem;
     top: 2%;
+    right: 2%;
     border-radius: 50%;
     background-color: grey;
-    left: 75%;
 }
 
 .valoracion {
@@ -260,7 +263,94 @@ nav {
 }
 
 /*Responsive para pantallas más pequeñas*/
-@media only screen and (max-width: 950px) {
+@media only screen and (max-width: 1000px) {
+    .buscador {
+        width: 80%;
+    }
+
+    /*Cabecera*/
+    header {
+        position: sticky;
+        width: 100%;
+        top: 0;
+        z-index: 1;
+        background-color: #011727;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        padding: 10px;
+    }
+
+    .header_left,
+    .header_right {
+        display: flex;
+        align-items: center;
+        margin: 5px 0;
+    }
+
+    .header_left .icon {
+        width: 3.5rem;
+        height: 3rem;
+        background-image: url("../Images/icon.png");
+        background-size: 100% 100%;
+    }
+
+    .header_left a {
+        text-decoration: none;
+        color: white;
+    }
+
+    .header_left .title {
+        font-family: "Montserrat", sans-serif;
+        font-weight: normal;
+        font-size: 1.5rem;
+        margin: 0 10px;
+    }
+
+    .header_right {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
+    .header_right ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        margin: 0;
+        list-style-type: none;
+    }
+
+    .header_right ul p {
+        margin: 0.5rem 0;
+    }
+
+    .header_right ul li {
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .header_right ul li a {
+        margin: 0 0.2rem;
+        padding: 0.3rem;
+        font-size: 2.2vw;
+        text-decoration: none;
+        color: white;
+        border: 1px solid;
+        border-radius: 10px;
+    }
+
+    .header_right ul li a i {
+        margin-right: 0.3rem;
+    }
+
     .buscador {
         width: 50%;
         padding-left: 4%;
@@ -269,7 +359,7 @@ nav {
     .paginacion {
         display: flex;
         justify-content: space-around;
-        width: 60%;
+        width: 55%;
     }
 
     #anterior,
@@ -285,7 +375,6 @@ nav {
 /*Responsive para pantallas más pequeñas*/
 @media only screen and (max-width: 725px) {
     .buscador {
-
         padding-left: 5%;
     }
 
@@ -308,61 +397,10 @@ nav {
     }
 }
 
-/*Responsive para pantallas más pequeñas*/
-@media only screen and (max-width: 670px) {
-    .buscador {
-        width: 70%;
-        padding-left: 7%;
-    }
-
-    .header_left .icon {
-        width: 3rem;
-        height: 2.8rem;
-    }
-
-    .header_left .title {
-        font-size: 4vw;
-        margin: 0 10px;
-    }
-
-    .header_right ul li a {
-        font-size: 2.2vw;
-    }
-
-    .texto_principal_container {
-        display: flex;
-        width: 90vw;
-        justify-content: space-between;
-        margin: 4rem 0 0 3%;
-    }
-
-    .texto_principal_container h2 {
-        font-size: 1.3rem;
-    }
-
-    .paginacion {
-        display: flex;
-        justify-content: space-around;
-        width: 95%;
-    }
-}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*RESPONSIVE MOBILE*/
-@media only screen and (max-width: 430px) {
+/*RESPONSIVE TABLET Y MOBILE*/
+@media only screen and (max-width: 650px) {
     body {
         font-family: "Inria Sans", sans-serif;
         font-size: 1rem;
@@ -392,8 +430,6 @@ nav {
     .header_right {
         display: flex;
         align-items: center;
-        justify-content: center;
-        width: 100%;
         margin: 5px 0;
     }
 
@@ -416,12 +452,18 @@ nav {
         margin: 0 10px;
     }
 
+    .header_right {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
     .header_right ul {
         display: flex;
-        justify-content: space-between;
+        flex-wrap: wrap;
+        justify-content: center;
         width: 100%;
         margin: 0;
-        margin-top: 0.5rem;
         list-style-type: none;
     }
 
@@ -438,7 +480,7 @@ nav {
     .header_right ul li a {
         margin: 0 0.2rem;
         padding: 0.3rem;
-        font-size: 3.4vw;
+        font-size: 3vw;
         text-decoration: none;
         color: white;
         border: 1px solid;
@@ -509,6 +551,7 @@ nav {
         margin-bottom: 2rem;
         cursor: pointer;
         box-sizing: border-box;
+        transform: scale(1);
     }
 
     /* Mantiene la proporción de la imagen con aspect-ratio */
@@ -522,14 +565,10 @@ nav {
     }
 
     .valoracion_container {
-        position: absolute;
-        top: 10px;
-        right: 10px;
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 2.5rem;
-        height: 2.5rem;
         border-radius: 50%;
         background-color: grey;
     }
@@ -566,7 +605,7 @@ nav {
         width: 8.5vw;
         height: 2rem;
         margin: 0.2rem;
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-weight: bold;
         background-color: rgb(2, 27, 48);
         color: white;
@@ -629,5 +668,24 @@ nav {
     .social_media a i {
         margin-right: 0.3rem;
         font-size: 1.5rem;
+    }
+}
+
+@media only screen and (max-width: 430px) { 
+    .header_right ul li a {
+        font-size: 3.4vw;
+    }
+
+    .valoracion_container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: scale(0.9);
+        top: 2%;
+        margin-left: 0;
+        right: 2%;
+        border-radius: 50%;
+        background-color: grey;
     }
 }

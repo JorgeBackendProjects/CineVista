@@ -475,7 +475,7 @@ nav {
 
 
 /*RESPONSIVE MOBILE*/
-@media only screen and (max-width: 430px) {
+@media only screen and (max-width: 431px) {
     body {
         font-family: "Inria Sans", sans-serif;
         font-size: 1rem;
@@ -527,8 +527,17 @@ nav {
         margin: 0 10px;
     }
 
+    .header_right {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
     .header_right ul {
         display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
         margin: 0;
         list-style-type: none;
     }
@@ -594,18 +603,17 @@ nav {
     }
 
     .fondo {
-        position: relative;
+        display: none;
+        /*position: absolute;
         width: 90%;
         height: 15rem;
         margin: 0 auto;
-        top: 7rem;
-        left: 0;
+        top: 14rem;
+        left: 5vw;
         opacity: 0.8;
-        background-size: 100% 100%;
+        background-size: cover;
         background-repeat: no-repeat;
-        border-radius: 15px;
-        z-index: -1;
-        order: 2;
+        border-radius: 15px;*/
     }
 
     .info_principal {
