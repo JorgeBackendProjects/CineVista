@@ -98,7 +98,7 @@ nav {
     font-size: 1.25rem;
     position: absolute;
     top: 7.4rem;
-    left: 12.5vw;
+    left: 10vw;
     background-color: rgb(255, 188, 50);
     color: white;
     border-radius: 15px;
@@ -222,10 +222,10 @@ nav {
 
 .fondo {
     position: absolute;
-    width: 75%;
-    height: 75.5vh;
+    width: 80%;
+    height: 80vh;
     top: 12rem;
-    left: 12.5%;
+    left: 10%;
     opacity: 0.7;
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -235,8 +235,8 @@ nav {
 .pelicula {
     position: relative;
     display: flex;
-    width: 75%;
-    height: 75.5vh;
+    width: 80%;
+    height: 80vh;
     padding: 3rem 3.5rem;
     margin: 0 auto;
     top: 7rem;
@@ -436,17 +436,55 @@ nav {
     font-size: 2rem;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media only screen and (max-width: 1600px) {
-    .fondo {
-        height: 100vh;
-    }
 
     .pelicula {
-        height: 100vh;
+        height: 80vh;
     }
 
     .info_principal {
         width: 30%;
+        height: 100%;
     }
 
     .info_detallada {
@@ -455,8 +493,25 @@ nav {
 }
 
 @media only screen and (max-width: 1450px) {
+
+    .fondo {
+        position: absolute;
+        width: 90%;
+        height: 80vh;
+        top: 12rem;
+        left: 5%;
+        opacity: 0.7;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        border-radius: 15px;
+    }
+
+    .pelicula {
+        width: 90%;
+    }
+
     .info_principal {
-        width: 35%;
+        width: 19rem;
     }
 
     .info_detallada {
@@ -470,12 +525,101 @@ nav {
 
 
 
+/*Responsive para pantallas más pequeñas*/
+@media only screen and (max-width: 1000px) {
+    .buscador {
+        width: 80%;
+    }
 
+    /*Cabecera*/
+    header {
+        position: sticky;
+        width: 100%;
+        top: 0;
+        z-index: 1;
+        background-color: #011727;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: auto;
+        padding: 10px;
+    }
+
+    .header_left,
+    .header_right {
+        display: flex;
+        align-items: center;
+        margin: 5px 0;
+    }
+
+    .header_left .icon {
+        width: 3.5rem;
+        height: 3rem;
+        background-image: url("../Images/icon.png");
+        background-size: 100% 100%;
+    }
+
+    .header_left a {
+        text-decoration: none;
+        color: white;
+    }
+
+    .header_left .title {
+        font-family: "Montserrat", sans-serif;
+        font-weight: normal;
+        font-size: 1.5rem;
+        margin: 0 10px;
+    }
+
+    .header_right {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
+    .header_right ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        width: 100%;
+        margin: 0;
+        list-style-type: none;
+    }
+
+    .header_right ul p {
+        margin: 0.5rem 0;
+    }
+
+    .header_right ul li {
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .header_right ul li a {
+        margin: 0 0.2rem;
+        padding: 0.3rem;
+        font-size: 1.7vw;
+        text-decoration: none;
+        color: white;
+        border: 1px solid;
+        border-radius: 10px;
+    }
+
+    .header_right ul li a i {
+        margin-right: 0.3rem;
+    }
+
+
+}
 
 
 
 /*RESPONSIVE MOBILE*/
-@media only screen and (max-width: 431px) {
+@media only screen and (max-width: 655px) {
     body {
         font-family: "Inria Sans", sans-serif;
         font-size: 1rem;
@@ -555,7 +699,7 @@ nav {
     .header_right ul li a {
         margin: 0 0.2rem;
         padding: 0.3rem;
-        font-size: 3.4vw;
+        font-size: 3vw;
         text-decoration: none;
         color: white;
         border: 1px solid;
@@ -585,7 +729,7 @@ nav {
 
     .pelicula {
         flex-direction: column;
-        width: 90%;
+        width: 75%;
         height: auto;
         top: 4rem;
         padding: 1rem;
@@ -594,31 +738,21 @@ nav {
     .poster {
         display: flex;
         flex-direction: row-reverse;
+        width: 80%;
         height: 80%;
         background-size: 100% 100%;
         background-repeat: no-repeat;
         border-radius: 15px;
-        width: 90%;
         margin: 0 auto 5% auto;
     }
 
     .fondo {
         display: none;
-        /*position: absolute;
-        width: 90%;
-        height: 15rem;
-        margin: 0 auto;
-        top: 14rem;
-        left: 5vw;
-        opacity: 0.8;
-        background-size: cover;
-        background-repeat: no-repeat;
-        border-radius: 15px;*/
     }
 
     .info_principal {
         width: 100%;
-        height: 35rem;
+        height: 40rem;
         margin-top: 1rem;
     }
 
@@ -761,5 +895,19 @@ nav {
     .social_media a i {
         margin-right: 0.3rem;
         font-size: 1.5rem;
+    }
+}
+
+@media only screen and (max-width: 431px) { 
+    .pelicula {
+        width: 90%;
+    }
+
+    .poster {
+        width: 90%;
+    }
+
+    .info_principal {
+        height: 35rem;
     }
 }
