@@ -455,7 +455,12 @@ nav {
     .perfil {
         width: 25rem;
         margin: 0 auto;
-        margin-top: 9rem;
+        margin-top: 7rem;
+    }
+
+    .perfil .imagen {
+        width: 10rem;
+        height: 9.5rem;
     }
     /*CONTENIDO PRINCIPAL*/
 
