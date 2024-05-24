@@ -83,6 +83,7 @@ function cargar_peliculas(id_lista) {
                 asignar_imagenes_peliculas(peliculas);
             } else {
                 mostrar_modal("Aún no se han añadido películas a la lista.");
+                jQuery("#eliminar_pelicula_modal").hide();
             }
         },
         error: function (xhr, status, error) {

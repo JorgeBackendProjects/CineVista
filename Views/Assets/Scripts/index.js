@@ -138,8 +138,8 @@ function set_paginacion(total_paginas, pagina_actual, total_peliculas) {
     jQuery("#numero_pagina_text").show();
     jQuery("#numero_paginas").show();
 
-    // Calcula el rango de botones a mostrar, siempre debe haber mínimo 10 botones.
-    let inicio = Math.max(1, Math.min(pagina_actual - 4, total_paginas - 6));
+    // Calcula el rango de botones a mostrar, siempre debe haber 10 botones.
+    let inicio = Math.max(1, Math.min(pagina_actual - 3, total_paginas - 5));
     let fin = Math.min(total_paginas, inicio + 6);
 
     // Agregamos el botón con clase "anterior" cuando no estamos en la primera página.

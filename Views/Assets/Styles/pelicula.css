@@ -73,6 +73,10 @@ nav {
     margin: 0.5rem 10px 0 0;
 }
 
+.header_right ul span {
+    display: flex;
+}
+
 .header_right ul li {
     margin-right: 10px;
     display: flex;
@@ -251,7 +255,7 @@ nav {
     margin-bottom: 5%;
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    border-radius: 15px;
+    border-radius: 10px;
 }
 
 .valoracion_container {
@@ -343,8 +347,8 @@ nav {
 .secundario {
     display: flex;
     flex-direction: column;
-    margin: 10rem auto;
-    width: 70%;
+    margin: 10rem auto 5rem auto;
+    width: 73%;
 }
 
 .secundario h1 {
@@ -376,7 +380,7 @@ nav {
     height: 15rem;
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    border-radius: 15px;
+    border-radius: 10px;
 }
 
 .personaje {
@@ -386,6 +390,7 @@ nav {
 .botones_carousel {
     display: none;
     justify-content: center;
+    margin-top: 2rem;
 }
 
 .boton_carousel {
@@ -477,7 +482,6 @@ nav {
 
 
 @media only screen and (max-width: 1600px) {
-
     .pelicula {
         height: 80vh;
     }
@@ -493,6 +497,9 @@ nav {
 }
 
 @media only screen and (max-width: 1450px) {
+    .atras {
+        left: 5vw;
+    }
 
     .fondo {
         position: absolute;
@@ -523,14 +530,22 @@ nav {
     }
 }
 
+@media only screen and (max-width: 1130px) { 
+    .pelicula, .fondo {
+        height: 100vh;
+    }
 
+    .info_principal {
+        height: 65%;
+    }
+
+    .info_detallada span h3 {
+        font-size: 0.9rem;
+    }
+}
 
 /*Responsive para pantallas más pequeñas*/
 @media only screen and (max-width: 1000px) {
-    .buscador {
-        width: 80%;
-    }
-
     /*Cabecera*/
     header {
         position: sticky;
@@ -544,7 +559,6 @@ nav {
         display: flex;
         justify-content: space-around;
         align-items: center;
-        height: auto;
         padding: 10px;
     }
 
@@ -556,8 +570,8 @@ nav {
     }
 
     .header_left .icon {
-        width: 3.5rem;
-        height: 3rem;
+        width: 3rem;
+        height: 2.7rem;
         background-image: url("../Images/icon.png");
         background-size: 100% 100%;
     }
@@ -570,14 +584,8 @@ nav {
     .header_left .title {
         font-family: "Montserrat", sans-serif;
         font-weight: normal;
-        font-size: 1.5rem;
+        font-size: 1rem;
         margin: 0 10px;
-    }
-
-    .header_right {
-        width: 100%;
-        margin-top: 10px;
-        margin-bottom: 5px;
     }
 
     .header_right ul {
@@ -602,7 +610,7 @@ nav {
     .header_right ul li a {
         margin: 0 0.2rem;
         padding: 0.3rem;
-        font-size: 1.7vw;
+        font-size: 0.8rem;
         text-decoration: none;
         color: white;
         border: 1px solid;
@@ -613,13 +621,12 @@ nav {
         margin-right: 0.3rem;
     }
 
-
 }
 
 
 
-/*RESPONSIVE MOBILE*/
-@media only screen and (max-width: 655px) {
+/*Responsive tablet*/
+@media only screen and (max-width: 800px) {
     body {
         font-family: "Inria Sans", sans-serif;
         font-size: 1rem;
@@ -680,7 +687,7 @@ nav {
     .header_right ul {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: space-evenly;
         width: 100%;
         margin: 0;
         list-style-type: none;
@@ -697,9 +704,9 @@ nav {
     }
 
     .header_right ul li a {
-        margin: 0 0.2rem;
+        margin: 0 0.1rem;
         padding: 0.3rem;
-        font-size: 3vw;
+        font-size: 1rem;
         text-decoration: none;
         color: white;
         border: 1px solid;
@@ -719,7 +726,7 @@ nav {
         font-size: 1.25rem;
         position: relative;
         top: 2rem;
-        left: 5vw;
+        left: 10vw;
         background-color: rgb(255, 188, 50);
         color: white;
         border-radius: 15px;
@@ -729,7 +736,7 @@ nav {
 
     .pelicula {
         flex-direction: column;
-        width: 75%;
+        width: 80%;
         height: auto;
         top: 4rem;
         padding: 1rem;
@@ -738,11 +745,10 @@ nav {
     .poster {
         display: flex;
         flex-direction: row-reverse;
-        width: 80%;
+        width: 100%;
         height: 80%;
         background-size: 100% 100%;
         background-repeat: no-repeat;
-        border-radius: 15px;
         margin: 0 auto 5% auto;
     }
 
@@ -751,9 +757,10 @@ nav {
     }
 
     .info_principal {
-        width: 100%;
+        width: 65vw;
         height: 40rem;
-        margin-top: 1rem;
+        margin-top: 0.5rem;
+        margin: 0.5rem auto;
     }
 
     .info_detallada {
@@ -777,6 +784,7 @@ nav {
 
     .info_detallada span h3 {
         padding-left: 0; 
+        font-size: 1rem;
     }
 
     .aniadir_pelicula {
@@ -810,7 +818,7 @@ nav {
     }
 
     .secundario h1 {
-        margin: 0 0 2rem 1.5rem;
+        margin: 0 0 2rem 10vw;
         font-size: 1.8rem;
     }
 
@@ -851,8 +859,6 @@ nav {
     }
 
     /*CONTENIDO BODY*/
-
-
 
     /*Footer*/
     .footer {
@@ -899,15 +905,37 @@ nav {
 }
 
 @media only screen and (max-width: 431px) { 
+    .header_right ul li a {
+        font-size: 0.7rem;
+    }
+
+    .atras {
+        left: 6vw;
+    }
+
     .pelicula {
         width: 90%;
     }
 
+    .info_principal {
+        width: 100%;
+    }
+
     .poster {
-        width: 90%;
+        width: 95%;
     }
 
     .info_principal {
         height: 35rem;
+    }
+
+    #web a {
+        font-size: 0.88rem;
+    }
+
+    .pantalla_carga img {
+        width: 30px;
+        height: 30px;
+        margin-left: 0.5rem;
     }
 }
