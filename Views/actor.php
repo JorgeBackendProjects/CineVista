@@ -49,7 +49,9 @@ $pelicula_url = isset($_GET["pelicula_url"]) ? $_GET["pelicula_url"] : '../index
             <input type="hidden" id="pelicula_url" name="pelicula_url" value="<?php echo htmlspecialchars($pelicula_url); ?>" />
             <input type="hidden" id="id_actor" name="id_actor" value="<?php echo $id_actor; ?>" />
 
-            <button id="atras" class="atras">Volver</button>
+            <div class="container_boton_atras">
+                <button id="atras" class="atras">Volver</button>
+            </div>
 
             <div id="actor" class="actor">
                 <div class="info_principal">

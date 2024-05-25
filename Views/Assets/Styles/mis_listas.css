@@ -407,7 +407,7 @@ nav {
     .header_left .title {
         font-family: "Montserrat", sans-serif;
         font-weight: normal;
-        font-size: 2rem;
+        font-size: 1.5rem;
         margin: 0 10px;
     }
 
@@ -438,6 +438,10 @@ nav {
 
     .header_right ul span {
         display: flex;
+    }
+    
+    .header_right ul span li {
+        margin: 5px 0.5rem;
     }
 
     .header_right ul li a {
@@ -528,11 +532,6 @@ nav {
     
     /*Footer*/
     .footer {
-        position: sticky;
-        width: 100%;
-        bottom: 0;
-        z-index: 1;
-        background-color: #011727;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -558,7 +557,7 @@ nav {
 /*Responsive para mobile*/
 @media only screen and (max-width: 431px) { 
     .header_right ul li a {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
     }
 
     .container_boton_atras {

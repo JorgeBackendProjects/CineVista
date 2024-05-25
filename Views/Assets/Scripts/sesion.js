@@ -34,11 +34,7 @@ function iniciar_listeners() {
 
                     // Si se ha devuelto OK, redirige al usuario a la página anterior.
                     if (respuesta.status == "OK") {
-                        mostrar_modal("Se ha iniciado sesión con éxito.");
-
-                        setTimeout(() => {
-                            history.back();
-                        }, 2000);
+                        history.back();
                     } else {
                         mostrar_modal(respuesta.mensaje);
                     }

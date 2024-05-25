@@ -14,7 +14,7 @@ body {
 }
 
 main {
-    min-height: auto;
+    min-height: 100vh;
 }
 
 /*Cabecera*/
@@ -75,6 +75,14 @@ nav {
 
 .header_right ul p {
     margin: 0.5rem 10px 0 0;
+}
+
+.header_right ul span {
+    display: flex;
+}
+
+.header_right ul span li {
+    margin: 5px 0.5rem;
 }
 
 .header_right ul li {
@@ -140,6 +148,7 @@ nav {
     right: 2%;
     border-radius: 50%;
     background-color: grey;
+    transform: scale(0.9);
 }
 
 .valoracion {
@@ -599,7 +608,7 @@ nav {
     }
 
     .header_right ul li a {
-        font-size: 0.7rem;
+        font-size: 0.75rem;
     }
 
     .container_boton_atras {

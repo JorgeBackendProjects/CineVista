@@ -77,6 +77,10 @@ nav {
     display: flex;
 }
 
+.header_right ul span li {
+    margin: 5px 0.5rem;
+}
+
 .header_right ul li {
     margin-right: 10px;
     display: flex;
@@ -97,11 +101,11 @@ nav {
 
 /*Botón Volver*/
 .atras {
-    width: 8rem;
+    width: 6rem;
     height: 2.5rem;
     font-size: 1.25rem;
-    position: absolute;
-    top: 7.4rem;
+    position: relative;
+    top: 2rem;
     left: 10vw;
     background-color: rgb(255, 188, 50);
     color: white;
@@ -703,17 +707,8 @@ nav {
 
     /*CONTENIDO BODY*/
     .atras {
-        width: 5rem;
-        height: 2rem;
-        font-size: 1.25rem;
-        position: relative;
         top: 2rem;
         left: 10vw;
-        background-color: rgb(255, 188, 50);
-        color: white;
-        border-radius: 15px;
-        cursor: pointer;
-        border: 1px solid;
     }
 
     .pelicula {
@@ -888,11 +883,13 @@ nav {
 
 @media only screen and (max-width: 431px) { 
     .header_right ul li a {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
     }
 
     .atras {
         left: 6vw;
+        font-size: 1.2rem;
+        transform: scale(0.9);
     }
 
     .pelicula {

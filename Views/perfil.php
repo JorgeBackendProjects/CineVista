@@ -42,7 +42,7 @@ $sesion_iniciada = isset($_SESSION["username"]);
         <input type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION["id"]; ?>" />
 
         <div class="container_boton_atras">
-            <button id="atras" class="atras">Volver</button>
+            <button id="atras" class="btn atras">Volver</button>
         </div>
 
         <div id="perfil" class="perfil">
@@ -56,8 +56,8 @@ $sesion_iniciada = isset($_SESSION["username"]);
                 </div>
                 <p id="username" class="username"><?php echo $_SESSION["username"]; ?></p>
 
-                <button id="editar_perfil_button" class="editar_perfil_button">Editar perfil</button>                
-                <button id="eliminar_perfil_button" class="eliminar_perfil_button">Eliminar cuenta</button>
+                <button id="editar_perfil_button" class="btn editar_perfil_button">Editar perfil</button>                
+                <button id="eliminar_perfil_button" class="btn eliminar_perfil_button">Eliminar cuenta</button>
             </div>
             
             <form id="editar_perfil_form">
@@ -72,11 +72,11 @@ $sesion_iniciada = isset($_SESSION["username"]);
                 
                 <div id="botones" class="botones">
                     <div class="container_botones">
-                        <div id="editar_ver_password">Ver contraseña</div>  
-                        <button id="boton_enviar" name="boton_enviar" class="boton_enviar">Editar perfil</button>    
+                        <div id="editar_ver_password" class="btn">Ver contraseña</div>  
+                        <button id="boton_enviar" name="boton_enviar" class="btn boton_enviar">Editar perfil</button>    
                     </div>
 
-                    <button id="boton_cancelar" name="boton_cancelar" class="boton_cancelar">Cancelar</button>
+                    <button id="boton_cancelar" name="boton_cancelar" class="btn boton_cancelar">Cancelar</button>
                 </div>
                 
                 </div>
@@ -89,7 +89,7 @@ $sesion_iniciada = isset($_SESSION["username"]);
             <span id="cerrar_modal" class="cerrar_modal">&times;</span>
             <div class="columna_modal">
                 <p id="mensaje_modal" class="mensaje_modal"></p>
-                <button id="eliminar_cuenta_modal" class="eliminar_cuenta_modal">Si, elimina mi cuenta</button>
+                <button id="eliminar_cuenta_modal" class="btn eliminar_cuenta_modal">Si, elimina mi cuenta</button>
             </div>
         </div>
     </div>
