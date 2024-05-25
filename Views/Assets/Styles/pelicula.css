@@ -211,6 +211,7 @@ nav {
     border-radius: 30px;
     cursor: pointer;
     border: 1px solid black;
+    transition: background-color 0.3s ease;
 }
 
 .lista p {
@@ -363,7 +364,8 @@ nav {
 .atras:hover, 
 .aniadir_a_lista:hover, 
 .aniadir_a_favoritos:hover,
-.boton_carousel:hover {
+.boton_carousel:hover,
+.lista:hover {
     background-color: rgb(235, 135, 0);
 }
 
