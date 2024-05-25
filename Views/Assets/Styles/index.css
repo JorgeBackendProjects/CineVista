@@ -85,6 +85,11 @@ nav {
     margin-right: 10px;
     display: flex;
     align-items: center;
+    transition: transform 0.1s ease-in;
+}
+
+.header_right ul li:hover {
+    transform: scale(1.05);
 }
 
 .header_right ul li a {
@@ -104,13 +109,24 @@ nav {
 /*Buscador*/
 .container_buscador {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    margin: 4rem 0 2rem 0;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+.container_buscador h1 {
+    margin-top: 1rem;
+}
+
+.container_buscador h3 {
+    margin-top: 1rem;
 }
 
 .buscador {
     width: 30rem;
     height: 3rem;
+    margin-top: 4rem;
     padding-left: 2%;
     background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
     border: solid 1px #ccc;
@@ -156,6 +172,17 @@ nav {
     margin: 5rem 3% 20px 3%;
     cursor: pointer;
     transform: scale(1.1);
+    transition: transform 0.5s ease;
+    overflow: hidden;
+}
+
+.pelicula:hover {
+    transform: scale(1.15);
+}
+
+.pelicula:hover .poster::after {
+    transform: translateY(0%) ;
+    
 }
 
 .poster {
@@ -166,6 +193,24 @@ nav {
     background-size: 100% 100%;
     background-repeat: no-repeat;
     border-radius: 10px;
+    transform: skewX(0.001deg);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.35s ease-in-out;
+    overflow: hidden;
+}
+
+.poster::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(226deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 35%, rgba(255, 255, 255, 0) 42%, rgba(255, 255, 255, 0) 60%);    transform: translateY(-25%);
+    will-change: transform;
+    transition: transform 1s cubic-bezier(0.18, 0.9, 0.58, 1);
+}
+
+.poster .iconos_container {
+    z-index: 1;
 }
 
 .valoracion_container {
@@ -199,7 +244,7 @@ nav {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 2rem auto;
+    margin: 3rem auto;
 }
 
 .container_paginacion .paginacion .pagina {
@@ -514,7 +559,9 @@ nav {
     /*Buscador*/
     .container_buscador {
         display: flex;
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
         margin: 2rem 0;
     }
 
@@ -737,6 +784,12 @@ nav {
     cursor: pointer;
     border: 1px solid;
     transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.aniadir_a_favoritos:hover {
+    background-color: rgb(235, 135, 0);
+    transform: scale(1.05);
 }
 
 /*Modal*/
@@ -778,4 +831,18 @@ nav {
     text-align: center;
     font-size: 1.1rem;
     color: black;
+}
+
+.cerrar_modal {
+    color: grey;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.cerrar_modal:hover,
+.cerrar_modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }

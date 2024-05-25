@@ -250,41 +250,37 @@ class Pelicula
     public static function search_movies($busqueda) {
         $peliculas = array();
         
-        try {
-            $pdo = Conexion::connection_database();
+        $pdo = Conexion::connection_database();
 
-            // Prepara la consulta SQL para buscar películas cuyo título y fecha_estreno contengan la cadena $busqueda.
-            $stmt = $pdo->prepare("SELECT id, titulo, poster, valoracion FROM pelicula WHERE titulo LIKE CONCAT('%', :busqueda, '%') OR fecha_estreno LIKE CONCAT('%', :busqueda, '%')");
-            $stmt->bindParam(':busqueda', $busqueda, PDO::PARAM_STR);
+        // Prepara la consulta SQL para buscar películas cuyo título y fecha_estreno contengan la cadena $busqueda.
+        $stmt = $pdo->prepare("SELECT DISTINCT pelicula.id, pelicula.titulo, pelicula.poster, pelicula.valoracion 
+                                FROM pelicula
+                                LEFT JOIN pelicula_categoria ON pelicula.id = pelicula_categoria.id_pelicula
+                                LEFT JOIN categoria ON pelicula_categoria.id_genero = categoria.id
+                                WHERE pelicula.titulo LIKE CONCAT('%', :busqueda, '%') 
+                                OR pelicula.fecha_estreno LIKE CONCAT('%', :busqueda, '%')
+                                OR categoria.nombre LIKE CONCAT('%', :busqueda, '%')"
+                            );
+        $stmt->bindParam(':busqueda', $busqueda, PDO::PARAM_STR);
 
-            $stmt->execute();
-        
-            if ($stmt->rowCount() > 0) {
-                $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-                foreach ($resultado as $pelicula) {
-                    $pelicula_object = new Pelicula();
-                    $pelicula_object->set_id($pelicula["id"]);
-                    $pelicula_object->set_titulo($pelicula["titulo"]);
-                    $pelicula_object->set_poster($pelicula["poster"]);
-                    $pelicula_object->set_valoracion($pelicula["valoracion"]);
-                    
-                    array_push($peliculas, $pelicula_object);
-                }
-            }
-
-        } catch (Exception $e) {
-            // Si hay un error con la operación se hace un rollBack para revertir los cambios.
-            if ($pdo) {
-                $pdo->rollBack(); 
-            }
-
-            error_log("No se han podido buscar las películas: " . $e->getMessage()); 
-            
-        } finally {
-            $pdo = null;
-        }
+        $stmt->execute();
     
+        if ($stmt->rowCount() > 0) {
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            foreach ($resultado as $pelicula) {
+                $pelicula_object = new Pelicula();
+                $pelicula_object->set_id($pelicula["id"]);
+                $pelicula_object->set_titulo($pelicula["titulo"]);
+                $pelicula_object->set_poster($pelicula["poster"]);
+                $pelicula_object->set_valoracion($pelicula["valoracion"]);
+                
+                array_push($peliculas, $pelicula_object);
+            }
+        }
+
+        $pdo = null;
+        
         return $peliculas;
     }
     

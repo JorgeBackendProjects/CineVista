@@ -85,6 +85,11 @@ nav {
     margin-right: 10px;
     display: flex;
     align-items: center;
+    transition: transform 0.1s ease-in;
+}
+
+.header_right ul li:hover {
+    transform: scale(1.05);
 }
 
 .header_right ul li a {
@@ -112,6 +117,11 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    transition: background-color 0.3s ease;
+}
+
+.atras:hover {
+    background-color: rgb(235, 135, 0);
 }
 
 /*Pantalla de carga*/
@@ -334,6 +344,7 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    transition: background-color 0.3s ease;
 }
 
 .aniadir_pelicula .aniadir_a_favoritos {
@@ -346,12 +357,20 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    transition: background-color 0.3s ease;
+}
+
+.atras:hover, 
+.aniadir_a_lista:hover, 
+.aniadir_a_favoritos:hover,
+.boton_carousel:hover {
+    background-color: rgb(235, 135, 0);
 }
 
 .secundario {
     display: flex;
     flex-direction: column;
-    margin: 10rem auto 5rem auto;
+    margin: 8rem auto 5rem auto;
     width: 73%;
 }
 
@@ -444,46 +463,6 @@ nav {
     margin-right: 0.3rem;
     font-size: 2rem;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @media only screen and (max-width: 1600px) {
     .pelicula {
@@ -787,7 +766,7 @@ nav {
 
     .secundario {
         position: relative;
-        top: 0rem;
+        top: -2rem;
         margin-bottom: 5rem;
         display: flex;
         flex-direction: column;
@@ -795,7 +774,7 @@ nav {
     }
 
     .secundario h1 {
-        margin: 0 0 2rem 10vw;
+        margin: 0 0 2rem 10%;
         font-size: 1.8rem;
     }
 

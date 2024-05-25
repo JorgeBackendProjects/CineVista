@@ -172,7 +172,7 @@ function create_DOM_pelicula(pelicula) {
     jQuery("#ganancias").text(`Ganancias: `).append(`<span>${ganancias}</span>`);
     jQuery("#popularidad").text(`Popularidad: `).append(`<span>${popularidad}</span>`);
     // Si se obtiene la url de la web se añade, si no se escribe "No disponible".
-    pelicula["web"] != "" ? jQuery("#web").text(`Web: `).append(`<a href = '${pelicula["web"]}'>${pelicula["web"]}</a>`) : jQuery("#web").text("Web: ").append(`<span>No disponible</span>`);
+    pelicula["web"] != "" ? jQuery("#web").text(`Web: `).append(`<a href='${pelicula["web"]}' target='blank'>${pelicula["web"]}</a>`) : jQuery("#web").text("Web: ").append(`<span>No disponible</span>`);
     jQuery("#total_votos").text(`Votaciones: `).append(`<span>${pelicula["total_votos"]}</span>`);
 }
 

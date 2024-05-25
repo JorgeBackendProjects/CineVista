@@ -77,6 +77,11 @@ nav {
     margin-right: 10px;
     display: flex;
     align-items: center;
+    transition: transform 0.1s ease-in;
+}
+
+.header_right ul li:hover {
+    transform: scale(1.05);
 }
 
 .header_right ul li a {
@@ -98,6 +103,7 @@ nav {
     align-items: center;
     width: 60%;
     height: auto;
+    min-height: 60vh;
     margin: 2rem auto 10rem auto;
     background-color: rgba(0, 0, 0, 50%);
     border-radius: 30px;
@@ -150,6 +156,14 @@ nav {
 }
 
 /*Botones*/
+.btn {
+    transition: background-color 0.5s ease;
+}
+
+.btn:hover {
+    background-color: rgb(235, 135, 0);
+}
+
 .container_boton_atras {
     display: flex;
     flex-direction: column;
@@ -185,6 +199,11 @@ nav {
 
 .eliminar_button {
     background-color: rgb(255, 50, 50);
+    transition: background-color 0.5s ease;
+}
+
+.eliminar_button:hover {
+    background-color: rgb(255, 40, 16);
 }
 
 .boton_cancelar {
@@ -207,7 +226,7 @@ nav {
 .nueva_lista_button {
     width: 9rem;
     height: 2.3rem;
-    margin: 2rem 0 3rem 0;
+    margin: 1rem 0 3rem 0;
     font-size: 1.25rem;
     background-color: rgb(255, 165, 0);
     color: white;
@@ -571,7 +590,7 @@ nav {
 
     .tabla_container {
         width: 96%;
-        margin: 2rem auto 5rem auto;
+        margin: 2rem auto 10rem auto;
         margin-left: 2%;
     }
 

@@ -79,6 +79,17 @@ function inicializar_listeners() {
         }, 1000);
     });
 
+    // Eventos click para cerrar el modal tanto en la cruz como fuera del modal.
+    jQuery("#cerrar_modal").on("click", function() {
+        contenedor_modal.css("display", "none");
+    });
+
+    jQuery(window).on("click", function(event) {
+        if (event.target == contenedor_modal[0]) {
+            contenedor_modal.css("display", "none");
+        }
+    });
+    
     // Prevenimos el comportamiento por defecto del elemento <a> para hacer una petición al controller de usuario que cierra la sesión y recargar la página.
     jQuery("#redirect_cerrar_sesion").on("click", function(event) {
         event.preventDefault();
@@ -186,6 +197,8 @@ function buscar_peliculas() {
 
 // Crea una estructura para cada película que se añade al div principal con id "peliculas".
 function create_dinamic_DOM_index(peliculas) {
+    let id_usuario = jQuery("#id_usuario").val();
+
     // Vacía el contenedor de películas para añadirlas según la paginación.
     jQuery("#peliculas").empty();
 
@@ -241,6 +254,7 @@ function create_dinamic_DOM_index(peliculas) {
         // Evento click para añadir película a Favoritos. 
         jQuery(boton_favoritos).on("click", function(event) {
             event.stopPropagation();
+            console.log(id_usuario);
 
             // Si la sesión no está iniciada se muestra un modal, en caso contrario FALTA SELECCION DE LISTAS.
             if (id_usuario == 0) {

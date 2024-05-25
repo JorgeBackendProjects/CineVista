@@ -86,6 +86,11 @@ nav {
     margin-right: 10px;
     display: flex;
     align-items: center;
+    transition: transform 0.1s ease-in;
+}
+
+.header_right ul li:hover {
+    transform: scale(1.05);
 }
 
 .header_right ul li a {
@@ -117,6 +122,11 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    transition: background-color 0.5s ease;
+}
+
+.atras:hover {
+    background-color: rgb(235, 135, 0);
 }
 
 /*Vista película*/

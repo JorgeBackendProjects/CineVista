@@ -85,6 +85,11 @@ nav {
     margin-right: 10px;
     display: flex;
     align-items: center;
+    transition: transform 0.1s ease-in;
+}
+
+.header_right ul li:hover {
+    transform: scale(1.05);
 }
 
 .header_right ul li a {
@@ -157,6 +162,11 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    transition: background-color 0.5s ease;
+}
+
+.atras:hover {
+    background-color: rgb(235, 135, 0);
 }
 
 .perfil .editar_perfil_button {
@@ -168,6 +178,11 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    transition: background-color 0.5s ease;
+}
+
+.editar_perfil_button:hover {
+    background-color: rgb(235, 135, 0);
 }
 
 .perfil .eliminar_perfil_button {
@@ -181,6 +196,11 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    transition: background-color 0.5s ease;
+}
+
+.eliminar_perfil_button:hover {
+    background-color: rgb(255, 25, 0);
 }
 
 #editar_ver_password {
@@ -195,6 +215,11 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    transition: background-color 0.5s ease;
+}
+
+#editar_ver_password:hover {
+    background-color: #021B30;
 }
 
 .boton_cancelar {
@@ -207,17 +232,27 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    transition: background-color 0.5s ease;
+}
+
+.boton_cancelar:hover {
+    background-color: rgb(235, 135, 0);
 }
 
 .boton_enviar {
     width: 40%;
     height: 2.7rem;
     font-size: 1.1rem;
-    background-color: rgb(255, 50, 50);
+    background-color: rgb(235, 135, 0);
     color: white;
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    transition: background-color 0.5s ease;
+}
+
+.boton_enviar:hover {
+    background-color: rgb(255, 165, 0);
 }
 
 /*Formulario de edición*/

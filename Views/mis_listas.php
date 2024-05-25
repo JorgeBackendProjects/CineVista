@@ -47,7 +47,7 @@ $sesion_iniciada = isset($_SESSION["username"]);
         <input type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION["id"]; ?>" />
 
         <div class="container_boton_atras">
-            <button id="atras" class="atras">Volver</button>
+            <button id="atras" class="btn atras">Volver</button>
         </div>
 
         <div id="tabla_container" class="tabla_container">
@@ -70,7 +70,7 @@ $sesion_iniciada = isset($_SESSION["username"]);
             </table>
 
             <div class="nueva_lista_container">
-                <button id="nueva_lista_button" class="nueva_lista_button">Nueva lista</button>
+                <button id="nueva_lista_button" class="btn nueva_lista_button">Nueva lista</button>
             </div>
         </div>
     </main>
@@ -82,8 +82,8 @@ $sesion_iniciada = isset($_SESSION["username"]);
                 <p id="mensaje_modal" class="mensaje_modal"></p>
                 <input type="hidden" class="id_lista_modal" />
                 <input type="text" class="nuevo_nombre_lista" placeholder="Nombre para la lista"/>
-                <button id="crear_lista_modal" class="crear_lista_modal">Crear</button>
-                <button id="editar_lista_modal" class="editar_lista_modal">Editar</button>
+                <button id="crear_lista_modal" class="btn crear_lista_modal">Crear</button>
+                <button id="editar_lista_modal" class="btn editar_lista_modal">Editar</button>
                 <button id="eliminar_lista_modal" class="eliminar_lista_modal">Si, elimina la lista</button>
             </div>
         </div>
