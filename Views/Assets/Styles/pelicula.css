@@ -569,24 +569,6 @@ nav {
         margin: 5px 0;
     }
 
-    .header_left .icon {
-        width: 3rem;
-        height: 2.7rem;
-        background-image: url("../Images/icon.png");
-        background-size: 100% 100%;
-    }
-
-    .header_left a {
-        text-decoration: none;
-        color: white;
-    }
-
-    .header_left .title {
-        font-family: "Montserrat", sans-serif;
-        font-weight: normal;
-        font-size: 1rem;
-        margin: 0 10px;
-    }
 
     .header_right ul {
         display: flex;
@@ -906,7 +888,7 @@ nav {
 
 @media only screen and (max-width: 431px) { 
     .header_right ul li a {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 
     .atras {

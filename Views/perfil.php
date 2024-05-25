@@ -69,11 +69,16 @@ $sesion_iniciada = isset($_SESSION["username"]);
                 <input type="password" id="editar_password" name="editar_password" class="password" placeholder="Contraseña" autocomplete="off" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&_-])[A-Za-z\d$@$!%*?&_-]{8,25}$" title="La contraseña debe tener entre 8 y 25 caracteres, incluir al menos una letra mayúscula, una letra minúscula, un número y un carácter especial." required/>
                 <label>Nueva contraseña</label>
                 <input type="password" id="editar_nueva_password" name="editar_nueva_password" class="password" placeholder="Nueva contraseña" autocomplete="off" required/>
-                <div id="editar_ver_password">Ver contraseña</div>
-
+                
                 <div id="botones" class="botones">
-                    <button id="boton_cancelar" name="boton_cancelar" class="boton_cancelar">Cancelar</button>    
-                    <button id="boton_enviar" name="boton_enviar" class="boton_enviar">Editar perfil</button>
+                    <div class="container_botones">
+                        <div id="editar_ver_password">Ver contraseña</div>  
+                        <button id="boton_enviar" name="boton_enviar" class="boton_enviar">Editar perfil</button>    
+                    </div>
+
+                    <button id="boton_cancelar" name="boton_cancelar" class="boton_cancelar">Cancelar</button>
+                </div>
+                
                 </div>
             </form>
         </div>
