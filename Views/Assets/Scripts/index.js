@@ -31,11 +31,11 @@ function inicializar_listeners() {
     jQuery(document).on("input", "#buscador", function(){
         // Obtenemos el valor que hay en el input.
         let busqueda = jQuery(this).val();
-
+        console.log(busqueda.trim().length);
         // Si el input de búsqueda está vacío carga todas las películas de nuevo. En caso contrario hace otra busqueda por título. 
         if (busqueda.trim() == "") {
             get_peliculas(pagina_actual);
-        } else {
+        } else if (busqueda.trim().length >= 4){
             // Hacer una llamada al servidor para obtener las películas que coincidan con el título o la fecha
             buscar_peliculas();
         }
@@ -354,7 +354,6 @@ function get_id_favoritos(id_usuario) {
                 key: "get_id_favoritos"
             },
             success: function (data) {
-                console.log("ID favoritos recibido del servidor:", parseInt(data));
                 resolve(parseInt(data));
             },
             error: function(xhr, status, error) {
@@ -378,7 +377,7 @@ function comprobar_pelicula_en_lista(id_lista, id_pelicula) {
             },
             success: function (data) {
                 let resultado = JSON.parse(data);
-                console.log(data);
+                
                 if (resultado == "true") {
                     resolve(true);
                 } else {
