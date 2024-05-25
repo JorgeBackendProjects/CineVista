@@ -91,14 +91,14 @@ function create_DOM_listas(listas) {
 
         let columna_nombre = jQuery("<td class='primer_td'>").text(nombre);
         let columna_fecha = jQuery("<td>").text(fecha);
-        let columna_ver = jQuery("<td>").append(`<button class="ver_button">Ver</button>`);         
+        let columna_ver = jQuery("<td>").append(`<button class="btn_lista ver_button">Ver</button>`);         
         let columna_editar = jQuery("<td>");
         let columna_eliminar = jQuery("<td>");
 
         // Si es la lista de favoritos no se podrá editar ni borrar.
         if (nombre != "Favoritos") {
-            columna_editar.append(`<button class="editar_button">Editar</button>`);
-            columna_eliminar.append(`<button class="eliminar_button">Eliminar</button>`);
+            columna_editar.append(`<button class="btn_lista editar_button">Editar</button>`);
+            columna_eliminar.append(`<button class="btn_lista eliminar_button">Eliminar</button>`);
         }
 
         // Agregamos los elementos a la tabla de listas.
