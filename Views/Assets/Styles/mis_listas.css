@@ -162,7 +162,7 @@ nav {
     height: 2.7rem;
     margin: 0 0 0 0;
     font-size: 1.25rem;
-    background-color: rgb(255, 188, 50);
+    background-color: rgb(255, 165, 0);
     color: white;
     border-radius: 15px;
     cursor: pointer;
@@ -180,7 +180,7 @@ nav {
 }
 
 .ver_button, .editar_button {
-    background-color: rgb(255, 188, 50);    
+    background-color: rgb(255, 165, 0);    
 }
 
 .eliminar_button {
@@ -191,7 +191,7 @@ nav {
     width: 30%;
     height: 2.3rem;
     font-size: 1.25rem;
-    background-color: rgb(255, 188, 50);
+    background-color: rgb(255, 165, 0);
     color: white;
     border-radius: 15px;
     cursor: pointer;
@@ -209,7 +209,7 @@ nav {
     height: 2.3rem;
     margin: 2rem 0 3rem 0;
     font-size: 1.25rem;
-    background-color: rgb(255, 188, 50);
+    background-color: rgb(255, 165, 0);
     color: white;
     border-radius: 15px;
     cursor: pointer;
@@ -273,7 +273,7 @@ nav {
     height: 2.5rem;
     margin-top: 3vh;
     font-size: 1.2rem;
-    background-color: rgb(255, 188, 50);
+    background-color: rgb(255, 165, 0);
     color: white;
     border-radius: 15px;
     cursor: pointer;
@@ -285,7 +285,7 @@ nav {
     height: 2.5rem;
     margin-top: 3vh;
     font-size: 1.2rem;
-    background-color: rgb(255, 188, 50);
+    background-color: rgb(255, 165, 0);
     color: white;
     border-radius: 15px;
     cursor: pointer;

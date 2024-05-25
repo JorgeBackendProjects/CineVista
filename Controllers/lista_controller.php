@@ -25,6 +25,15 @@ if (isset($_POST["id_usuario"]) && isset($_POST["key"]) && $_POST["key"] == "get
     }
 }
 
+// Obtiene el id de la lista de favoritos de un usuario.
+if (isset($_POST["id_usuario"]) && isset($_POST["key"]) && $_POST["key"] == "get_id_favoritos") {
+    $id_usuario = $_POST["id_usuario"];
+
+    $id_favoritos = Lista::get_id_lista_favoritos($id_usuario);
+
+    echo json_encode($id_favoritos);
+}
+
 // Crea una lista nueva para el usuario.
 if (isset($_POST["id_usuario"]) && isset($_POST["nombre"]) && isset($_POST["key"]) && $_POST["key"] == "create_lista") {
     $id_usuario = $_POST["id_usuario"];

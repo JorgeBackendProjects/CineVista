@@ -1,6 +1,7 @@
 <?php
 session_start();
 $sesion_iniciada = isset($_SESSION["username"]);
+$id_usuario = isset($_SESSION["id"]) ? $_SESSION["id"] : 0;
 
 $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
 $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
@@ -44,6 +45,8 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
     </header>
 
     <main>
+        <input type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $id_usuario; ?>" /> 
+        <input type="hidden" id="id_favoritos" name="id_favoritos" value="" /> 
         <input type="hidden" id="pagina_actual" name="pagina_actual" value="<?php echo $pagina_actual; ?>"/>
         <input type="hidden" id="busqueda_actual" name="busqueda_actual" value="<?php echo $busqueda_actual; ?>"/>
 
@@ -62,12 +65,21 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
             <div id="paginacion" class="paginacion"></div>
             <p id="numero_paginas" class="numero_paginas"></p>
         </div>
+
+        <div id="contenedor_modal" class="contenedor_modal">
+            <div id="modal" class="modal">
+                <span id="cerrar_modal" class="cerrar_modal">&times;</span>
+                <div class="columna_modal">
+                    <p id="mensaje_modal" class="mensaje_modal"></p>
+                </div>
+            </div>
+        </div>
     </main>
 
     <?php include_once("Views/Assets/Templates/footer.html"); ?>
 
     <script>
-        inicializar_DOM();
+        inicializar_listeners();
     </script>
 </body>
 

@@ -107,7 +107,7 @@ nav {
     position: absolute;
     top: 7.4rem;
     left: 18vw;
-    background-color: rgb(255, 188, 50);
+    background-color: rgb(255, 165, 0);
     color: white;
     border-radius: 15px;
     cursor: pointer;
@@ -149,7 +149,7 @@ nav {
     height: 2.5rem;
     margin-top: 2rem;
     font-size: 1.25rem;
-    background-color: rgb(255, 188, 50);
+    background-color: rgb(255, 165, 0);
     color: white;
     border-radius: 15px;
     cursor: pointer;

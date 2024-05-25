@@ -1,3 +1,108 @@
+// Inicia los listeners para el index.php
+function inicializar_listeners() {
+    var id_usuario = jQuery("#id_usuario").val();
+    var contenedor_modal = jQuery("#contenedor_modal");
+    var modal = jQuery("#modal");
+    var pagina_actual = jQuery("#pagina_actual").val();
+
+    // Si hay una sesión iniciada se obtiene el id de la lista favoritos del usuario.
+    if (id_usuario != 0) {
+        get_id_favoritos(id_usuario).then(id_favoritos => {
+            jQuery("#id_favoritos").val(id_favoritos);
+
+        }).catch(error => {
+            console.error("Error obteniendo id_favoritos:", error);
+        });
+    }
+
+    //Se llama a la función de búsqueda por si, se ha buscado y se ha entrado a pelicula.php. Al volver al index seguirá donde se encontraba con la búsqueda.
+    jQuery("#buscador").val(jQuery("#busqueda_actual").val());
+
+    // Cuando el documento está listo, se hace una llamada para obtener las primeras 20 películas si el buscador está vacío, en caso contrario se realiza la búsqueda que ya había.
+    jQuery(document).ready(function() {
+        if (jQuery("#buscador").val() == "") {
+            get_peliculas(pagina_actual); 
+        } else {
+            buscar_peliculas();
+        }        
+    });
+
+    // Listener que realiza una petición ajax al servidor para obtener resultados de películas según el valor del campo de texto.
+    jQuery(document).on("input", "#buscador", function(){
+        // Obtenemos el valor que hay en el input.
+        let busqueda = jQuery(this).val();
+
+        // Si el input de búsqueda está vacío carga todas las películas de nuevo. En caso contrario hace otra busqueda por título. 
+        if (busqueda.trim() == "") {
+            get_peliculas(pagina_actual);
+        } else {
+            // Hacer una llamada al servidor para obtener las películas que coincidan con el título o la fecha
+            buscar_peliculas();
+        }
+    });
+
+    // Listener onclick que, cuando carga el documento se aplica a todos los div con clase "pelicula"
+    jQuery(document).on("click", ".pelicula", function() {
+        // Recoge el id del input hidden y el título.
+        let id_pelicula = jQuery(this).find(".id_pelicula").val();
+        let titulo = jQuery(this).find(".titulo").text();
+        let busqueda = jQuery("#buscador").val();
+    
+        // Redirige a la página de detalles de película con el id y título en la URL
+        window.location = `Views/pelicula.php?id=${id_pelicula}&titulo=${titulo}&pagina=${pagina_actual}&busqueda=${busqueda}`;
+    });
+
+    // Listener onclick que, al pulsar un botón de paginación obtiene el número de la página del texto del botón y vuelve a solicitar al servidor las películas de la página actual. 
+    jQuery(document).on("click", ".pagina", function() {
+        // Obtiene el número de página del botón
+        let pagina = parseInt(jQuery(this).text());
+    
+        // Si el botón que se ha pulsado tiene la clase "anterior", resta 1 a la página actual.
+        if (jQuery(this).hasClass("anterior")) {
+            pagina_actual--;
+
+        // Si el botón que se ha pulsado tiene la clase "siguiente", suma 1 a la página actual.
+        } else if (jQuery(this).hasClass("siguiente")) {
+            pagina_actual++;
+        
+        // Si no es "anterior" ni "siguiente", establece la página actual.
+        } else {
+            pagina_actual = pagina;
+        }
+
+        // Elimina todo el contenido del div y carga las películas de esta página.
+        get_peliculas(pagina_actual);
+        
+        // Desplaza la página hacia el principio en una animación que dura 1 segundo.
+        jQuery('html, body').animate({
+            scrollTop: 0
+        }, 1000);
+    });
+
+    // Prevenimos el comportamiento por defecto del elemento <a> para hacer una petición al controller de usuario que cierra la sesión y recargar la página.
+    jQuery("#redirect_cerrar_sesion").on("click", function(event) {
+        event.preventDefault();
+
+        jQuery.ajax({
+            url: 'Controllers/usuario_controller.php',
+            method: 'POST',
+            data: {
+                key: "cerrar_sesion"
+            },
+            success: function(data) {
+                let resultado = JSON.parse(data);
+    
+                if (resultado == "OK") {
+                    window.location.reload();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error al cerrar sesión: " + error);
+            }
+        });
+    });
+}
+
 // Hace una petición al controller de películas para obtener los id, títulos y pósters mediante la key para identificar la petición en el back-end
 function get_peliculas(pagina) {
     jQuery.ajax({
@@ -88,21 +193,71 @@ function create_dinamic_DOM_index(peliculas) {
     peliculas.forEach(pelicula => {
         // Creamos los elementos de la película en variables.
         let pelicula_container = jQuery("<div>").addClass("pelicula");
+        
         let input_hidden_id_pelicula = jQuery("<input>").attr({
             type: "hidden",
             name: "id_pelicula",
             class: "id_pelicula",
             value: pelicula.id
         });
+        
         let poster_container = jQuery("<div>").addClass("poster");
-        let titulo_p = jQuery("<p>").addClass("titulo").text(pelicula.titulo);
+
+        let contenedor_iconos_poster = jQuery("<div>").addClass("iconos_container"); 
+
         let valoracion_container = jQuery("<div>").addClass("valoracion_container");
         let valoracion_p = jQuery("<p>").addClass("valoracion").text((pelicula.valoracion).toFixed(1));
         valoracion_container.append(valoracion_p);
-        poster_container.append(valoracion_container);
+
+        let boton_favoritos = jQuery("<button>").addClass("aniadir_a_favoritos");
+        let icono_favoritos;
+
+        // Si el id_usuario está seteado, se comprueba si tiene la pelicula en favoritos y añade el icono correspondiente, en caso contrario los añade por defecto vacíos.
+        if (id_usuario == 0) {
+            icono_favoritos = jQuery("<i>").addClass("fa-regular").addClass("fa-heart");
+            boton_favoritos.append(icono_favoritos);
+        } else {
+            comprobar_pelicula_en_lista(jQuery("#id_favoritos").val(), pelicula.id).then(en_lista => {
+                if (en_lista) {
+                    icono_favoritos = jQuery("<i>").addClass("fa-solid").addClass("fa-heart");
+                    boton_favoritos.append(icono_favoritos);
+                } else {
+                    icono_favoritos = jQuery("<i>").addClass("fa-regular").addClass("fa-heart");
+                    boton_favoritos.append(icono_favoritos);
+                }
+            }).catch(error => {
+                console.error("Error comprobando si la película está en la lista: " + error);
+            });
+        }
+
+        contenedor_iconos_poster.append(valoracion_container, boton_favoritos);
+        poster_container.append(contenedor_iconos_poster);
+
+        let titulo_p = jQuery("<p>").addClass("titulo").text(pelicula.titulo);
 
         // Agregamos los elementos creados con sus datos al div de la película.
         pelicula_container.append(input_hidden_id_pelicula, poster_container, titulo_p);
+
+        // Evento click para añadir película a Favoritos. 
+        jQuery(boton_favoritos).on("click", function(event) {
+            event.stopPropagation();
+
+            // Si la sesión no está iniciada se muestra un modal, en caso contrario FALTA SELECCION DE LISTAS.
+            if (id_usuario == 0) {
+                mostrar_modal("Para guardar películas en listas debes iniciar sesión.");
+            } else {
+                let id_favoritos = jQuery("#id_favoritos").val();
+
+                // Si la película no está en favoritos, se añade. En caso contrario se elimina. Se intercambian los iconos. 
+                if (jQuery(this).find("i.fa-regular").length > 0) {
+                    guardar_en_favoritos(id_favoritos, pelicula.id);
+                    jQuery(this).find("i.fa-regular").removeClass("fa-regular").addClass("fa-solid");
+                } else {
+                    eliminar_de_favoritos(id_favoritos, pelicula.id);
+                    jQuery(this).find("i.fa-solid").removeClass("fa-solid").addClass("fa-regular");
+                }
+            }
+        });
 
         // Agregamos el div película al contenedor principal películas.
         jQuery("#peliculas").append(pelicula_container);
@@ -188,92 +343,105 @@ function set_paginacion(total_paginas, pagina_actual, total_peliculas) {
     jQuery("#numero_pagina_text").text(`Página ${pagina_actual}`);
 }
 
-// Inicia los listeners para el index.php
-function inicializar_DOM() {
-    var pagina_actual = jQuery("#pagina_actual").val();
-    //Se llama a la función de búsqueda por si, se ha buscado y se ha entrado a pelicula.php. Al volver al index seguirá donde se encontraba con la búsqueda.
-    jQuery("#buscador").val(jQuery("#busqueda_actual").val());
-
-    // Cuando el documento está listo, se hace una llamada para obtener las primeras 20 películas si el buscador está vacío, en caso contrario se realiza la búsqueda que ya había.
-    jQuery(document).ready(function() {
-        if (jQuery("#buscador").val() == "") {
-            get_peliculas(pagina_actual); 
-        } else {
-            buscar_peliculas();
-        }        
-    });
-
-    jQuery(document).on("input", "#buscador", function(){
-        // Obtenemos el valor que hay en el input.
-        let busqueda = jQuery(this).val();
-
-        // Si el input de búsqueda está vacío carga todas las películas de nuevo. En caso contrario hace otra busqueda por título. 
-        if (busqueda.trim() == "") {
-            get_peliculas(pagina_actual);
-        } else {
-            // Hacer una llamada al servidor para obtener las películas que coincidan con el título o la fecha
-            buscar_peliculas();
-        }
-    });
-
-    // Listener onclick que, cuando carga el documento se aplica a todos los div con clase "pelicula"
-    jQuery(document).on("click", ".pelicula", function() {
-        // Recoge el id del input hidden y el título.
-        let id_pelicula = jQuery(this).find(".id_pelicula").val();
-        let titulo = jQuery(this).find(".titulo").text();
-        let busqueda = jQuery("#buscador").val();
-    
-        // Redirige a la página de detalles de película con el id y título en la URL
-        window.location = `Views/pelicula.php?id=${id_pelicula}&titulo=${titulo}&pagina=${pagina_actual}&busqueda=${busqueda}`;
-    });
-
-    // Listener onclick que, al pulsar un botón de paginación obtiene el número de la página del texto del botón y vuelve a solicitar al servidor las películas de la página actual. 
-    jQuery(document).on("click", ".pagina", function() {
-        // Obtiene el número de página del botón
-        let pagina = parseInt(jQuery(this).text());
-    
-        // Si el botón que se ha pulsado tiene la clase "anterior", resta 1 a la página actual.
-        if (jQuery(this).hasClass("anterior")) {
-            pagina_actual--;
-
-        // Si el botón que se ha pulsado tiene la clase "siguiente", suma 1 a la página actual.
-        } else if (jQuery(this).hasClass("siguiente")) {
-            pagina_actual++;
-        
-        // Si no es "anterior" ni "siguiente", establece la página actual.
-        } else {
-            pagina_actual = pagina;
-        }
-
-        // Elimina todo el contenido del div y carga las películas de esta página.
-        get_peliculas(pagina_actual);
-        
-        // Desplaza la página hacia el principio en una animación que dura 1 segundo.
-        jQuery('html, body').animate({
-            scrollTop: 0
-        }, 1000);
-    });
-
-    // Prevenimos el comportamiento por defecto del elemento <a> para hacer una petición al controller de usuario que cierra la sesión y recargar la página.
-    jQuery("#redirect_cerrar_sesion").on("click", function(event) {
-        event.preventDefault();
-
+// Obtiene el id de la lista favoritos del usuario actual.
+function get_id_favoritos(id_usuario) {
+    return new Promise((resolve, reject) => {
         jQuery.ajax({
-            url: 'Controllers/usuario_controller.php',
+            url: 'Controllers/lista_controller.php',
             method: 'POST',
             data: {
-                key: "cerrar_sesion"
+                id_usuario: id_usuario,
+                key: "get_id_favoritos"
             },
-            success: function(data) {
-                let resultado = JSON.parse(data);
-    
-                if (resultado == "OK") {
-                    window.location.reload();
-                }
+            success: function (data) {
+                console.log("ID favoritos recibido del servidor:", parseInt(data));
+                resolve(parseInt(data));
             },
             error: function(xhr, status, error) {
-                console.error("Error al cerrar sesión: " + error);
+                console.error("Ha ocurrido un error: " + error);
+                reject(error);
             }
         });
     });
+}
+
+// Función que comprueba si una película se encuentra en una lista.
+function comprobar_pelicula_en_lista(id_lista, id_pelicula) {
+    return new Promise((resolve, reject) => {
+        jQuery.ajax({
+            url: 'Controllers/lista_controller.php',
+            method: 'POST',
+            data: {
+                id_pelicula: id_pelicula,
+                id_lista: id_lista,
+                key: "comprobar_pelicula_lista"
+            },
+            success: function (data) {
+                let resultado = JSON.parse(data);
+                console.log(data);
+                if (resultado == "true") {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Ha ocurrido un error: " + error);
+                reject(error);
+            }
+        });
+    });
+}
+
+// Añade una película a favoritos.
+function guardar_en_favoritos(id_lista, id_pelicula) {
+    jQuery.ajax({
+        url: 'Controllers/lista_controller.php',
+        method: 'POST',
+        data: {
+            id_pelicula: id_pelicula,
+            id_lista: id_lista,
+            key: "add_pelicula_lista"
+        },
+        success: function (data) {
+            let resultado = JSON.parse(data);
+
+            if (resultado != "OK") {
+                mostrar_modal(resultado);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Ha ocurrido un error: " + error);
+        }
+    });
+}
+
+// Elimina una pelicula de favoritos.
+function eliminar_de_favoritos(id_lista, id_pelicula) {
+    jQuery.ajax({
+        url: 'Controllers/lista_controller.php',
+        method: 'POST',
+        data: {
+            id_pelicula: id_pelicula,
+            id_lista: id_lista,
+            key: "delete_pelicula_lista"
+        },
+        success: function (data) {
+            let resultado = JSON.parse(data);
+
+            if (resultado != "OK") {
+                mostrar_modal(resultado);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Ha ocurrido un error: " + error);
+        }
+    });
+}
+
+// Función para mostrar el modal con el mensaje determinado.
+function mostrar_modal(mensaje) {
+    jQuery("#mensaje_modal").text(mensaje);
+    jQuery("#contenedor_modal").css("display", "block");
+    jQuery(".listas_modal").hide();
 }

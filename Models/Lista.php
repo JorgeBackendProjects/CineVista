@@ -52,6 +52,25 @@ class Lista {
         }
     }
 
+    // Obtiene el id de la lista de favoritos de un usuario.
+    public static function get_id_lista_favoritos($id_usuario) {
+        $pdo = Conexion::connection_database();
+        $stmt = $pdo->prepare("SELECT id FROM lista WHERE nombre = ? AND id_usuario = ?");
+
+        if ($stmt->execute(["Favoritos", $id_usuario])) {
+            $id_favoritos = $stmt->fetchColumn();
+
+            if ($id_favoritos > 0) {
+                return $id_favoritos;
+            } else {
+                return "null";
+            }
+            
+        }
+
+        $pdo = null;
+    }
+
     public static function insert_lista($nombre, $fecha_creacion, $id_usuario) {
         try {
             $pdo = Conexion::connection_database();
