@@ -112,7 +112,7 @@ nav {
     height: auto;
     margin: 2rem auto 10% auto;
     background-color: rgba(0, 0, 0, 50%);
-    border-radius: 30px;
+    border-radius: 15px;
 }
 
 .perfil h1 {
@@ -145,6 +145,10 @@ nav {
 }
 
 /*Botones*/
+button {
+    font-family: "Inria Sans", sans-serif;
+}
+
 .container_boton_atras {
     display: flex;
     flex-direction: column;
@@ -154,7 +158,7 @@ nav {
 
 .atras {
     width: 6rem;
-    height: 2.7rem;
+    height: 2.5rem;
     margin: 0 0 0 0;
     font-size: 1.25rem;
     background-color: rgb(255, 165, 0);
@@ -162,6 +166,7 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    font-family: "Inria Sans", sans-serif;
     transition: background-color 0.5s ease;
 }
 
@@ -171,13 +176,14 @@ nav {
 
 .perfil .editar_perfil_button {
     width: 12rem;
-    height: 2.7rem;
+    height: 2.5rem;
     font-size: 1.25rem;
     background-color: rgb(255, 165, 0);
     color: white;
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    font-family: "Inria Sans", sans-serif;
     transition: background-color 0.5s ease;
 }
 
@@ -196,6 +202,7 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    font-family: "Inria Sans", sans-serif;
     transition: background-color 0.5s ease;
 }
 
@@ -208,13 +215,14 @@ nav {
     justify-content: center;
     align-items: center;
     width: 45%;
-    height: 2.7rem;
+    height: 2.5rem;
     font-size: 1.1rem;
     background-color: #043962;
     color: white;
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    font-family: "Inria Sans", sans-serif;
     transition: background-color 0.5s ease;
 }
 
@@ -224,7 +232,7 @@ nav {
 
 .boton_cancelar {
     width: 7rem;
-    height: 2.7rem;
+    height: 2.5rem;
     margin-top: 3rem;
     font-size: 1.1rem;
     background-color: rgb(255, 165, 0);
@@ -232,6 +240,7 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    font-family: "Inria Sans", sans-serif;
     transition: background-color 0.5s ease;
 }
 
@@ -241,13 +250,14 @@ nav {
 
 .boton_enviar {
     width: 40%;
-    height: 2.7rem;
+    height: 2.5rem;
     font-size: 1.1rem;
     background-color: rgb(235, 135, 0);
     color: white;
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    font-family: "Inria Sans", sans-serif;
     transition: background-color 0.5s ease;
 }
 
@@ -316,6 +326,9 @@ nav {
 /*Modal de confirmación para eliminar perfil*/
 .contenedor_modal {
     display: none;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     width: 100%;
     height: 100%;
@@ -334,7 +347,7 @@ nav {
     margin: 18% auto;
     padding: 20px;
     background-color: white;
-    border-radius: 35px;
+    border-radius: 15px;
     border: 1px solid black;
 }
 
@@ -526,6 +539,13 @@ nav {
     .social_media a i {
         margin-right: 0.3rem;
         font-size: 1.5rem;
+    }
+}
+
+/*Responsive para modal*/
+@media only screen and (max-width: 700px) { 
+    .modal {
+        width: 95%;
     }
 }
 

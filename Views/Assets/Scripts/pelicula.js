@@ -455,6 +455,6 @@ function eliminar_de_lista(id_lista) {
 // Función para mostrar el modal con el mensaje determinado.
 function mostrar_modal(mensaje) {
     jQuery("#mensaje_modal").text(mensaje);
-    jQuery("#contenedor_modal").css("display", "block");
+    jQuery("#contenedor_modal").css("display", "flex");
     jQuery(".listas_modal").hide();
 }

@@ -108,7 +108,11 @@ nav {
     margin-right: 0.3rem;
 }
 
-/*Botón Volver*/
+/*Botones*/
+button {
+    font-family: "Inria Sans", sans-serif;
+}
+
 .container_boton_atras, 
 .registro_container_boton_atras {
     display: flex;
@@ -119,7 +123,7 @@ nav {
 
 .atras {
     width: 6rem;
-    height: 2.7rem;
+    height: 2.5rem;
     margin: 0 0 0 0;
     font-size: 1.25rem;
     background-color: rgb(255, 165, 0);
@@ -127,6 +131,11 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    transition: background-color 0.5s ease;
+}
+
+.atras:hover {
+    background-color: rgb(235, 135, 0);
 }
 
 /*Texto*/
@@ -146,7 +155,7 @@ nav {
     height: 65vh;
     margin: 2rem auto 5rem auto;
     background-color: rgba(0, 0, 0, 50%);
-    border-radius: 30px;
+    border-radius: 15px;
 }
 
 #iniciar_principal form {
@@ -179,6 +188,11 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    transition: background-color 0.5s ease;
+}
+
+#iniciar_principal form .boton_enviar:hover {
+    background-color: rgb(235, 135, 0);
 }
 
 /*Variación para la clase principal de registro*/
@@ -189,7 +203,7 @@ nav {
     height: auto;
     margin: 2rem auto 5rem auto;
     background-color: rgba(0, 0, 0, 50%);
-    border-radius: 30px;
+    border-radius: 15px;
 }
 
 #registro_principal form {
@@ -235,6 +249,11 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    transition: background-color 0.5s ease;
+}
+
+#registro_ver_password:hover {
+    background-color: #021B30;
 }
 
 #registro_principal form .boton_enviar {
@@ -246,11 +265,20 @@ nav {
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
+    transition: background-color 0.5s ease;
 }
+
+#registro_principal form .boton_enviar:hover {
+    background-color: rgb(235, 135, 0);
+}
+
 
 /*Modal de información sobre el envío*/
 .contenedor_modal {
     display: none;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     width: 100%;
     height: 100%;
@@ -269,7 +297,7 @@ nav {
     margin: 18% auto;
     padding: 20px;
     background-color: white;
-    border-radius: 35px;
+    border-radius: 15px;
     border: 1px solid black;
 }
 
@@ -450,6 +478,13 @@ nav {
     .social_media a i {
         margin-right: 0.3rem;
         font-size: 1.5rem;
+    }
+}
+
+/*Responsive para modal*/
+@media only screen and (max-width: 700px) { 
+    .modal {
+        width: 95%;
     }
 }
 

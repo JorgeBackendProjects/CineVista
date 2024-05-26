@@ -116,13 +116,14 @@ nav {
 .atras {
     width: 6rem;
     height: 2.5rem;
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     background-color: rgb(255, 165, 0);
     color: white;
     border-radius: 15px;
     cursor: pointer;
     border: 1px solid;
     transition: background-color 0.5s ease;
+    font-family: "Inria Sans", sans-serif;
 }
 
 .atras:hover {
@@ -164,7 +165,6 @@ nav {
 .info_detallada {
     width: 80%;
     padding: 0 1rem 0 1rem;
-    border-radius: 20px;
 }
 
 .info_detallada span h3 {

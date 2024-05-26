@@ -106,7 +106,7 @@ nav {
     min-height: 60vh;
     margin: 2rem auto 10rem auto;
     background-color: rgba(0, 0, 0, 50%);
-    border-radius: 30px;
+    border-radius: 15px;
 }
 
 .tabla_container h1 {
@@ -141,14 +141,14 @@ nav {
 .tabla_listas .encabezado td:first-child,
 .tabla_listas .lista td:first-child,
 .primer_td {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 .tabla_listas .encabezado td:last-child,
 .tabla_listas .lista td:last-child {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .tabla_listas .lista {
@@ -156,6 +156,10 @@ nav {
 }
 
 /*Botones*/
+button {
+    font-family: "Inria Sans", sans-serif;
+}
+
 .btn {
     transition: background-color 0.5s ease;
 }
@@ -186,7 +190,7 @@ nav {
 .btn_lista {
     width: 85%;
     height: 2.5rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: white;
     border: 1px solid black;
     cursor: pointer;
@@ -238,6 +242,9 @@ nav {
 /*Modal de confirmación para eliminar perfil*/
 .contenedor_modal {
     display: none;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     width: 100%;
     height: 100%;
@@ -256,7 +263,7 @@ nav {
     margin: 18% auto;
     padding: 20px;
     background-color: white;
-    border-radius: 35px;
+    border-radius: 15px;
     border: 1px solid black;
 }
 
@@ -278,7 +285,7 @@ nav {
 
 .nuevo_nombre_lista {
     display: none;
-    width: 50%;
+    width: 55%;
     height: 2.5rem;
     margin-top: 0.5rem;
     padding-left: 5%;
@@ -288,7 +295,7 @@ nav {
 
 .crear_lista_modal {
     display: none;
-    width: 50%;
+    width: 55%;
     height: 2.5rem;
     margin-top: 3vh;
     font-size: 1.2rem;
@@ -300,7 +307,7 @@ nav {
 
 .editar_lista_modal {
     display: none;
-    width: 50%;
+    width: 55%;
     height: 2.5rem;
     margin-top: 3vh;
     font-size: 1.2rem;
@@ -312,7 +319,7 @@ nav {
 
 .eliminar_lista_modal {
     display: none;
-    width: 50%;
+    width: 55%;
     height: 2.5rem;
     margin-top: 3vh;
     font-size: 1.2rem;
@@ -501,6 +508,10 @@ nav {
 }
 
 @media only screen and (max-width: 850px) {
+    .container_boton_atras {
+        width: 88%;
+    }
+
     .tabla_container {
         width: 90%;
         margin-left: 6%;
@@ -524,6 +535,13 @@ nav {
     }
 }
 
+/*Responsive para modal*/
+@media only screen and (max-width: 700px) { 
+    .modal {
+        width: 95%;
+    }
+}
+
 /*Responsive para mobile*/
 @media only screen and (max-width: 590px) { 
     .header_right ul li {
@@ -536,7 +554,7 @@ nav {
 
     /*CONTENIDO PRINCIPAL*/
     .container_boton_atras {
-        width: 85%;
+        width: 89%;
         margin: 2rem auto auto auto;
     }
 

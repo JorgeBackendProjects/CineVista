@@ -41,8 +41,10 @@ $sesion_iniciada = isset($_SESSION["username"]);
     </header>
 
     <main>
-        <div class="principal">
-            <button id="atras" class="atras">Volver</button>
+        <div>
+            <div class="container_boton_atras">
+                <button id="atras" class="atras">Volver</button>
+            </div>
 
             <div id="principal" class="principal">
                 <h1>Añadir películas</h1>
@@ -50,8 +52,8 @@ $sesion_iniciada = isset($_SESSION["username"]);
                 <p>Insertar a partir de la página siguiente:</p>
 
                 <div class="insercion_form">
-                    <input type="text" id="num_pagina" class="num_pagina" />
-                    <button id="insertar_button" class="insertar_button">Añadir</button>
+                    <input type="text" id="num_pagina" class="num_pagina" readonly />
+                    <button id="insertar_button" class="btn insertar_button">Añadir</button>
                 </div>
             </div>
         </div>
