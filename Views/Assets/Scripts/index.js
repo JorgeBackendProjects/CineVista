@@ -72,6 +72,9 @@ function inicializar_listeners() {
 
         // Elimina todo el contenido del div y carga las películas de esta página.
         get_peliculas(pagina_actual);
+
+        // Se guarda el número de página actual en un input hidden.
+        jQuery("#pagina_actual").val(pagina_actual);
         
         // Desplaza la página hacia el principio en una animación que dura 1 segundo.
         jQuery('html, body').animate({
@@ -90,6 +93,42 @@ function inicializar_listeners() {
         }
     });
     
+    // En el index evitar que no recargue las películas de la página al pulsar click en el elemento <a> Inicio mientras se está haciendo una búsqueda.
+    jQuery("#redirect_inicio").on("click", function(event) {
+        event.preventDefault();
+        jQuery("#buscador").val("");
+        pagina_actual = 1;
+        get_peliculas(pagina_actual);
+    });
+
+    jQuery(".header_left").on("click", function(event) {
+        event.preventDefault();
+        jQuery("#buscador").val("");
+        pagina_actual = 1;
+        get_peliculas(pagina_actual);
+    });
+
+    // Redirect para las vistas del header. Envío el número de pagina y término de búsqueda para que al volver se mantenga.
+    jQuery("span #redirect_inicio").on("click", function(event) {
+        event.preventDefault();
+        window.location.href = `Views/sesion.php?accion=iniciar_sesion&pagina=${jQuery("#pagina_actual").val()}&busqueda=${jQuery("#buscador").val()}`; 
+    });
+
+    jQuery("span #redirect_registro").on("click", function(event) {
+        event.preventDefault();
+        window.location.href = `Views/sesion.php?accion=registro&pagina=${jQuery("#pagina_actual").val()}&busqueda=${jQuery("#buscador").val()}`; 
+    });
+
+    jQuery("#redirect_perfil").on("click", function(event) {
+        event.preventDefault();
+        window.location.href = `Views/perfil.php?pagina=${jQuery("#pagina_actual").val()}&busqueda=${jQuery("#buscador").val()}`; 
+    });
+
+    jQuery("#redirect_listas").on("click", function(event) {
+        event.preventDefault();
+        window.location.href = `Views/mis_listas.php?pagina=${jQuery("#pagina_actual").val()}&busqueda=${jQuery("#buscador").val()}`; 
+    });
+
     // Prevenimos el comportamiento por defecto del elemento <a> para hacer una petición al controller de usuario que cierra la sesión y recargar la página.
     jQuery("#redirect_cerrar_sesion").on("click", function(event) {
         event.preventDefault();
@@ -251,12 +290,11 @@ function create_dinamic_DOM_index(peliculas) {
         // Agregamos los elementos creados con sus datos al div de la película.
         pelicula_container.append(input_hidden_id_pelicula, poster_container, titulo_p);
 
-        // Evento click para añadir película a Favoritos. 
+        // Evento click para añadir película a Favoritos. Evitamos que se ejecuten los eventos del padre. 
         jQuery(boton_favoritos).on("click", function(event) {
             event.stopPropagation();
-            console.log(id_usuario);
 
-            // Si la sesión no está iniciada se muestra un modal, en caso contrario FALTA SELECCION DE LISTAS.
+            // Si la sesión no está iniciada se muestra un modal, en caso contrario se añade o elimina de favoritos.
             if (id_usuario == 0) {
                 mostrar_modal("Para guardar películas en listas debes iniciar sesión.");
             } else {

@@ -137,7 +137,7 @@ nav {
 }
 
 .perfil .imagen {
-    width: 11rem;
+    width: 10.5rem;
     height: 10.5rem;
     background-image: url("../Images/usuario_por_defecto.png");
     background-size: 100% 100%;
@@ -571,7 +571,7 @@ button {
     }
 
     .perfil .imagen {
-        width: 10rem;
+        width: 9.5rem;
         height: 9.5rem;
     }
 

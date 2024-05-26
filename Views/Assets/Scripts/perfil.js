@@ -105,9 +105,12 @@ function iniciar_listeners() {
             }
         });
 
-        // Listener para que, al pulsar el botón vuelve atrás hasta la coordenada anterior. 
+        // Listener para que, al pulsar el botón vuelve atrás hasta la última coordenada clickada en el index. 
         jQuery("#atras").on("click", function () {
-            history.back();
+            let pagina = jQuery("#pagina").val();
+            let busqueda = jQuery("#busqueda").val();
+
+            window.location.href = `../index.php?pagina=${pagina}&busqueda=${busqueda}`;
         });
     });
 }

@@ -84,6 +84,43 @@ function inicializar_listeners() {
             }
         });
 
+        // Redirect para botones header. Envío el número de página y término de búsqueda para que al volver se mantenga.
+        jQuery("span #redirect_inicio").on("click", function(event) {
+            event.preventDefault();
+            
+            let pagina_actual = jQuery("#pagina_actual").val();
+            let busqueda = jQuery("#busqueda_actual").val();
+
+            window.location.href = `sesion.php?accion=iniciar_sesion&pagina=${pagina_actual}&busqueda=${busqueda}`; 
+        });
+    
+        jQuery("span #redirect_registro").on("click", function(event) {
+            event.preventDefault();
+            
+            let pagina_actual = jQuery("#pagina_actual").val();
+            let busqueda = jQuery("#busqueda_actual").val();
+
+            window.location.href = `sesion.php?accion=registro&pagina=${pagina_actual}&busqueda=${busqueda}`; 
+        });
+
+        jQuery("#redirect_perfil").on("click", function(event) {
+            event.preventDefault();
+            
+            let pagina_actual = jQuery("#pagina_actual").val();
+            let busqueda = jQuery("#busqueda_actual").val();
+            
+            window.location.href = `perfil.php?pagina=${pagina_actual}&busqueda=${busqueda}`; 
+        });
+
+        jQuery("#redirect_listas").on("click", function(event) {
+            event.preventDefault();
+
+            let pagina_actual = jQuery("#pagina_actual").val();
+            let busqueda = jQuery("#busqueda_actual").val();
+            
+            window.location.href = `mis_listas.php?pagina=${pagina_actual}&busqueda=${busqueda}`; 
+        });
+
         // Prevenimos el comportamiento por defecto del elemento <a> para hacer una petición al controller de usuario que cierra la sesión y recargar la página.
         jQuery("#redirect_cerrar_sesion").on("click", function(event) {
             event.preventDefault();

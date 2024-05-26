@@ -6,9 +6,10 @@ if (isset($_GET["accion"])) {
     $accion = $_GET["accion"] == "iniciar_sesion" ? "Iniciar sesion" : "Registro";
 }
 
-// Se almacena la última url para devolver al usuario a la misma página al iniciar o registrarse.
-$redirect_url = $_SERVER['HTTP_REFERER'];
+$pagina = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
+$busqueda = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -44,6 +45,9 @@ $redirect_url = $_SERVER['HTTP_REFERER'];
     </header>
 
     <main>
+        <input type="hidden" id="pagina" name="pagina" value="<?php echo $pagina; ?>" />
+        <input type="hidden" id="busqueda" name="busqueda" value="<?php echo $busqueda; ?>" />
+
         <?php
         if ($accion == "Iniciar sesion") {
             include_once ("Assets/Templates/iniciar_sesion.html");

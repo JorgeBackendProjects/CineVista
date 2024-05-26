@@ -24,7 +24,7 @@ function iniciar_listeners() {
                 url: '../Controllers/usuario_controller.php',
                 method: 'POST',
                 data: {
-                    username: jQuery('#username_inicio').val(),
+                    username: jQuery('#username_inicio').val().trim(),
                     password: jQuery("#password_inicio").val(),
                     key: "inicio",
                     redirect_url: jQuery("#redirect_url").val()
@@ -34,7 +34,10 @@ function iniciar_listeners() {
 
                     // Si se ha devuelto OK, redirige al usuario a la página anterior.
                     if (respuesta.status == "OK") {
-                        history.back();
+                        let pagina = jQuery("#pagina").val();
+                        let busqueda = jQuery("#busqueda").val();
+
+                        window.location.href = `../index.php?pagina=${pagina}&busqueda=${busqueda}`;
                     } else {
                         mostrar_modal(respuesta.mensaje);
                     }
@@ -58,7 +61,7 @@ function iniciar_listeners() {
             if (password == repetir_password) {
                 let comp_username = /^[a-zA-Z0-9_.]{5,20}$/;
                 let comp_email = /^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}$/;
-                let comp_password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&_-])[A-Za-z\d$@$!%*?&_-]{8,25}$/;
+                let comp_password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&_.,-])[A-Za-z\d$@$!%*?&_.,-]{8,25}$/;
                 
                 // Si todas las expresiones regulares se cumplen, se procede al envío para registrar la cuenta de usuario.
                 if (!comp_username.test(username)) {
@@ -88,9 +91,11 @@ function iniciar_listeners() {
                             if (respuesta.status == "OK") {
                                 mostrar_modal("La cuenta se ha registrado con éxito, inicia sesión cuando quieras.");
 
+                                let pagina = jQuery("#pagina").val();
+                                let busqueda = jQuery("#busqueda").val();
+
                                 setTimeout(() => {
-                                    let redirect_url = respuesta.redirect_url;
-                                    window.location = redirect_url || "../index.php";
+                                    window.location.href = `../index.php?pagina=${pagina}&busqueda=${busqueda}`;
                                 }, 3000);
                             } else {
                                 mostrar_modal(respuesta.mensaje);
@@ -107,6 +112,7 @@ function iniciar_listeners() {
             }
         });
 
+        // Listener para mostrar y ocultar la contraseña de los input cambiando el tipo de input.
         jQuery("#registro_ver_password").on("click", function() {
             let tipo_1 = jQuery("#registro_password").attr("type") == "password" ? "text" : "password";
             jQuery("#registro_password").attr("type", tipo_1);
@@ -114,11 +120,14 @@ function iniciar_listeners() {
             let tipo_2 = jQuery("#registro_repetir_password").attr("type") == "password" ? "text" : "password";
             jQuery("#registro_repetir_password").attr("type", tipo_2);
         });
-    });
 
-    // Listener para que, al pulsar el botón vuelve atrás hasta la coordenada anterior. 
-    jQuery("#atras").on("click", function () {
-        history.back();
+        // Listener para que, al pulsar el botón vuelve atrás hasta la última coordenada clickada en el index. 
+        jQuery("#atras").on("click", function () {
+            let pagina = jQuery("#pagina").val();
+            let busqueda = jQuery("#busqueda").val();
+
+            window.location.href = `../index.php?pagina=${pagina}&busqueda=${busqueda}`;
+        });
     });
 }
 

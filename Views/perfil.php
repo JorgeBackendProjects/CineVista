@@ -1,6 +1,9 @@
 <?php
 session_start();
 $sesion_iniciada = isset($_SESSION["username"]);
+
+$pagina = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
+$busqueda = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
 ?>
 
 <!DOCTYPE html>
@@ -40,6 +43,8 @@ $sesion_iniciada = isset($_SESSION["username"]);
 
     <main>
         <input type="hidden" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION["id"]; ?>" />
+        <input type="hidden" id="pagina" name="pagina" value="<?php echo $pagina; ?>" />
+        <input type="hidden" id="busqueda" name="busqueda" value="<?php echo $busqueda; ?>" />
 
         <div class="container_boton_atras">
             <button id="atras" class="btn atras">Volver</button>

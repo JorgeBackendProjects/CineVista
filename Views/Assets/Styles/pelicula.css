@@ -187,7 +187,8 @@ nav {
     display: flex;
     justify-content: center;
     text-align: center;
-    font-size: 1.1rem;
+    padding-top: 1rem;
+    font-size: 1.2rem;
     color: black;
 }
 
@@ -204,11 +205,11 @@ nav {
 
 .lista {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
-    width: 8rem;
+    width: auto;
     height: 2.5rem;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     margin: 1rem 0.5rem 0 0.5rem;
     background-color: rgb(255, 165, 0);
     border-radius: 30px;
@@ -218,8 +219,12 @@ nav {
 }
 
 .lista p {
-    width: 75%;
+    padding: 1rem;
     text-align: center;
+}
+
+.lista i {
+    padding-right: 1rem;
 }
 
 .cerrar_modal {
@@ -478,8 +483,8 @@ nav {
 }
 
 @media only screen and (max-width: 1600px) {
-    .pelicula {
-        height: 80vh;
+    .pelicula, .fondo {
+        height: 90vh;
     }
 
     .info_principal {
@@ -700,8 +705,6 @@ nav {
         margin-right: 0.3rem;
     }
 
-
-
     /*CONTENIDO BODY*/
     .atras {
         top: 2rem;
@@ -767,7 +770,7 @@ nav {
 
     .aniadir_pelicula .aniadir_a_lista {
         width: 60%;
-        height: 2rem;
+        height: 2.2rem;
         margin: 2rem auto 0 auto;
         font-size: 1.1rem;
         background-color: rgb(255, 165, 0);
@@ -778,8 +781,8 @@ nav {
     }
 
     .aniadir_pelicula .aniadir_a_favoritos {
-        width: 25%;
-        height: 2.1rem;
+        width: 15%;
+        height: 2.2rem;
     }
 
     .secundario {
