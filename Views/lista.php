@@ -1,6 +1,6 @@
 <?php
 session_start();
-$sesion_iniciada = isset($_SESSION["username"]);
+$sesion_iniciada = isset($_SESSION["username"]) ? true : header("Location: ../index.php");
 
 $id_lista = $_GET["id"] ? $_GET["id"] : 0;
 $nombre = $_GET["nombre"] ? $_GET["nombre"] : "";

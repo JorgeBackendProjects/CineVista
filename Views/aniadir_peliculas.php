@@ -1,6 +1,7 @@
 <?php
 session_start();
-$sesion_iniciada = isset($_SESSION["username"]);
+$sesion_iniciada = isset($_SESSION["username"]) ? true : header("Location: ../index.php");
+
 ?>
 
 <!DOCTYPE html>

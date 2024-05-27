@@ -268,11 +268,20 @@ class Usuario {
         }
     }
 
-    // Setea el array $_SESSION y se destruye la sesión.
+    // Setea el array $_SESSION y se destruye la sesión, además de eliminar la cookie.
     public static function cerrar_sesion() {
         session_start();
         
         $_SESSION = array();
+
+        if (ini_get("session.use_cookies")) {
+            $cookie = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $cookie["path"], $cookie["domain"],
+                $cookie["secure"], $cookie["httponly"]
+            );
+        }
+
         session_destroy();
         session_abort();
     }
