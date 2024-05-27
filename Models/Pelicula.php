@@ -253,14 +253,7 @@ class Pelicula
         $pdo = Conexion::connection_database();
 
         // Prepara la consulta SQL para buscar películas cuyo título y fecha_estreno contengan la cadena $busqueda.
-        $stmt = $pdo->prepare("SELECT DISTINCT pelicula.id, pelicula.titulo, pelicula.poster, pelicula.valoracion 
-                                FROM pelicula
-                                LEFT JOIN pelicula_categoria ON pelicula.id = pelicula_categoria.id_pelicula
-                                LEFT JOIN categoria ON pelicula_categoria.id_genero = categoria.id
-                                WHERE pelicula.titulo LIKE CONCAT('%', :busqueda, '%') 
-                                OR pelicula.fecha_estreno LIKE CONCAT('%', :busqueda, '%')
-                                OR categoria.nombre LIKE CONCAT('%', :busqueda, '%')"
-                            );
+        $stmt = $pdo->prepare("SELECT id, titulo, poster, valoracion FROM pelicula WHERE titulo LIKE CONCAT('%', :busqueda, '%') OR fecha_estreno LIKE CONCAT('%', :busqueda, '%')");
         $stmt->bindParam(':busqueda', $busqueda, PDO::PARAM_STR);
 
         $stmt->execute();

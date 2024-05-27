@@ -53,7 +53,7 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
         <div id="container_buscador" class="container_buscador">
             <h1>¡Bienvenido a Cinevista!</h1>
             <h3>Las mejores películas al alcance de un click</h3>
-            <input type="search" id="buscador" class="buscador" placeholder="Buscar por título, categoría o fecha" autocomplete="off">
+            <input type="search" id="buscador" class="buscador" placeholder="Buscar por título o fecha" autocomplete="off">
         </div>
 
         <div id="texto_principal_container" class="texto_principal_container">
