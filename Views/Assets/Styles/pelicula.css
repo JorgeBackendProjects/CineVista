@@ -796,7 +796,7 @@ nav {
     }
 
     .secundario h1 {
-        margin: 1rem 0 1.5rem 10%;
+        margin: 1rem 0 1.5rem 9%;
         font-size: 1.8rem;
     }
 
@@ -910,6 +910,10 @@ nav {
         font-size: 0.88rem;
     }
 
+    .actores {
+       width: 95%;
+    }
+    
     .pantalla_carga img {
         width: 30px;
         height: 30px;
