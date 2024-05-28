@@ -226,18 +226,18 @@ nav {
 /*Responsive para pantallas más pequeñas*/
 @media only screen and (max-width: 1600px) {
     .imagen {
-        width: 285px;
+        width: 100%;
         height: 100%;
         background-size: 100% 100%;
         background-repeat: no-repeat;
-        border-radius: 15px;
+        border-radius: 10px;
     }
     
     .info_principal {
         display: flex;
         flex-direction: column;
         width: 20rem;
-        height: 33rem;
+        height: 30rem;
     }
 }
 
@@ -251,6 +251,8 @@ nav {
 
     .info_detallada {
         width: 100%;
+        padding: 0.5rem;
+        margin-top: 2rem;
     }
 }   
 
@@ -373,7 +375,7 @@ nav {
     }
 
     .actor {
-        width: 95%;
+        width: 90%;
     }
 
     .info_detallada {
@@ -435,6 +437,19 @@ nav {
     }
 
     .container_boton_atras {
-        margin: 1rem auto auto auto;
+        width: 92%;
+        margin: 2rem auto auto auto;
+    }
+
+    .atras {
+        transform: scale(0.8);
+    }
+
+    .info_principal {
+        width: 90%;
+    }
+
+    .nombre {
+        font-size: 1.7rem;
     }
 }

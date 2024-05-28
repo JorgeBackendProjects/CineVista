@@ -112,7 +112,7 @@ nav {
     height: auto;
     margin: 2rem auto 10% auto;
     background-color: rgba(0, 0, 0, 50%);
-    border-radius: 15px;
+    border-radius: 10px;
 }
 
 .perfil h1 {
@@ -344,6 +344,7 @@ button {
     flex-direction: row-reverse;
     width: 35rem;
     height: 15rem;
+    min-height: 20vh;
     margin: 18% auto;
     padding: 20px;
     background-color: white;
@@ -628,12 +629,12 @@ button {
     }
 
     .container_boton_atras {
-        width: 95%;
-        margin: 7% auto auto auto;
+        width: 93%;
+        margin: 2rem auto auto auto;
     }
 
     .perfil {
-        width: 95%;
+        width: 90%;
     }
 
     .perfil h1 {

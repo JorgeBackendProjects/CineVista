@@ -211,7 +211,7 @@ button {
     flex-direction: column;
     align-items: flex-start;
     width: 80%;
-    margin: 1rem auto auto auto;
+    margin: 2rem auto auto auto;
 }
 
 #registro_principal form input {
@@ -294,6 +294,7 @@ button {
     flex-direction: row-reverse;
     width: 35rem;
     height: 15rem;
+    min-height: 20vh;
     margin: 18% auto;
     padding: 20px;
     background-color: white;
@@ -565,7 +566,7 @@ button {
     }
 
     .container_boton_atras {
-        margin: 1rem auto auto auto;
+        margin: 2rem auto auto auto;
     }
 
     .principal h1 {

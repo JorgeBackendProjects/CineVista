@@ -189,6 +189,7 @@ function get_peliculas(pagina) {
 function buscar_peliculas() {
     let busqueda = jQuery("#buscador").val();
 
+    // Si había una búsqueda antes de navegar fuera fuera del index se carga.
     if (busqueda == "") {
         busqueda = jQuery("#busqueda_acutal").val();
     }

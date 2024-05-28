@@ -283,6 +283,7 @@ nav {
     flex-direction: row-reverse;
     width: 35rem;
     height: 15rem;
+    min-height: 20vh;
     margin: 18% auto;
     padding: 20px;
     background-color: white;
