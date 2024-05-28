@@ -774,7 +774,7 @@ nav {
     }
 
     .container_paginacion .numero_paginas {
-        margin-top: 1rem;
+        margin: 1rem auto 2rem auto;
     }
 
     /*Footer*/
