@@ -35,7 +35,7 @@ function inicializar_listeners() {
         // Si el input de búsqueda está vacío carga todas las películas de nuevo. En caso contrario hace otra busqueda por título. 
         if (busqueda.trim() == "") {
             get_peliculas(pagina_actual);
-        } else if (busqueda.trim().length >= 2){
+        } else if (busqueda.trim().length >= 4){
             // Hacer una llamada al servidor para obtener las películas que coincidan con el título o la fecha
             buscar_peliculas();
         }
