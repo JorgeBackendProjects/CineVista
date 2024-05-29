@@ -40,7 +40,7 @@ class Pelicula
         $this->generos = $generos;
     }
 
-    // Función que permite obtener e insertar 200 películas de la lista populares. // Las siguientes por insertar están listas. Guardar en el SESSION del administrador la última página insertada.
+    // Función que permite obtener e insertar 200 películas de la lista populares. 
     public static function insert_100_movies_database($pagina) {
         $pdo = Conexion::connection_database();
         $array_peliculas = array();

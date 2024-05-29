@@ -71,7 +71,7 @@ class Actor
                 $stmt->execute([$actor["id"], $id_pelicula]);
 
                 // Si no se ha encontrado la participación en la pelicula se inserta.
-                if ($stmt->rowCount() < 0) {
+                if ($stmt->rowCount() == 0) {
                     $stmt = $pdo->prepare("INSERT INTO pelicula_actor personaje, id_pelicula, id_actor VALUES (?, ?, ?)");
                     $stmt->execute([$actor["personaje"], $id_pelicula, $actor["id"]]);
                 }
