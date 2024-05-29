@@ -235,10 +235,8 @@ function cargar_actores(id_pelicula) {
         },
         error: function(xhr, status, error) {
             // En caso de error, se agrega un mensaje al contenedor principal y se oculta el resto de elementos.
-            jQuery("#principal").append("<h2>No se han podido cargar las películas. Vuelve a intentarlo más tarde.</h2>");
+            jQuery("#secundario").append("<h2>No se han podido cargar los actores. Vuelve a intentarlo más tarde.</h2>");
 
-            jQuery("#pelicula").hide();
-            jQuery("#secundario").hide();
             jQuery("#pantalla_carga").hide();
         }
     });
