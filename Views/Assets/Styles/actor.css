@@ -452,4 +452,8 @@ nav {
     .nombre {
         font-size: 1.7rem;
     }
+
+    .info_detallada span h3 {
+        font-size: 1rem;
+    }
 }
