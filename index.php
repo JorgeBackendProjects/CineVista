@@ -5,6 +5,14 @@ $id_usuario = isset($_SESSION["id"]) ? $_SESSION["id"] : 0;
 
 $pagina_actual = isset($_GET["pagina"]) ? $_GET["pagina"] : 1;
 $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
+
+/* 
+    Obtener la lista de películas en las que aparece un actor: 
+
+    https://api.themoviedb.org/3/person/6193/combined_credits?language=es-ES&api_key=107cc8a9703efd86f41232ea75b85039
+
+    Me devuelve la información previa. Habría que guardarla y a la hora de entrar en la película actualizar el registro con los datos que faltan.
+*/
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +61,7 @@ $busqueda_actual = isset($_GET["busqueda"]) ? $_GET["busqueda"] : "";
         <div id="container_buscador" class="container_buscador">
             <h1>¡Bienvenido a Cinevista!</h1>
             <h3>Las mejores películas al alcance de un click</h3>
-            <input type="search" id="buscador" class="buscador" placeholder="Buscar por título o fecha" autocomplete="off">
+            <input type="search" id="buscador" class="buscador" placeholder="Buscar por título o año" autocomplete="off">
         </div>
 
         <div id="texto_principal_container" class="texto_principal_container">
